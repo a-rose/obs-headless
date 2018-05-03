@@ -1,92 +1,143 @@
-#include <stdio.h>
-#include "obs.h"
+
+
+#include <QApplication>
+#include <QPushButton>
+
+#include "ObsWorker.hpp"
 #include "trace.h"
 
+using namespace std;
 
-bool enum_source_cb(void* data, obs_source_t* src) {
+#define DEFAULT_STREAM_A "rtmp://184.72.239.149/vod/mp4:bigbuckbunny_450.mp4" // TODO
+#define DEFAULT_STREAM_B "rtmp://str81.creacast.com:80/iltv/high"
+#define DEFAULT_TRANSITION_DELAY_SEC 10
+#define DEFAULT_TRANSITION_DURATION_MS 900
 
-    // Use :c:func:`obs_source_get_ref()` or
-    // :c:func:`obs_source_get_weak_source()` if you want to retain a
-    // reference after obs_enum_sources finishes.
 
-    trace("src: %p", src);
-    return true; // return true to continue enumeration, or false to end enumeration.
+
+bool check_arg(const char* input, const char* option, const char* short_option) {
+    return (    (option       && strcmp(input, option) == 0)
+             || (short_option && strcmp(input, short_option) == 0) );
 }
 
-bool enum_outputs_cb(void* data, obs_output_t* src) {
-
-    // Use :c:func:`obs_source_get_ref()` or
-    // :c:func:`obs_source_get_weak_source()` if you want to retain a
-    // reference after obs_enum_sources finishes.
-
-    trace("output: %p", src);
-    return true; // return true to continue enumeration, or false to end enumeration.
-}
-
-bool enum_encoders_cb(void* data, obs_encoder_t* src) {
-
-    // Use :c:func:`obs_source_get_ref()` or
-    // :c:func:`obs_source_get_weak_source()` if you want to retain a
-    // reference after obs_enum_sources finishes.
-
-    trace("output: %p", src);
-    return true; // return true to continue enumeration, or false to end enumeration.
+void print_help() {
+    trace("\n"
+        "--help, -h:                    this list.\n"
+        "--stream_a <url>, -a:          address of the first stream to play (default: " DEFAULT_STREAM_A ").\n"
+        "--stream_b <url>, -b:          address of the second stream to play (default: " DEFAULT_STREAM_B ").\n"
+        "--stream_server, -s <url>:     server URL.\n"
+        "--key, -k <string>:            stream private key.\n"
+        "\n"
+        "--transition_delay, -d <delay in seconds>:             delay before switching from stream A to stream B  (default: %d).\n"
+        "--transition_duration, -t <duration in milliseconds>:  duration of the transition  (default: %d).\n",
+        DEFAULT_TRANSITION_DELAY_SEC, DEFAULT_TRANSITION_DURATION_MS
+    );
 }
 
 
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+    QPushButton hello("Hello world!");
 
-int main(int argc, char** argv) {
-    trace("obs test:");
+    worker_settings_t settings;
+    settings.stream_a = DEFAULT_STREAM_A;
+    settings.stream_b = DEFAULT_STREAM_B;
+    settings.server = "";
+    settings.key = "";
+    settings.transition_delay_sec = DEFAULT_TRANSITION_DELAY_SEC;
+    settings.transition_duration_ms = DEFAULT_TRANSITION_DURATION_MS;
 
-    if(!obs_startup("en-US", nullptr, nullptr) || !obs_initialized()) {
-        trace_error("obs_startup failed");
-        return -1;
+    char* end;
+
+    if(argc < 2) {
+        print_help();
+        return 0;
     }
 
-    trace("obs version: %d",  obs_get_version());
+    for (int i = 1; i < argc; i++) {
+        if (check_arg(argv[i], "--help", "-h")) {
+            print_help();
+            return 0;
+        }
 
-    struct obs_video_info ovi;
-    struct obs_audio_info oai;
-#if 1
-    ovi.adapter         = 0;
-    ovi.fps_num         = 60000;
-    ovi.fps_den         = 1000;
-    ovi.graphics_module = DL_OPENGL;
-    ovi.output_format   = VIDEO_FORMAT_RGBA;
-    ovi.base_width      = 1920;
-    ovi.base_height     = 1080;
-    ovi.output_width    = 1920;
-    ovi.output_height   = 1080;
+        else if (check_arg(argv[i], "--stream_a", "-a")) {
+            if (++i < argc) {
+                settings.stream_a = string(argv[i]);
+            }
+        }
+        else if (check_arg(argv[i], "--stream_b", "-b")) {
+            if (++i < argc) {
+                settings.stream_b = string(argv[i]);
+            }
+        }
+        else if (check_arg(argv[i], "--stream_server", "-s")) {
+            if (++i < argc) {
+                settings.server = string(argv[i]);
+            }
+        }
+        else if (check_arg(argv[i], "--stream_key", "-k")) {
+            if (++i < argc) {
+                settings.key = string(argv[i]);
+            }
+        }
+        else if (check_arg(argv[i], "--transition_delay", "-d")) {
+            if (++i < argc) {
+                settings.transition_delay_sec = (int) strtol(argv[i], &end, 10);
 
-    if (obs_reset_video(&ovi) != 0) {
-        trace_error("Couldn't initialize video");
+                if (errno != 0 || end == argv[i]) {
+                    trace_error("transition_delay: invalid string '%s'.", argv[i]);
+                    return 1;
+                }
+
+            }
+        }
+        else if (check_arg(argv[i], "--transition_duration", "-t")) {
+            if (++i < argc) {
+                settings.transition_duration_ms = (int) strtol(argv[i], &end, 10);
+
+                if (errno != 0 || end == argv[i]) {
+                    trace_error("transition_duration: invalid string '%s'.", argv[i]);
+                    return 1;
+                }
+            }
+        }
+    }
+
+    if(settings.server == "") {
+        trace_error("Cannot start without a server url.");
+        return 1;
+    }
+    if(settings.key == "") {
+        trace_error("Cannot start without a stream key.");
+        return 1;
     }
 
 
-    oai.samples_per_sec  = 48000;
-    oai.speakers         = SPEAKERS_STEREO;
-
-    if (obs_reset_audio(&oai) != 0) {
-        trace_error("Couldn't initialize audio");
-    }
-#endif
-
-    if(!obs_get_video_info(&ovi)) {
-        trace_error("obs_get_video_info failed");
+    if(settings.transition_delay_sec < 0 || settings.transition_delay_sec > 60*60*24) {
+        trace_error("Invalid transition delay: %d.", settings.transition_delay_sec);
+        return 1;
     }
 
-    if(!obs_get_audio_info(&oai)) {
-        trace_error("obs_get_audio_info failed");
+    if(settings.transition_duration_ms < 0 || settings.transition_duration_ms > 1000*60*60) {
+        trace_error("Invalid transition duration: %d.", settings.transition_duration_ms);
+        return 1;
     }
 
 
-    obs_enum_sources(&enum_source_cb, nullptr);
-    obs_enum_outputs(&enum_outputs_cb, nullptr);
-    obs_enum_encoders(&enum_encoders_cb, nullptr);
+    trace("Start ObsWorker");
+    try {
+        ObsWorker worker(settings);
+        worker.start();
+    }
+    catch(string e) {
+        trace_error("An exception occured: %s", e.c_str());
+    }
+    catch(...) {
+        trace_error("An uncaught exception occured !");
+    }
 
 
-    obs_shutdown();
-
-    trace("exiting");
+    trace("Exit app");
     return 0;
 }
