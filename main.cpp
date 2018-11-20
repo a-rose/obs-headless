@@ -39,6 +39,11 @@ int main(int argc, char *argv[])
     settings.key = "";
     settings.transition_delay_sec = DEFAULT_TRANSITION_DELAY_SEC;
     settings.transition_duration_ms = DEFAULT_TRANSITION_DURATION_MS;
+    settings.video_bitrate_kbps = 800;
+    settings.video_width = 640;
+    settings.video_height = 360;
+    settings.video_fps_num = 30000;
+    settings.video_fps_den = 1000;
 
     char* end;
 

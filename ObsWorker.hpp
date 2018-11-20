@@ -28,6 +28,11 @@ typedef struct worker_settings {
     string key;
     int transition_delay_sec;
     int transition_duration_ms;
+    int video_bitrate_kbps;
+    int video_width;
+    int video_height;
+    int video_fps_num;
+    int video_fps_den;
 } worker_settings_t;
 
 class ObsWorker {

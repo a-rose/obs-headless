@@ -82,6 +82,7 @@ void ObsWorker::do_work(worker_settings_t settings) {
 
     obs_data_t*     rtmp_source_A_settings;
     obs_data_t*     rtmp_source_B_settings;
+    obs_data_t*     enc_v_settings;
     obs_data_t*     rtmp_settings;
 
     obs_sceneitem_t *scene_item_A = NULL;
@@ -95,14 +96,14 @@ void ObsWorker::do_work(worker_settings_t settings) {
         }
 
         ovi.adapter         = 0;
-        ovi.fps_num         = 60000;
-        ovi.fps_den         = 1000;
         ovi.graphics_module = DL_OPENGL;
         ovi.output_format   = VIDEO_FORMAT_I420;
-        ovi.base_width      = 1920;
-        ovi.base_height     = 1080;
-        ovi.output_width    = 1920;
-        ovi.output_height   = 1080;
+        ovi.fps_num         = settings.video_fps_num;
+        ovi.fps_den         = settings.video_fps_den;
+        ovi.base_width      = settings.video_width;
+        ovi.base_height     = settings.video_height;
+        ovi.output_width    = settings.video_width;
+        ovi.output_height   = settings.video_height;
 
         if(obs_reset_video(&ovi) != OBS_VIDEO_SUCCESS) {
             throw string("obs_reset_video failed");
@@ -222,6 +223,18 @@ void ObsWorker::do_work(worker_settings_t settings) {
             throw string("Couldn't create enc_v");
         }
 
+        // video enc settings
+        enc_v_settings = obs_encoder_get_settings(enc_v);
+        if (enc_v_settings) {
+            int bitrate = obs_data_get_int(enc_v_settings, "bitrate");
+            trace_debug("video bitrate: %d", bitrate);
+
+            obs_data_set_int(enc_v_settings, "bitrate", settings.video_bitrate_kbps);
+            obs_encoder_update(enc_v, enc_v_settings);
+            obs_data_release(enc_v_settings);
+        } else {
+            trace_error("Could not get video encoder settings");
+        }
 
         // rtmp service
         ss << "{ \"server\":\"" << settings.server <<"\", \"key\":\"" << settings.key <<"\"}";
