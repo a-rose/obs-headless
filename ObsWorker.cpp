@@ -18,6 +18,22 @@ ObsWorker::~ObsWorker() {
     obs_shutdown();
 }
 
+int ObsWorker::LoadModule(const char* binPath, const char* dataPath) {
+    obs_module_t *module;
+
+    int code = obs_open_module(&module, binPath, dataPath);
+    if (code != MODULE_SUCCESS) {
+        trace_error("Failed to load module file '%s': %d", binPath, code);
+        return -1;
+    }
+
+    if(obs_init_module(module) != true) {
+        return -1;
+    }
+
+    return 0;
+}
+
 int ObsWorker::start() {
     trace("Starting thread...");
     exit_worker_thread = false;
@@ -99,8 +115,27 @@ void ObsWorker::do_work(worker_settings_t settings) {
             throw string("obs_reset_audio failed");
         }
 
-        obs_load_all_modules();
+        // Load modules
+        if(0 != LoadModule(ROOT_DIR "/obs-plugins/obs-ffmpeg.so", ROOT_DIR "/data/obs-plugins/obs-ffmpeg")) {
+            throw string("failed to load lib obs-ffmpeg.so");
+        }
 
+        if(0 != LoadModule(ROOT_DIR "/obs-plugins/obs-transitions.so", ROOT_DIR "/data/obs-plugins/obs-transitions")) {
+            throw string("failed to load lib obs-transitions.so");
+        }
+
+        if(0 != LoadModule(ROOT_DIR "/obs-plugins/rtmp-services.so", ROOT_DIR "/data/obs-plugins/rtmp-services")) {
+            throw string("failed to load lib rtmp-services.so");
+        }
+
+        if(0 != LoadModule(ROOT_DIR "/obs-plugins/obs-x264.so", ROOT_DIR "/data/obs-plugins/obs-x264")) {
+            throw string("failed to load lib obs-x264.so");
+        }
+
+        // For rtmp-output
+        if(0 != LoadModule(ROOT_DIR "/obs-plugins/obs-outputs.so", ROOT_DIR "/data/obs-plugins/obs-outputs")) {
+            throw string("failed to load lib obs-outputs.so");
+        }
 
         // stream A
         ss << "{ \"is_local_file\":false, \"input\":\"" << settings.stream_a <<"\", \"looping\":true }";
@@ -177,7 +212,7 @@ void ObsWorker::do_work(worker_settings_t settings) {
         }
 
         // encoders
-        enc_a = obs_audio_encoder_create("libfdk_aac", "aac enc", NULL, 0, nullptr);
+        enc_a = obs_audio_encoder_create("ffmpeg_aac", "aac enc", NULL, 0, nullptr);
         if (!enc_a) {
             throw string("Couldn't create enc_a");
         }

@@ -1,8 +1,3 @@
-
-
-#include <QApplication>
-#include <QPushButton>
-
 #include "ObsWorker.hpp"
 #include "trace.h"
 
@@ -37,9 +32,6 @@ void print_help() {
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-    QPushButton hello("Hello world!");
-
     worker_settings_t settings;
     settings.stream_a = DEFAULT_STREAM_A;
     settings.stream_b = DEFAULT_STREAM_B;

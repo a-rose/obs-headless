@@ -38,5 +38,6 @@ public:
 
 private:
     static void do_work(worker_settings_t settings); // worker thread
+    static int LoadModule(const char* binPath, const char* dataPath);
     worker_settings_t settings;
 };
