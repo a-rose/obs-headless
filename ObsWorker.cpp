@@ -1,6 +1,5 @@
 #include "ObsWorker.hpp"
 
-
 //TODO
 std::mutex obsapp_main_mutex;
 //std::condition_variable obsapp_main_cv;
@@ -8,11 +7,8 @@ bool exit_worker_thread;
 
 
 ObsWorker::ObsWorker(worker_settings_t settings_in)
-    : settings(settings_in)
- {
-    
+    : settings(settings_in){
 }
-
 
 ObsWorker::~ObsWorker() {
     obs_shutdown();
@@ -61,7 +57,6 @@ int ObsWorker::start() {
 
 
 void ObsWorker::do_work(worker_settings_t settings) {
-
     bool should_stop;
     int transition = 0;
     std::stringstream ss;
@@ -116,6 +111,7 @@ void ObsWorker::do_work(worker_settings_t settings) {
             throw string("obs_reset_audio failed");
         }
 
+
         // Load modules
         if(0 != LoadModule(ROOT_DIR "/obs-plugins/obs-ffmpeg.so", ROOT_DIR "/data/obs-plugins/obs-ffmpeg")) {
             throw string("failed to load lib obs-ffmpeg.so");
@@ -137,6 +133,7 @@ void ObsWorker::do_work(worker_settings_t settings) {
         if(0 != LoadModule(ROOT_DIR "/obs-plugins/obs-outputs.so", ROOT_DIR "/data/obs-plugins/obs-outputs")) {
             throw string("failed to load lib obs-outputs.so");
         }
+
 
         // stream A
         ss << "{ \"is_local_file\":false, \"input\":\"" << settings.stream_a <<"\", \"looping\":true }";
