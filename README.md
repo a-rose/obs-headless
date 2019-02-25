@@ -1,6 +1,14 @@
 # obs-headless
 Headless obs test using libobs
 
+## QT dependcy
+The test program depends on QT5 because libobs doesn't seem to initialize OpenGL properly (segfault in gl_context_create when calling obs_reset_video).
+Calling the QT init function beforehand seems to bypass this issue.
+
+This could be a bug in libobs, the main obs frontend is not affected because it uses QT.
+
+Using macOS, Qt is not needed, you can delete all references in the code and CMakeLists.txt.
+
 ## Building
 First, install obs from source in the obs-headless/ directory (for instructions, see https://github.com/obsproject/obs-studio/wiki/Install-Instructions ).
 

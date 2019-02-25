@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 2.8)
 
 project(obs_headless)
 
+find_package(Qt5X11Extras REQUIRED)
+find_package(Qt5Widgets ${FIND_MODE})
+
+if(NOT Qt5Widgets_FOUND)
+    message(FATAL_ERROR "Failed to find Qt5")
+endif()
+
 add_definitions(-std=c++11)
 add_definitions(-DDL_OPENGL="${CMAKE_SOURCE_DIR}/obs-studio/build/libobs-opengl/libobs-opengl")
 add_definitions(-DROOT_DIR="${CMAKE_SOURCE_DIR}")
@@ -37,4 +44,5 @@ add_executable(obs_headless
 target_link_libraries(obs_headless
     obs
     pthread
+    Qt5::Widgets
 )
