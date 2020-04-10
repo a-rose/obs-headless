@@ -32,10 +32,8 @@ void print_help() {
 }
 
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    QPushButton hello("Hello world!");
 
     worker_settings_t settings;
     settings.stream_a = DEFAULT_STREAM_A;
