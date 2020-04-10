@@ -26,13 +26,13 @@ link_directories("${obs_lib_dir}")
 #######################################
 
 set(obs_SOURCES
-    main.cpp
-    ObsWorker.cpp
+    src/main.cpp
+    src/ObsWorker.cpp
 )
 
 set(obs_HEADERS
-    trace.h
-    ObsWorker.hpp
+    src/trace.h
+    src/ObsWorker.hpp
 )
 
 ######################################
