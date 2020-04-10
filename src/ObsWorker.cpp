@@ -91,7 +91,7 @@ void ObsWorker::do_work(worker_settings_t settings) {
         }
 
         ovi.adapter         = 0;
-        ovi.graphics_module = DL_OPENGL;
+        ovi.graphics_module = LIBOBS_PATH"libobs-opengl.so.0.0";
         ovi.output_format   = VIDEO_FORMAT_I420;
         ovi.fps_num         = settings.video_fps_num;
         ovi.fps_den         = settings.video_fps_den;
@@ -113,24 +113,24 @@ void ObsWorker::do_work(worker_settings_t settings) {
 
 
         // Load modules
-        if(0 != LoadModule(ROOT_DIR "/obs-plugins/obs-ffmpeg.so", ROOT_DIR "/data/obs-plugins/obs-ffmpeg")) {
+        if(0 != LoadModule(LIBOBS_PLUGINS_PATH "obs-ffmpeg.so", LIBOBS_PLUGINS_DATA_PATH "obs-ffmpeg")) {
             throw string("failed to load lib obs-ffmpeg.so");
         }
 
-        if(0 != LoadModule(ROOT_DIR "/obs-plugins/obs-transitions.so", ROOT_DIR "/data/obs-plugins/obs-transitions")) {
+        if(0 != LoadModule(LIBOBS_PLUGINS_PATH "obs-transitions.so", LIBOBS_PLUGINS_DATA_PATH "obs-transitions")) {
             throw string("failed to load lib obs-transitions.so");
         }
 
-        if(0 != LoadModule(ROOT_DIR "/obs-plugins/rtmp-services.so", ROOT_DIR "/data/obs-plugins/rtmp-services")) {
+        if(0 != LoadModule(LIBOBS_PLUGINS_PATH "rtmp-services.so", LIBOBS_PLUGINS_DATA_PATH "rtmp-services")) {
             throw string("failed to load lib rtmp-services.so");
         }
 
-        if(0 != LoadModule(ROOT_DIR "/obs-plugins/obs-x264.so", ROOT_DIR "/data/obs-plugins/obs-x264")) {
+        if(0 != LoadModule(LIBOBS_PLUGINS_PATH "obs-x264.so", LIBOBS_PLUGINS_DATA_PATH "obs-x264")) {
             throw string("failed to load lib obs-x264.so");
         }
 
         // For rtmp-output
-        if(0 != LoadModule(ROOT_DIR "/obs-plugins/obs-outputs.so", ROOT_DIR "/data/obs-plugins/obs-outputs")) {
+        if(0 != LoadModule(LIBOBS_PLUGINS_PATH "obs-outputs.so", LIBOBS_PLUGINS_DATA_PATH "obs-outputs")) {
             throw string("failed to load lib obs-outputs.so");
         }
 

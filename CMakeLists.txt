@@ -10,15 +10,12 @@ endif()
 set(qtlibs Qt5::Widgets)
 
 # Obs
-set(obs_dir ${CMAKE_SOURCE_DIR}/../obs-studio)
-set(obs_include_dir ${obs_dir}/libobs/)
-set(obs_lib_dir     ${obs_dir}/build/libobs/)
+add_definitions(-DLIBOBS_PATH="${OBS_INSTALL_PATH}/bin/64bit/")
+add_definitions(-DLIBOBS_PLUGINS_PATH="${OBS_INSTALL_PATH}/obs-plugins/64bit/")
+add_definitions(-DLIBOBS_PLUGINS_DATA_PATH="${OBS_INSTALL_PATH}/data/obs-plugins/64bit/")
 
-add_definitions(-DDL_OPENGL="${obs_dir}/build/libobs-opengl/libobs-opengl")
-add_definitions(-DROOT_DIR="${CMAKE_SOURCE_DIR}")
-
-include_directories("${obs_include_dir}")
-link_directories("${obs_lib_dir}")
+include_directories("${OBS_INSTALL_PATH}/include/")
+link_directories("${OBS_INSTALL_PATH}/bin/64bit/")
 
 #######################################
 
