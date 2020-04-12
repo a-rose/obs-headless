@@ -1,20 +1,5 @@
-#include <time.h>
-#include <stdio.h>
-#include <wchar.h>
-#include <signal.h>
-#include <unistd.h>
-#include <chrono>
-#include <ratio>
-#include <string>
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <mutex>
-#include <thread>         // std::thread
-#include <condition_variable>
-#include <vector>
+#pragma once
 
-#include "obs.h"
 #include "Trace.hpp"
 #include "Settings.hpp"
 

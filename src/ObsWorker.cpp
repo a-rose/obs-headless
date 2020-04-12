@@ -1,3 +1,10 @@
+#include <unistd.h>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <mutex>
+#include <thread>
+#include "obs.h"
 #include "ObsWorker.hpp"
 
 //TODO
