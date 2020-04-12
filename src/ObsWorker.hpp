@@ -15,34 +15,19 @@
 #include <vector>
 
 #include "obs.h"
-#include "trace.h"
+#include "Trace.hpp"
+#include "Settings.hpp"
 
 using namespace std;
 
-
-
-typedef struct worker_settings {
-    string stream_a;
-    string stream_b;
-    string server;
-    string key;
-    int transition_delay_sec;
-    int transition_duration_ms;
-    int video_bitrate_kbps;
-    int video_width;
-    int video_height;
-    int video_fps_num;
-    int video_fps_den;
-} worker_settings_t;
-
 class ObsWorker {
 public:
-    ObsWorker(worker_settings_t settings);
+    ObsWorker(Settings settings);
     ~ObsWorker();
     int start();
 
 private:
-    static void do_work(worker_settings_t settings); // worker thread
+    static void do_work(Settings settings); // worker thread
     static int LoadModule(const char* binPath, const char* dataPath);
-    worker_settings_t settings;
+    Settings settings;
 };

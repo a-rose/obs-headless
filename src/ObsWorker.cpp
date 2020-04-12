@@ -6,7 +6,7 @@ std::mutex obsapp_main_mutex;
 bool exit_worker_thread;
 
 
-ObsWorker::ObsWorker(worker_settings_t settings_in)
+ObsWorker::ObsWorker(Settings settings_in)
     : settings(settings_in){
 }
 
@@ -56,7 +56,7 @@ int ObsWorker::start() {
 }
 
 
-void ObsWorker::do_work(worker_settings_t settings) {
+void ObsWorker::do_work(Settings settings) {
     bool should_stop;
     int transition = 0;
     std::stringstream ss;
@@ -89,6 +89,9 @@ void ObsWorker::do_work(worker_settings_t settings) {
         if(!obs_startup("en-US", nullptr, nullptr) || !obs_initialized()) {
             throw string("obs_startup failed");
         }
+
+        memset(&ovi, 0, sizeof(ovi));
+        memset(&oai, 0, sizeof(oai));
 
         ovi.adapter         = 0;
         ovi.graphics_module = LIBOBS_PATH"libobs-opengl.so.0.0";
