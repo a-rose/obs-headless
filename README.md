@@ -11,11 +11,10 @@ Using macOS, Qt is not needed, you can delete all references in the code and CMa
 
 ## Getting Started
 
-### libobs
 Build OBS from the sources.
  You can follow [instructions from obs-studio on Github](https://github.com/obsproject/obs-studio/wiki/Install-Instructions#linux-portable-mode-all-distros) but watch out:
 
-- ⚠️ At the moment, obs-headless only **works with old versions of libobs**. Please use `git checkout 23.2.1` to use this old tag until this issue is resolved.
+ - ⚠️ At the moment, obs-headless only **works with old versions of libobs**. Please use `git checkout 23.2.1` to use this old tag until this issue is resolved.
  - Using the given cmake command-line, files are installed in `$HOME/obs-studio-portable` . If you change this path, you need to update `OBS_INSTALL_PATH` in `./config.sh` to values relevant to your setup.
 
 Now that OBS is installed, build and run obs-headless:
