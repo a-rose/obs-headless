@@ -73,8 +73,8 @@ void ObsWorker::do_work(Settings settings) {
 
     obs_source_t*   rtmp_source_A;
     obs_source_t*   rtmp_source_B;
-    obs_source_t*   fade_transition_A;
-    obs_source_t*   fade_transition_B;
+    obs_source_t*   transition_A;
+    obs_source_t*   transition_B;
     obs_scene_t*    scene_A;
     obs_scene_t*    scene_B;
     obs_output_t*   output;
@@ -180,19 +180,19 @@ void ObsWorker::do_work(Settings settings) {
 
 
         // transitions (contain sources)
-        fade_transition_A = obs_source_create("fade_transition", "fade transition", NULL, nullptr);
-        if (!fade_transition_A) {
-            throw string("Couldn't create fade_transition_A");
+        transition_A = obs_source_create("cut_transition", "cut transition", NULL, nullptr);
+        if (!transition_A) {
+            throw string("Couldn't create transition_A");
         }
 
-        fade_transition_B = obs_source_create("fade_transition", "fade transition", NULL, nullptr);
-        if (!fade_transition_B) {
-            throw string("Couldn't create fade_transition_B");
+        transition_B = obs_source_create("cut_transition", "cut transition", NULL, nullptr);
+        if (!transition_B) {
+            throw string("Couldn't create transition_B");
         }
 
 
-        obs_transition_set(fade_transition_A, rtmp_source_A);
-        obs_transition_set(fade_transition_B, rtmp_source_B);
+        obs_transition_set(transition_A, rtmp_source_A);
+        obs_transition_set(transition_B, rtmp_source_B);
 
 
         // scenes (contain transitions)
@@ -200,7 +200,7 @@ void ObsWorker::do_work(Settings settings) {
         if (!scene_A) {
             throw string("Couldn't create scene_A");
         }
-        scene_item_A = obs_scene_add(scene_A, fade_transition_A);
+        scene_item_A = obs_scene_add(scene_A, transition_A);
 
 
 
@@ -209,7 +209,7 @@ void ObsWorker::do_work(Settings settings) {
         if (!scene_B) {
             throw string("Couldn't create scene_B");
         }
-        scene_item_B = obs_scene_add(scene_B, fade_transition_B);
+        scene_item_B = obs_scene_add(scene_B, transition_B);
 
 
 
@@ -284,7 +284,7 @@ void ObsWorker::do_work(Settings settings) {
             if(transition == settings.transition_delay_sec) {
                 trace("Switch from stream A to stream B !");
 
-                if(obs_transition_start(fade_transition_A, OBS_TRANSITION_MODE_AUTO, settings.transition_duration_ms, fade_transition_B) != true) {
+                if(obs_transition_start(transition_A, OBS_TRANSITION_MODE_AUTO, settings.transition_duration_ms, transition_B) != true) {
                     throw string("obs_transition_start failed");
                 }
             }
@@ -304,8 +304,8 @@ void ObsWorker::do_work(Settings settings) {
         obs_output_release(output);
         obs_source_release(rtmp_source_A);
         obs_source_release(rtmp_source_B);
-        obs_source_release(fade_transition_A);
-        obs_source_release(fade_transition_B);
+        obs_source_release(transition_A);
+        obs_source_release(transition_B);
         obs_sceneitem_release(scene_item_A);
         obs_sceneitem_release(scene_item_B);
         obs_scene_release(scene_A);
