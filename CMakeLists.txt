@@ -32,4 +32,5 @@ target_link_libraries(obs_headless
     obs
     pthread
     Qt5::Widgets
+    jansson
 )

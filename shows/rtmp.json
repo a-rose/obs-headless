@@ -1,0 +1,15 @@
+{
+    "name": "DefaultShow",
+    "scenes": [
+        {
+            "name": "RTMP",
+            "sources": [
+                {
+                    "name": "source",
+                    "type": "RTMP",
+                    "url": "rtmp://localhost:1936/source_a"
+                }
+            ]
+        }
+    ]
+}
