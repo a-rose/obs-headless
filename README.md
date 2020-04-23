@@ -1,5 +1,5 @@
 # obs-headless
-Headless obs test using libobs
+C++ program based on libobs (from obs-studio), designed to read RTMP streams and compose them as sources in different scenes.
 
 ## QT dependcy
 The test program depends on QT5 because libobs doesn't seem to initialize OpenGL properly (segfault in gl_context_create when calling obs_reset_video).
@@ -23,8 +23,19 @@ Now that OBS is installed, build and run obs-headless:
 
 ## TODO
 
-- [ ] Fix getting a green screen when using OBS version > 23.2.1. At the moment, using (for example) v24.0.0 gives a green video output (audio is fine)
-- [ ] Fix crash (double free) when exiting by pressing 'q'
-- [ ] Fix runtime path; currently we need to cd into obs's install path (see run.sh) for obs to find the *.effect files in `find_libobs_data_file()`
-- [ ] CMake: `set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Werror -Wno-long-long -pedantic")`
-- [ ] HTML frontend example
+- [fix] green screen when using OBS version > 23.2.1. At the moment, using (for example) v24.0.0 gives a green video output (audio is fine)
+- [fix] "double free" when exiting by pressing 'q'
+- [build] Fix runtime path; currently we need to cd into obs's install path (see run.sh) for obs to find the *.effect files in `find_libobs_data_file()`
+- [build] CMake: `set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Werror -Wno-long-long -pedantic")`
+- [test] Create interfaces like UDP or HTML server + frontend examples
+- [test] create udp test script
+- [config] Support more transitions: [cut/fade/swipe/slide/stinger/fade_to_color/luma_wipe]_transition
+- [config] Duration type in ms
+- [config] audio bitrate
+- [config] video rate control
+- [config] video GPU conversion
+- [feat] rescue
+- [feat] improve Trace
+- [deps] fdk-aac, x264 / ffmpeg. explain ffmpeg_nvenc
+- [feat] sigint handler in main for cleanup
+- [style] fix mixed snake_case and camelCase

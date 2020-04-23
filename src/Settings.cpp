@@ -17,29 +17,47 @@ Settings LoadConfig(const string& file) {
         string key;
         iss >> key;
         
-        if(key == "stream_a") {
-            iss >> s.stream_a;
-        } else if(key =="stream_b") {
-            iss >> s.stream_b;
-        } else if(key =="server") {
+        if(key == "server") {
             iss >> s.server;
-        } else if(key =="key") {
+        } else if(key == "key") {
             iss >> s.key;
-        } else if(key =="transition_delay_sec") {
+        } 
+        
+        else if(key == " transition_type") {
+            iss >> s.transition_type;
+        } else if(key == "transition_delay_sec") {
             iss >> s.transition_delay_sec;
-        } else if(key =="transition_duration_ms") {
+        } else if(key == "transition_duration_ms") {
             iss >> s.transition_duration_ms;
-        } else if(key =="video_bitrate_kbps") {
+        }
+        
+        else if(key == " video_hw_encode") {
+            iss >> s.video_hw_encode;
+        } else if(key == " video_hw_decode") {
+            iss >> s.video_hw_decode;
+        } else if(key == " video_gpu_conversion") {
+            iss >> s.video_gpu_conversion;
+        } else if(key == "video_bitrate_kbps") {
             iss >> s.video_bitrate_kbps;
-        } else if(key =="video_width") {
+        } else if(key == " video_keyint_sec") {
+            iss >> s.video_keyint_sec;
+        } else if(key == " video_rate_control") {
+            iss >> s.video_rate_control;
+        } else if(key == "video_width") {
             iss >> s.video_width;
-        } else if(key =="video_height") {
+        } else if(key == "video_height") {
             iss >> s.video_height;
-        } else if(key =="video_fps_num") {
+        } else if(key == "video_fps_num") {
             iss >> s.video_fps_num;
-        } else if(key =="video_fps_den") {
+        } else if(key == "video_fps_den") {
             iss >> s.video_fps_den;
         }
+        
+        else if(key == " audio_sample_rate") {
+            iss >> s.audio_sample_rate;
+        } else if(key == " audio_bitrate_kbps") {
+            iss >> s.audio_bitrate_kbps;
+        } 
     }
 
     if(s.server == "") {
