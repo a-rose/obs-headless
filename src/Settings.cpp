@@ -2,11 +2,14 @@
 #include <sstream>
 #include <ios>
 #include "Settings.hpp"
+#include "Trace.hpp"
 
 Settings LoadConfig(const string& file) {
     Settings s;
     ifstream config(file);
     string line;
+
+    trace_debug("Loading config file", field_s(file));
 
     if(config.fail()) {
         throw invalid_argument("Cannot open config file:" + file);
@@ -23,7 +26,7 @@ Settings LoadConfig(const string& file) {
             iss >> s.key;
         } 
         
-        else if(key == " transition_type") {
+        else if(key == "transition_type") {
             iss >> s.transition_type;
         } else if(key == "transition_delay_sec") {
             iss >> s.transition_delay_sec;
@@ -31,17 +34,17 @@ Settings LoadConfig(const string& file) {
             iss >> s.transition_duration_ms;
         }
         
-        else if(key == " video_hw_encode") {
+        else if(key == "video_hw_encode") {
             iss >> s.video_hw_encode;
-        } else if(key == " video_hw_decode") {
+        } else if(key == "video_hw_decode") {
             iss >> s.video_hw_decode;
-        } else if(key == " video_gpu_conversion") {
+        } else if(key == "video_gpu_conversion") {
             iss >> s.video_gpu_conversion;
         } else if(key == "video_bitrate_kbps") {
             iss >> s.video_bitrate_kbps;
-        } else if(key == " video_keyint_sec") {
+        } else if(key == "video_keyint_sec") {
             iss >> s.video_keyint_sec;
-        } else if(key == " video_rate_control") {
+        } else if(key == "video_rate_control") {
             iss >> s.video_rate_control;
         } else if(key == "video_width") {
             iss >> s.video_width;
@@ -53,9 +56,9 @@ Settings LoadConfig(const string& file) {
             iss >> s.video_fps_den;
         }
         
-        else if(key == " audio_sample_rate") {
+        else if(key == "audio_sample_rate") {
             iss >> s.audio_sample_rate;
-        } else if(key == " audio_bitrate_kbps") {
+        } else if(key == "audio_bitrate_kbps") {
             iss >> s.audio_bitrate_kbps;
         } 
     }
@@ -72,6 +75,27 @@ Settings LoadConfig(const string& file) {
     if(s.transition_duration_ms < 0 || s.transition_duration_ms > 1000*60*60) {
         throw invalid_argument("Invalid transition duration: " + to_string(s.transition_duration_ms));
     }
+
+    // TODO more checks
+
+    trace_debug("", field_s(s.server));
+    trace_debug("", field_s(s.key));
+    trace_debug("", field_s(s.transition_type));
+    trace_debug("", field(s.transition_delay_sec));
+    trace_debug("", field(s.transition_duration_ms));
+    trace_debug("", field(s.video_hw_decode));
+    trace_debug("", field(s.video_hw_encode));
+    trace_debug("", field(s.video_hw_encode));
+    trace_debug("", field(s.video_bitrate_kbps));
+    trace_debug("", field(s.video_keyint_sec));
+    trace_debug("", field_s(s.video_rate_control));
+    trace_debug("", field(s.video_width));
+    trace_debug("", field(s.video_height));
+    trace_debug("", field(s.video_fps_num));
+    trace_debug("", field(s.video_fps_den));
+    trace_debug("", field(s.audio_sample_rate));
+    trace_debug("", field(s.audio_bitrate_kbps));
+
 
     return s;
 }
