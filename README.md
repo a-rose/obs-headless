@@ -15,11 +15,14 @@ Build OBS from the sources.
  You can follow [instructions from obs-studio on Github](https://github.com/obsproject/obs-studio/wiki/Install-Instructions#linux-portable-mode-all-distros) but watch out:
 
  - ⚠️ At the moment, obs-headless only **works with old versions of libobs**. Please use `git checkout 23.2.1` to use this old tag until this issue is resolved.
+ - Using Ubuntu 20.04, you need the following packages to compile OBS, which is not mentionned in the doc at the moment: `libx11-xcb-dev libxcb-randr0-dev libqt5svg5-dev`
  - Using the given cmake command-line, files are installed in `$HOME/obs-studio-portable` . If you change this path, you need to update `OBS_INSTALL_PATH` in `./config.sh` to values relevant to your setup.
 
 Now that OBS is installed, build and run obs-headless:
  - Run `./compile.sh`
- - After compiling, run `./run.sh -h` for instructions
+ - After compiling, set up your configuration in `config.txt`
+ - You can now start the program with `./run.sh`
+ - You can start the program in gdb with `./run.sh -g`
 
 ## TODO
 
