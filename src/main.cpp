@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
         StudioStatus s;
         string show_path = OBS_HEADLESS_PATH "shows/default.json";
 
-        trace("Load show", field_s(show_path));
+        trace_info("Load show", field_s(show_path));
         s = studio.ShowLoad(show_path);
         if(!s.ok()) {
             throw runtime_error("Failed to load show");
