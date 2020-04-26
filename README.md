@@ -42,3 +42,4 @@ Now that OBS is installed, build and run obs-headless:
 - [deps] fdk-aac, x264 / ffmpeg. explain ffmpeg_nvenc
 - [feat] sigint handler in main for cleanup
 - [style] fix mixed snake_case and camelCase
+- [feat] trace level and format from env
