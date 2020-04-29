@@ -31,6 +31,16 @@ int main(int argc, char *argv[]) {
         if(!s.ok()) {
             throw runtime_error("Failed to start studio");
         }
+
+        // Wait for 'q' to stop the thread
+        do {
+            trace("Press 'q' key to stop");
+        } while (cin.get() != 'q');
+
+        s = studio.StudioStop();
+        if(!s.ok()) {
+            throw runtime_error("Failed to stop studio");
+        }
     }
     catch(const exception& e) {
         trace_error("An exception occured: ", field_ns("exception", e.what()));
