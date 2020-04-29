@@ -759,25 +759,26 @@ StudioStatus Studio::studioInit() {
 	obs_post_load_modules();
 
 	// output and service	
-	service = obs_service_create("rtmp_common", "rtmp service", rtmp_settings, nullptr);
+	service = obs_service_create("rtmp_common", "rtmp service", nullptr, nullptr);
 	if (!service) {
 		return StudioStatus(STUDIO_LIBOBS_ERROR, "Couldn't create service");
 	}
 
-	rtmp_settings = obs_service_get_settings(service);
+	rtmp_settings = obs_data_create();
 	if (!rtmp_settings) {
 		return StudioStatus(STUDIO_LIBOBS_ERROR, "Couldn't create rtmp settings");
 	}
+	obs_data_release(rtmp_settings);
 
 	obs_data_set_string(rtmp_settings, "server", settings->server.c_str());
 	obs_data_set_string(rtmp_settings, "key", settings->key.c_str());
 	obs_service_update(service, rtmp_settings); // TODO test it works fine
+	obs_data_release(rtmp_settings);
 
 	output = obs_output_create("rtmp_output", "RTMP output", NULL, nullptr);
 	if (!output) {
 		return StudioStatus(STUDIO_LIBOBS_ERROR, "Couldn't create output");
 	}
-	obs_data_release(rtmp_settings);
 
 
 	// Audio encoder
