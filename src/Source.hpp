@@ -6,18 +6,6 @@
 #include "Settings.hpp"
 #include "Status.hpp"
 
-#if 0
-#define STATE_STR(state) ( \
-		state == OBS_STREAM_IDLE ? "idle" \
-	:	state == OBS_STREAM_ABSENT ? "absent" \
-	:	state == OBS_STREAM_ALIVE ? "alive" \
-	: "timeout" \
-)
-#else
-// TODO reimplement
-#define STATE_STR(state) ("unknown")
-#endif
-
 enum SourceStatusCode {
 	SOURCE_OK,
 	SOURCE_ALREADY_STARTED,
