@@ -715,6 +715,8 @@ StudioStatus Studio::studioInit() {
 	ovi.output_height   = settings->video_height;
 	ovi.gpu_conversion  = settings->video_gpu_conversion;
 
+	trace_debug("", field_s(ovi.graphics_module));
+
 	if(obs_reset_video(&ovi) != OBS_VIDEO_SUCCESS) {
 		return StudioStatus(STUDIO_LIBOBS_ERROR, "obs_reset_video failed");
 	}
@@ -767,7 +769,7 @@ StudioStatus Studio::studioInit() {
 		return StudioStatus(STUDIO_LIBOBS_ERROR, "Couldn't create rtmp settings");
 	}
 
-	obs_data_set_string(rtmp_settings, "service", settings->server.c_str());
+	obs_data_set_string(rtmp_settings, "server", settings->server.c_str());
 	obs_data_set_string(rtmp_settings, "key", settings->key.c_str());
 	obs_service_update(service, rtmp_settings); // TODO test it works fine
 
