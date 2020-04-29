@@ -772,7 +772,7 @@ StudioStatus Studio::studioInit() {
 
 	obs_data_set_string(rtmp_settings, "server", settings->server.c_str());
 	obs_data_set_string(rtmp_settings, "key", settings->key.c_str());
-	obs_service_update(service, rtmp_settings); // TODO test it works fine
+	obs_service_update(service, rtmp_settings);
 	obs_data_release(rtmp_settings);
 
 	output = obs_output_create("rtmp_output", "RTMP output", NULL, nullptr);
