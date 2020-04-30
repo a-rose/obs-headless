@@ -27,7 +27,6 @@ Now that OBS is installed, build and run obs-headless:
 ## TODO
 
 - [fix] green screen when using OBS version > 23.2.1. At the moment, using (for example) v24.0.0 gives a green video output (audio is fine)
-- [fix] "double free" when exiting by pressing 'q'
 - [build] Fix runtime path; currently we need to cd into obs's install path (see run.sh) for obs to find the *.effect files in `find_libobs_data_file()`
 - [build] CMake: `set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Werror -Wno-long-long -pedantic")`
 - [test] Create interfaces like UDP or HTML server + frontend examples
