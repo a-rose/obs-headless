@@ -25,35 +25,6 @@ Studio::~Studio() {
 // STUDIO                            //
 ///////////////////////////////////////
 
-// TODO reimplement properly
-StudioStatus Studio::GetStudio() {
-	StudioStatus s = StudioStatus(STUDIO_OK);
-
-	trace("Studio (get)");
-	mtx.lock();
-	try {
-		ShowMap::iterator it;
-		for (it = shows.begin(); it != shows.end(); it++) {
-			Show* show = it->second;
-			if(!show) {
-				trace_error("NULL show", field_ns("id", it->first));
-				s = StudioStatus(STUDIO_SHOW_NOT_FOUND, std::string("NULL show with id="+ it->first));
-			}
-		}
-	}
-	catch(string e) {
-		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
-	}
-	catch(...) {
-		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
-	}
-	mtx.unlock();
-
-	return s;
-}
-
 StudioStatus Studio::StudioStart() {
 	StudioStatus s = StudioStatus(STUDIO_OK);
 
@@ -115,83 +86,82 @@ StudioStatus Studio::StudioStop() {
 // SHOW                              //
 ///////////////////////////////////////
 
-StudioStatus Studio::GetShow(string show_id) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+ShowMap Studio::GetShows() {
+	return shows;
+}
+
+Show* Studio::GetActiveShow() {
+	return active_show;
+}
+
+Show* Studio::GetShow(string show_id) {
+	Show* show = nullptr;
 
 	trace("Show (get)");
 	mtx.lock();
 	try {
-		Show* show = getShow(show_id);
+		show = getShow(show_id);
 		if(!show) {
 			trace_error("Show not found", field_s(show_id));
-			s = StudioStatus(STUDIO_SHOW_NOT_FOUND, "Show not found: id="+ show_id);
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return s;
+	return show;
 }
 
-StudioStatus Studio::ShowCreate(string show_name) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Show* Studio::ShowCreate(string show_name) {
+	Show* show = nullptr;
 
 	trace("ShowCreate");
 	mtx.lock();
 	try {
-		Show* show = addShow(show_name);
+		show = addShow(show_name);
 		if(!show) {
 			trace_error("Failed to create show");
-			s = StudioStatus(STUDIO_ERROR, "Failed to create show");
 		} else {
 			trace_info("Created show", field_s(show_name));
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return s;
+	return show;
 }
 
-StudioStatus Studio::ShowDuplicate(string show_id) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Show* Studio::ShowDuplicate(string show_id) {
+	Show* show = nullptr;
 
 	trace("ShowDuplicate");
 	mtx.lock();
 	try {
-		Show* show = duplicateShow(show_id);
+		show = duplicateShow(show_id);
 		if(!show) {
 			trace_error("Failed to duplicate show");
-			s = StudioStatus(STUDIO_ERROR, "Failed to duplicate show");
 		} else {
 			trace_info("Duplicated show", field_s(show_id));
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return s;
+	return show;
 }
 
 StudioStatus Studio::ShowRemove(string show_id) {
@@ -219,39 +189,37 @@ StudioStatus Studio::ShowRemove(string show_id) {
 
 	return s;
 }
-StudioStatus Studio::ShowLoad(string show_path) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Show* Studio::ShowLoad(string show_path) {
+	Show* show = nullptr;
 
 	trace("ShowLoad");
 	mtx.lock();
 	try {
-		Show* show = loadShow(show_path);
+		show = loadShow(show_path);
 
 		if(!show) {
-			s = StudioStatus(STUDIO_ERROR, "Failed to load show");
+			trace_error("Failed to load show", field_s(show_path));
 		} else {
 			trace_info("Loaded show", field_s(show_path));
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return s;
+	return show;
 }
 
 ///////////////////////////////////////
 // SCENE                             //
 ///////////////////////////////////////
 
-StudioStatus Studio::GetScene(string show_id, string scene_id) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Scene* Studio::GetScene(string show_id, string scene_id) {
+	Scene* scene = nullptr;
 
 	trace("Scene (get)");
 	mtx.lock();
@@ -259,32 +227,28 @@ StudioStatus Studio::GetScene(string show_id, string scene_id) {
 		Show* show = getShow(show_id);
 
 		if(show) {
-			Scene* scene = show->GetScene(scene_id);
+			scene = show->GetScene(scene_id);
 
 			if(!scene) {
 				trace_error("Scene not found", field_s(scene_id));
-				s = StudioStatus(STUDIO_SCENE_NOT_FOUND, "id="+ scene_id);
 			}
 		} else {
 			trace_error("Show not found", field_s(show_id));
-			s = StudioStatus(STUDIO_SHOW_NOT_FOUND,"id="+ show_id);
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return s;
+	return scene;
 }
 
-StudioStatus Studio::SceneAdd(string show_id, string scene_name) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Scene* Studio::SceneAdd(string show_id, string scene_name) {
+	Scene* scene = nullptr;
 
 	trace("SceneAdd");
 	mtx.lock();
@@ -292,33 +256,29 @@ StudioStatus Studio::SceneAdd(string show_id, string scene_name) {
 		Show* show = getShow(show_id);
 
 		if(show) {
-			Scene* scene = show->AddScene(scene_name);
+			scene = show->AddScene(scene_name);
 			if(!scene) {
 				trace_error("Failed to add scene", field_s(scene_name));
-				s = StudioStatus(STUDIO_ERROR, "Failed to add scene");
 			} else {
 				trace_info("Added scene", field_s(show_id), field_s(scene_name));
 			}
 		} else {
 			trace_error("Show not found", field_s(show_id));
-			s = StudioStatus(STUDIO_SHOW_NOT_FOUND, "id="+ show_id);
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return s;
+	return scene;
 }
 
-StudioStatus Studio::SceneDuplicate(string show_id, string scene_id) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Scene* Studio::SceneDuplicate(string show_id, string scene_id) {
+	Scene* scene = nullptr;
 
 	trace("SceneDuplicate");
 	mtx.lock();
@@ -326,29 +286,25 @@ StudioStatus Studio::SceneDuplicate(string show_id, string scene_id) {
 		Show* show = getShow(show_id);
 
 		if(show) {
-			Scene* new_scene = show->DuplicateScene(scene_id);
-			if(!new_scene) {
+			scene = show->DuplicateScene(scene_id);
+			if(!scene) {
 				trace_error("Failed to duplicate scene", field_s(scene_id));
-				s = StudioStatus(STUDIO_ERROR, "Failed to duplicate scene");
 			} else {
 				trace_info("Duplicated scene", field_s(show_id), field_s(scene_id));
 			}
 		} else {
 			trace_error("Show not found", field_s(show_id));
-			s = StudioStatus(STUDIO_SHOW_NOT_FOUND, "id="+ show_id);
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return s;
+	return scene;
 }
 
 StudioStatus Studio::SceneRemove(string show_id, string scene_id) {
@@ -418,8 +374,8 @@ StudioStatus Studio::SceneSetAsCurrent(string show_id, string scene_id) {
 	return s;
 }
 
-StudioStatus Studio::SceneGetCurrent(string show_id) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Scene* Studio::SceneGetCurrent(string show_id) {
+	Scene* scene = nullptr;
 
 	trace("SceneGetCurrent");
 	mtx.lock();
@@ -428,12 +384,10 @@ StudioStatus Studio::SceneGetCurrent(string show_id) {
 
 		if(!show) {
 			trace_error("Show not found", field_s(show_id));
-			s = StudioStatus(STUDIO_SHOW_NOT_FOUND, std::string("id="+ show_id));
 		} else {
-			Scene* active_scene = show->ActiveScene();
-			if(!active_scene) {
+			scene = show->ActiveScene();
+			if(!scene) {
 				trace_error("null active scene in show", field_s(show_id));
-				s = StudioStatus(STUDIO_ERROR, std::string("null active scene in show id="+ show_id));
 			} else {
 				// TODO trace
 			}
@@ -441,23 +395,21 @@ StudioStatus Studio::SceneGetCurrent(string show_id) {
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return s;
+	return scene;
 }
 
 ///////////////////////////////////////
 // SOURCE                            //
 ///////////////////////////////////////
 
-StudioStatus Studio::GetSource(string show_id, string scene_id, string source_id) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Source* Studio::GetSource(string show_id, string scene_id, string source_id) {
+	Source* source = nullptr;
 
 	trace("Source (get)");
 	mtx.lock();
@@ -469,36 +421,31 @@ StudioStatus Studio::GetSource(string show_id, string scene_id, string source_id
 
 			if(!scene) {
 				trace_error("Scene not found", field_s(scene_id));
-				s = StudioStatus(STUDIO_SCENE_NOT_FOUND, "id="+ scene_id);
 			} else {
-				Source* source = scene->GetSource(source_id);
+				source = scene->GetSource(source_id);
 				if(!source) {
 					trace_error("Source not found", field_s(source_id));
-					s = StudioStatus(STUDIO_SOURCE_NOT_FOUND, "id="+ source_id);
 				} else {
 					// TODO trace
 				}
 			}
 		} else {
 			trace_error("Show not found", field_s(show_id));
-			s = StudioStatus(STUDIO_SHOW_NOT_FOUND, " id="+ show_id);
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return s;
+	return source;
 }
 
-StudioStatus Studio::SourceAdd(string show_id, string scene_id, string source_name, string source_type, string source_url) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Source* Studio::SourceAdd(string show_id, string scene_id, string source_name, string source_type, string source_url) {
+	Source* source = nullptr;
 
 	trace("SourceAdd");
 	mtx.lock();
@@ -508,22 +455,18 @@ StudioStatus Studio::SourceAdd(string show_id, string scene_id, string source_na
 
 		if(type == InvalidType) {
 			trace_error("Unsupported type", field_s(source_type));
-			s = StudioStatus(STUDIO_ERROR, "Unsupported type="+ std::to_string(type));
 		} else {
 			if(!show) {
 				trace_error("Show not found", field_s(show_id));
-				s = StudioStatus(STUDIO_SHOW_NOT_FOUND, "id="+ show_id);
 			} else {
 				Scene* scene = show->GetScene(scene_id);
 
 				if(!scene) {
 					trace_error("Scene not found", field_s(scene_id));
-					s = StudioStatus(STUDIO_SCENE_NOT_FOUND, "d="+ scene_id);
 				} else {
-					Source* source = scene->AddSource(source_name, type, source_url);
+					source = scene->AddSource(source_name, type, source_url);
 					if(!source) {
 						trace_error("Failed to add source", field_s(source_name));
-						s = StudioStatus(STUDIO_ERROR, "Failed to add source");
 					} else {
 						trace_info("Added source", field_s(show_id), field_s(scene_id), field_s(source_name), field_s(source_url));
 					}
@@ -533,19 +476,17 @@ StudioStatus Studio::SourceAdd(string show_id, string scene_id, string source_na
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return s;
+	return source;
 }
 
-StudioStatus Studio::SourceDuplicate(string show_id, string scene_id, string source_id) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Source* Studio::SourceDuplicate(string show_id, string scene_id, string source_id) {
+	Source* source = nullptr;
 
 	trace("SourceDuplicate");
 	mtx.lock();
@@ -554,18 +495,15 @@ StudioStatus Studio::SourceDuplicate(string show_id, string scene_id, string sou
 
 		if(!show) {
 			trace_error("Show not found id", field_s(show_id));
-			s = StudioStatus(STUDIO_SHOW_NOT_FOUND, "id="+ show_id);
 		} else {
 			Scene* scene = show->GetScene(scene_id);
 
 			if(!scene) {
 				trace_error("Scene not found id", field_s(scene_id));
-				s = StudioStatus(STUDIO_SCENE_NOT_FOUND, "d="+ scene_id);
 			} else {
-				Source* source = scene->DuplicateSource(source_id);
+				source = scene->DuplicateSource(source_id);
 				if(!source) {
 					trace_error("Failed to duplicate source", field_s(source_id));
-					s = StudioStatus(STUDIO_ERROR, "Failed to duplicate source id="+ source_id);
 				} else {
 					trace_info("Duplicated source", field_s(show_id), field_s(scene_id), field_s(source_id));
 				}
@@ -574,15 +512,13 @@ StudioStatus Studio::SourceDuplicate(string show_id, string scene_id, string sou
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return s;
+	return source;
 }
 
 StudioStatus Studio::SourceRemove(string show_id, string scene_id, string source_id) {

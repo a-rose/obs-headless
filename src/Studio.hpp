@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Show.hpp"
+#include <vector>
 #include <mutex>
 
 /**
@@ -74,14 +75,6 @@ public:
     // TODO update doc (params, replace all @return's with good doc)
 
 	/**
-	 * Returns the current Studio state (each show, scene and source)
-     * 
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::INTERNAL if an exception occured or a show is NULL
-	 */
-	StudioStatus GetStudio();
-
-	/**
 	 * Calls studioInit to start the studio.
 	 *
 	 * @note a show must be active (for example with ShowLoad)
@@ -103,6 +96,13 @@ public:
 	StudioStatus StudioStop();
 
 	// Show
+
+	// TODO doc
+	ShowMap GetShows();
+
+	// TODO doc
+	Show* GetActiveShow();
+
 	/**
 	 * Returns the state of a given show
 	 *
@@ -111,7 +111,7 @@ public:
 	 *               SHOW_NOT_FOUND if show_id is not found in the shows map
 	 *               StudioStatus::INTERNAL if an exception occured or a scene is NULL
 	 */
-	StudioStatus GetShow(string show_id);
+	Show* GetShow(string show_id);
 
 	/**
 	 * Creates a new empty show and adds it to the shows map.
@@ -119,7 +119,7 @@ public:
 	 * @return       StudioStatus::OK if successful
 	 *               StudioStatus::INTERNAL if an exception occured
 	 */
-	StudioStatus ShowCreate(string show_name);
+	Show* ShowCreate(string show_name);
 
 	/**
 	 * Creates a new show from an existing one and adds it to the shows map. It
@@ -129,7 +129,7 @@ public:
 	 * @return       StudioStatus::OK if successful
 	 *               StudioStatus::INTERNAL if an exception occured or the original show is not found
 	 */
-	StudioStatus ShowDuplicate(string show_id);
+	Show* ShowDuplicate(string show_id);
 
 	/**
 	 * Calls removeShow to remove a show.
@@ -150,7 +150,7 @@ public:
 	 * @return       StudioStatus::OK if successful
 	 *               StudioStatus::INTERNAL if an exception occured or the show failed to load
 	 */
-	StudioStatus ShowLoad(string show_path);
+	Show* ShowLoad(string show_path);
 
 	// Scene
 	/**
@@ -163,7 +163,7 @@ public:
 	 *               map or if scene_id is not found in show_id.
 	 *               StudioStatus::INTERNAL if an exception occured
 	 */
-	StudioStatus GetScene(string show_id, string scene_id);
+	Scene* GetScene(string show_id, string scene_id);
 
 	/**
 	 * Creates a new empty scene and adds it to the scenes map of a given show.
@@ -175,7 +175,7 @@ public:
 	 *               StudioStatus::INTERNAL if an exception occured or failed to
 	 *               add scene
 	 */
-	StudioStatus SceneAdd(string show_id, string scene_name);
+	Scene* SceneAdd(string show_id, string scene_name);
 
 	/**
 	 * Creates a new scene from an existing one and adds it to the scenes map of
@@ -190,7 +190,7 @@ public:
 	 *               StudioStatus::INTERNAL if an exception occured or the
 	 *               original scene is not found
 	 */
-	StudioStatus SceneDuplicate(string show_id, string scene_id);
+	Scene* SceneDuplicate(string show_id, string scene_id);
 
 	/**
 	 * Removes a given scene from a given show.
@@ -228,7 +228,7 @@ public:
 	 *               StudioStatus::NOT_FOUND if show_id is not found
 	 *               StudioStatus::INTERNAL if an exception occured or the active scene is NULL
 	 */
-	StudioStatus SceneGetCurrent(string show_id);
+	Scene* SceneGetCurrent(string show_id);
 
 	// Source
 	/**
@@ -242,7 +242,7 @@ public:
 	 *               is not found in scene_id
 	 *               StudioStatus::INTERNAL if an exception occured
 	 */
-	StudioStatus GetSource(string show_id, string scene_id, string source_id);
+	Source* GetSource(string show_id, string scene_id, string source_id);
 
 	/**
 	 * Creates a new empty source and adds it to the source map of a given scene
@@ -258,7 +258,7 @@ public:
 	 *               StudioStatus::INTERNAL if an exception occured or failed to
 	 *               add source
 	 */
-	StudioStatus SourceAdd(string show_id, string scene_id, string source_name, string source_type, string source_url);
+	Source* SourceAdd(string show_id, string scene_id, string source_name, string source_type, string source_url);
 
 	/**
 	 * Creates a new source from an existing one and adds it to the source map
@@ -273,7 +273,7 @@ public:
 	 *               StudioStatus::INTERNAL if an exception occured or the
 	 *               original source is not found
 	 */
-	StudioStatus SourceDuplicate(string show_id, string scene_id, string source_id);
+	Source* SourceDuplicate(string show_id, string scene_id, string source_id);
 
 	/**
 	 * Removes a given source from a given scene in a given show.
