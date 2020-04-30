@@ -22,6 +22,7 @@ link_directories("${OBS_INSTALL_PATH}/bin/64bit/")
 
 # Obs-headless
 add_definitions(-DOBS_HEADLESS_PATH="${PROJECT_SOURCE_DIR}/")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 file(GLOB_RECURSE obs_SOURCES "src/*.cpp")
 file(GLOB_RECURSE obs_HEADERS "src/*.hpp")
