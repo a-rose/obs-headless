@@ -5,7 +5,6 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
-#include <jansson.h>
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 #define TRACE_CONTEXT (std::string(__FILENAME__) + ":" + std::to_string(__LINE__) + " " + std::string(__func__) + "()")
