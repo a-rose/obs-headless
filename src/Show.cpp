@@ -18,18 +18,18 @@ Show::~Show() {
 	}
 }
 
-ShowStatus Show::Load(json_t* jsonShow) {
+grpc::Status Show::Load(json_t* jsonShow) {
 	json_t* jsonShowName = json_object_get(jsonShow, "name");
 
 	if(!jsonShowName) {
 		trace_error("Show name not found in json", field_s(id));
-		return ShowStatus(SHOW_NOT_FOUND, id);
+		return grpc::Status(grpc::INVALID_ARGUMENT, "Show name not found in config file");
 	}
 
 	const char* strShowName = json_string_value(jsonShowName);
 	if(!strShowName) {
 		trace_error("Can't read show name", field_s(id));
-		return ShowStatus(SHOW_NOT_FOUND, "Can't read show name: " + id);
+		return grpc::Status(grpc::INVALID_ARGUMENT, "Show name not found in config file");
 	}
 	name = std::string(strShowName);
 	trace_debug("Update show name", field_s(name));
@@ -37,7 +37,7 @@ ShowStatus Show::Load(json_t* jsonShow) {
 	json_t* jsonScenes = json_object_get(jsonShow, "scenes");
 	if(!jsonScenes) {
 		trace_error("Scenes not found in json", field_s(id));
-		return ShowStatus(SHOW_SCENE_NOT_FOUND, "scenes not found in config");
+		return grpc::Status(grpc::INVALID_ARGUMENT, "Scenes not found in config file");
 	}
 
 	size_t sceneIdx;
@@ -47,25 +47,25 @@ ShowStatus Show::Load(json_t* jsonShow) {
 		json_t* jsonSceneName = json_object_get(jsonScene, "name");
 		if(!jsonSceneName) {
 			trace_error("Scene name not found in json", field(sceneIdx));
-			return ShowStatus(SHOW_SCENE_NOT_FOUND, "Scene name not found in config file sceneIdx="+ std::to_string(sceneIdx));
+			return grpc::Status(grpc::INVALID_ARGUMENT, "Scene name not found in config file sceneIdx="+ std::to_string(sceneIdx));
 		}
 
 		const char* strSceneName = json_string_value(jsonSceneName);
 		if(!strSceneName) {
 			trace_error("Can't read scene name", field(sceneIdx));
-			return ShowStatus(SHOW_SCENE_NOT_FOUND, "Can't read scene name sceneIdx="+ std::to_string(sceneIdx));
+			return grpc::Status(grpc::INVALID_ARGUMENT, "Can't read scene name sceneIdx="+ std::to_string(sceneIdx));
 		}
 
 		Scene* scene = AddScene(std::string(strSceneName));
 		if(!scene) {
 			trace_error("Failed to add scene", field(sceneIdx), field_c(strSceneName));
-			return ShowStatus(SHOW_LIBOBS_ERROR, "Failed to add scene sceneIdx="+ std::to_string(sceneIdx));
+			return grpc::Status(grpc::INVALID_ARGUMENT, "Failed to add scene sceneIdx="+ std::to_string(sceneIdx));
 		}
 
 		json_t* jsonSources = json_object_get(jsonScene, "sources");
 		if(!jsonSources) {
 			trace_error("Sources not found in json", field(sceneIdx));
-			return ShowStatus(SHOW_SOURCE_NOT_FOUND, "Sources not found in config file sceneIdx="+ std::to_string(sceneIdx));
+			return grpc::Status(grpc::INVALID_ARGUMENT, "Sources not found in config file sceneIdx="+ std::to_string(sceneIdx));
 		}
 
 		size_t sourceIdx;
@@ -75,66 +75,68 @@ ShowStatus Show::Load(json_t* jsonShow) {
 			json_t* jsonSourceName = json_object_get(jsonSource, "name");
 			if(!jsonSourceName) {
 				trace_error("Source name not found in json", field(sceneIdx), field(sourceIdx));
-				return ShowStatus(SHOW_SOURCE_NOT_FOUND, "Source name not found in config file sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
+				return grpc::Status(grpc::INVALID_ARGUMENT, "Source name not found in config file sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
 			}
 
 			const char* strSourceName = json_string_value(jsonSourceName);
 			if(!strSourceName) {
 				trace_error("Can't read source name", field(sceneIdx), field(sourceIdx));
-				return ShowStatus(SHOW_SOURCE_NOT_FOUND, "Can't read source name sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
+				return grpc::Status(grpc::INVALID_ARGUMENT, "Can't read source name sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
 			}
 
 			json_t* jsonSourceUrl = json_object_get(jsonSource, "url");
 			if(!jsonSourceUrl) {
 				trace_error("Source url not found in json", field(sceneIdx), field(sourceIdx));
-				return ShowStatus(SHOW_SOURCE_NOT_FOUND, "Source url not found in config file sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
+				return grpc::Status(grpc::INVALID_ARGUMENT, "Source url not found in config file sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
 			}
 
 			const char* strSourceUrl = json_string_value(jsonSourceUrl);
 			if(!strSourceUrl) {
 				trace_error("Can't read source url", field(sceneIdx), field(sourceIdx));
-				return ShowStatus(SHOW_SOURCE_NOT_FOUND, "Can't read source url sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
+				return grpc::Status(grpc::INVALID_ARGUMENT, "Can't read source url sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
 			}
 
 			json_t* jsonSourceType = json_object_get(jsonSource, "type");
 			if(!jsonSourceType) {
 				trace_error("Source type not found in json", field(sceneIdx), field(sourceIdx));
-				return ShowStatus(SHOW_SOURCE_NOT_FOUND, "Source type not found in config file sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
+				return grpc::Status(grpc::INVALID_ARGUMENT, "Source type not found in config file sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
 			}
 
 			const char* strSourceType = json_string_value(jsonSourceType);
 			if(!strSourceType) {
 				trace_error("Can't read source type", field(sceneIdx), field(sourceIdx));
-				return ShowStatus(SHOW_SOURCE_NOT_FOUND, "Can't read source type sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
+				return grpc::Status(grpc::INVALID_ARGUMENT, "Can't read source type sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
 			}
 
 			SourceType type = StringToSourceType(std::string(strSourceType));
 			if(type == InvalidType) {
 				trace_error("Unsupported source type", field_c(strSourceType));
-				return ShowStatus(SHOW_SOURCE_NOT_FOUND, "Unsupported source type="+ std::string(strSourceType));
+				return grpc::Status(grpc::INVALID_ARGUMENT, "Unsupported source type="+ std::string(strSourceType));
 			}
 
 			Source* source = scene->AddSource(std::string(strSourceName), type, std::string(strSourceUrl));
 			if(!source) {
 				trace_error("Failed to add source", field(sceneIdx), field(sourceIdx));
-				return ShowStatus(SHOW_SOURCE_NOT_FOUND, "Failed to add source sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
+				return grpc::Status(grpc::INVALID_ARGUMENT, "Failed to add source sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
 			}
 		}
 	}
 
-	return ShowStatus(SHOW_OK);
+	return grpc::Status::OK;
 }
 
-ShowStatus Show::Start() {
+grpc::Status Show::Start() {
+	grpc::Status s;
+
 	if(started) {
 		trace_error("Show already started", field_s(id));
-		return ShowStatus(SHOW_ALREADY_STARTED, id);
+		return grpc::Status(grpc::FAILED_PRECONDITION, "Show already started");
 	}
 
-	SceneStatus s = active_scene->Start();
+	s = active_scene->Start();
 	if(!s.ok()) {
 		trace_error("Scene Start failed", error(s.error_message()));
-		return ShowStatus(SHOW_SCENE_NOT_FOUND, s.error_message());
+		return s;
 	}
 
 	// transition (contains the scene)
@@ -142,24 +144,26 @@ ShowStatus Show::Start() {
 	obs_transition = obs_source_create(settings->transition_type.c_str(), transition_name.c_str(), NULL, nullptr);
 	if (!obs_transition) {
 		trace_error("Error while creating obs_transition", field_s(id));
-		return ShowStatus(SHOW_LIBOBS_ERROR, "Error while creating obs_transition");
+		return grpc::Status(grpc::INTERNAL, "Error while creating obs_transition");
 	}
 	obs_transition_set(obs_transition, obs_scene_get_source(active_scene->GetScene()));
 
 	started = true;
-	return ShowStatus(SHOW_OK);
+	return grpc::Status::OK;
 }
 
-ShowStatus Show::Stop() {
+grpc::Status Show::Stop() {
+	grpc::Status s;
+
 	if(!started) {
 		trace_error("Show already stopped", field_s(id));
-		return ShowStatus(SHOW_ALREADY_STOPPED, id);
+		return grpc::Status(grpc::FAILED_PRECONDITION, "Show already stopped");
 	}
 
-	SceneStatus s = active_scene->Stop();
+	s = active_scene->Stop();
 	if(!s.ok()) {
 		trace_error("Scene Stop failed", error(s.error_message()));
-		return ShowStatus(SHOW_SCENE_NOT_FOUND, s.error_message());
+		return s;
 	}
 
 	trace_debug("clear and release obs_transition");
@@ -167,7 +171,7 @@ ShowStatus Show::Stop() {
 	obs_source_release(obs_transition);
 
 	started = false;
-	return ShowStatus(SHOW_OK);
+	return grpc::Status::OK;
 }
 
 Scene* Show::GetScene(std::string scene_id) {
@@ -231,15 +235,15 @@ Scene* Show::DuplicateScene(std::string scene_id) {
 	return DuplicateSceneFromShow(this, scene_id);
 }
 
-ShowStatus Show::RemoveScene(std::string scene_id) {
+grpc::Status Show::RemoveScene(std::string scene_id) {
 	SceneMap::iterator it = scenes.find(scene_id);
 	if(it == scenes.end()) {
 		trace_error("Scene not found", field_s(scene_id));
-		return ShowStatus(SHOW_SCENE_NOT_FOUND, "Scene not found id="+ scene_id);
+		return grpc::Status(grpc::NOT_FOUND, "Scene not found id="+ scene_id);
 	}
 	if(it->second == active_scene) {
 		trace_error("Scene is active", field_s(scene_id));
-		return ShowStatus(SHOW_SCENE_ACTIVE, "id="+ scene_id);
+		return grpc::Status(grpc::FAILED_PRECONDITION, "Scene is active id="+ scene_id);
 	}
 
 	trace_debug("Remove scene", field_s(scene_id));
@@ -247,26 +251,27 @@ ShowStatus Show::RemoveScene(std::string scene_id) {
 	delete it->second;
 	scenes.erase(it);
 
-	return ShowStatus(SHOW_OK);
+	return grpc::Status::OK;
 }
 
-ShowStatus Show::SwitchScene(std::string scene_id) {
+grpc::Status Show::SwitchScene(std::string scene_id) {
+	grpc::Status s;
 	Scene* next = GetScene(scene_id);
 	Scene* curr = active_scene;
 
 	if(!next) {
 		trace_error("Scene not found", field_s(scene_id));
-		return ShowStatus(SHOW_SCENE_NOT_FOUND, scene_id);
+		return grpc::Status(grpc::NOT_FOUND, "Scene id not found");
 	}
 	if(next == active_scene) {
 		trace_error("Scene already active", field_s(scene_id));
-		return ShowStatus(SHOW_SCENE_ACTIVE, scene_id);
+		return grpc::Status(grpc::INVALID_ARGUMENT, "scene is already active");
 	}
 
-	SceneStatus s = next->Start();
+	s = next->Start();
 	if(!s.ok()) {
 		trace_error("Scene Start failed", error(s.error_message()));
-		return ShowStatus(SHOW_SCENE_NOT_FOUND, s.error_message());
+		return s;
 	}
 
 	trace_debug("start transition");
@@ -279,7 +284,7 @@ ShowStatus Show::SwitchScene(std::string scene_id) {
 
 	if(ret != true) {
 		trace_error("obs_transition_start failed", field_s(id));
-		return ShowStatus(SHOW_LIBOBS_ERROR, "obs_transition_start failed");
+		return grpc::Status(grpc::INTERNAL, "obs_transition_start failed");
 	}
 
 	trace_debug("transition finished");
@@ -289,8 +294,33 @@ ShowStatus Show::SwitchScene(std::string scene_id) {
 	s = prev->Stop();
 	if(!s.ok()) {
 		trace_error("Scene Stop failed", error(s.error_message()));
-		return ShowStatus(SHOW_SCENE_NOT_FOUND, s.error_message());
+		return s;
 	}
 
-	return ShowStatus(SHOW_OK);
+	return grpc::Status::OK;
+}
+
+grpc::Status Show::UpdateProto(proto::Show* proto_show) {
+	proto_show->Clear();
+	proto_show->set_id(id);
+
+	if(active_scene) {
+		proto_show->set_active_scene_id(active_scene->Id());
+	} else {
+		proto_show->set_active_scene_id("");
+	}
+
+	SceneMap::iterator it;
+	for (auto it = scenes.begin(); it != scenes.end(); it++) {
+		Scene* scene = it->second;
+		proto::Scene* proto_scene = proto_show->add_scenes();
+
+		grpc::Status s = scene->UpdateProto(proto_scene);
+		if(!s.ok()) {
+			trace_error("Failed to update scene proto", field_ns("id", scene->Id()), field_ns("name", scene->Name()));
+			return s;
+		}
+	}
+
+	return grpc::Status::OK;
 }

@@ -1,0 +1,287 @@
+syntax = "proto3";
+
+// Representation
+//
+// Studio
+// ├── Show "DefaultShow"
+// │   └── Scene "FirstScene" (current)
+// │       └── Source "First-First"
+// │   └── Scene "SecondScene"
+// │       └── Source "Second-First"
+//
+// Call sequence
+// Studio.ShowLoad("DefaultShow")
+//  Studio.SceneAdd("DefaultShow", "FirstScene")
+//  Studio.SceneAdd("DefaultShow", "SecondScene")
+//  Studio.SceneSetCurrent("DefaultShow", "FirstScene")
+//   Studio.SourceSetProperties("DefaultShow", "FirstScene","First-First", map[url]=rtmp://)
+//   Studio.SourceSetProperties("DefaultShow", "SecondScene","Second-First", map[url]=rtmp://)
+// Studio.Start()
+//  Studio.SceneSetCurrent("DefaultShow", "SecondScene")
+//  Studio.SceneSetCurrent("DefaultShow", "FirstScene")
+//   Studio.SourceSetProperties("DefaultShow", "SecondScene", "Second-First", map[url]=rtmp://)
+//  Studio.SceneSetCurrent("DefaultShow", "SecondScene")
+
+package proto;
+
+import "google/protobuf/empty.proto";
+// import "google/protobuf/timestamp.proto";
+
+//////////////
+// SERVICES //
+//////////////
+
+// Studio contains all the available studio procedures
+service Studio {
+    // Studio
+    rpc StudioGet(google.protobuf.Empty) returns (StudioGetResponse);
+    rpc StudioStart(google.protobuf.Empty) returns (google.protobuf.Empty);
+    rpc StudioStop(google.protobuf.Empty) returns (google.protobuf.Empty);
+
+    // Show
+    rpc ShowGet(ShowGetRequest) returns (ShowGetResponse);
+    rpc ShowCreate(ShowCreateRequest) returns (ShowCreateResponse);
+    rpc ShowDuplicate(ShowDuplicateRequest) returns (ShowDuplicateResponse);
+    rpc ShowRemove(ShowRemoveRequest) returns (google.protobuf.Empty);
+    rpc ShowLoad(ShowLoadRequest) returns (ShowLoadResponse);
+
+    // Scene
+    rpc SceneGet(SceneGetRequest) returns (SceneGetResponse);
+    rpc SceneAdd(SceneAddRequest) returns (SceneAddResponse);
+    rpc SceneDuplicate(SceneDuplicateRequest) returns (SceneDuplicateResponse);
+    rpc SceneRemove(SceneRemoveRequest) returns (google.protobuf.Empty);
+    rpc SceneSetAsCurrent(SceneSetAsCurrentRequest) returns (SceneSetAsCurrentResponse);
+    rpc SceneGetCurrent(SceneGetCurrentRequest) returns (SceneGetCurrentResponse);
+
+    // Source
+    rpc SourceGet(SourceGetRequest) returns (SourceGetResponse);
+    rpc SourceAdd(SourceAddRequest) returns (SourceAddResponse);
+    rpc SourceDuplicate(SourceDuplicateRequest) returns (SourceDuplicateResponse);
+    rpc SourceRemove(SourceRemoveRequest) returns (google.protobuf.Empty);
+    rpc SourceSetProperties(SourceSetPropertiesRequest) returns (SourceSetPropertiesResponse);
+
+    rpc Health(google.protobuf.Empty) returns (HealthResponse);
+}
+
+////////////
+// MODELS //
+////////////
+
+// Studio represents the whole studio, containing all shows
+message StudioState {
+    string active_show_id = 1;
+    repeated Show shows = 2;
+    // TODO add init state, settings, output...
+}
+
+// Show represents a show (root of tree)
+message Show {
+    string id = 1;
+    string name = 2;
+    string active_scene_id = 3;
+    repeated Scene scenes = 4;
+}
+
+// Scene represents a scene of a show that contain sources
+message Scene {
+    string id = 1;
+    string name = 2;
+    string active_source_id = 3;
+    repeated Source sources = 4;
+}
+
+// Source represents a source of a scene
+message Source {
+    string id = 1;
+    string name = 2;
+    string type = 3;
+    string url = 4;
+}
+
+//////////////
+// REQUESTS //
+//////////////
+
+// ShowGetRequest represents a show get request
+message ShowGetRequest {
+    string show_id = 1;
+}
+
+// ShowCreateRequest represents a show create request
+message ShowCreateRequest {
+    string show_name = 1;
+}
+
+// ShowDuplicateRequest represents a show duplicate request
+message ShowDuplicateRequest {
+    string show_id = 1;
+}
+
+// ShowRemoveRequest represents a show remove request
+message ShowRemoveRequest {
+    string show_id = 1;
+}
+
+// ShowLoadRequest represents a show load request
+message ShowLoadRequest {
+    string show_path = 1;
+}
+
+// SceneGetRequest represents a scene get request
+message SceneGetRequest {
+    string show_id = 1;
+    string scene_id = 2;
+}
+
+// SceneAddRequest represents a scene add request
+message SceneAddRequest {
+    string show_id = 1;
+    string scene_name = 2;
+}
+
+// SceneDuplicateRequest represents a scene duplicate request
+message SceneDuplicateRequest {
+    string show_id = 1;
+    string scene_id = 2;
+}
+
+// SceneRemoveRequest represents a scene remove request
+message SceneRemoveRequest {
+    string show_id = 1;
+    string scene_id = 2;
+}
+
+// SceneSetAsCurrentRequest represents a set current scene request
+message SceneSetAsCurrentRequest {
+    string show_id = 1;
+    string scene_id = 2;
+}
+
+// SceneGetCurrentRequest represents a get current scene request
+message SceneGetCurrentRequest {
+    string show_id = 1;
+}
+
+// SourceGetRequest represents a source get request
+message SourceGetRequest {
+    string show_id = 1;
+    string scene_id = 2;
+    string source_id = 3;
+}
+
+// SourceAddRequest represents a request to create a source
+message SourceAddRequest {
+    string show_id = 1;
+    string scene_id = 2;
+    string source_name = 3;
+    string source_type = 4;
+    string source_url = 5;
+}
+
+// SourceDuplicateRequest represents a request to duplicate a source
+message SourceDuplicateRequest {
+    string show_id = 1;
+    string scene_id = 2;
+    string source_id = 3;
+}
+
+// SourceRemoveRequest represents a request to create a source
+message SourceRemoveRequest {
+    string show_id = 1;
+    string scene_id = 2;
+    string source_id = 3;
+}
+
+// SourceSetPropertiesRequest represents a set properties request
+message SourceSetPropertiesRequest {
+    string show_id = 1;
+    string scene_id = 2;
+    string source_id = 3;
+    string source_type = 4;
+    string source_url = 5;
+}
+
+///////////////
+// RESPONSES //
+///////////////
+
+// StudioGetResponse represents a studio get response
+message StudioGetResponse {
+    StudioState studio = 1;
+}
+
+// ShowGetResponse represents a show get response
+message ShowGetResponse {
+    Show show = 1;
+}
+
+// ShowCreateResponse represents a show create response
+message ShowCreateResponse {
+    Show show = 1;
+}
+
+// ShowDuplicateResponse represents a show duplicate response
+message ShowDuplicateResponse {
+    Show show = 1;
+}
+
+// ShowLoadResponse represents a show load response
+message ShowLoadResponse {
+    Show show = 1;
+}
+
+// ShowSwitchSourceResponse represents a show switch source response
+message ShowSwitchSourceResponse {
+    Show show = 1;
+}
+
+// SceneGetResponse represents a scene get response
+message SceneGetResponse {
+    Scene scene = 1;
+}
+
+// SceneAddResponse represents a scene add response
+message SceneAddResponse {
+    Scene scene = 1;
+}
+
+// SceneDuplicateResponse represents a scene duplicate response
+message SceneDuplicateResponse {
+    Scene scene = 1;
+}
+
+// SceneSetAsCurrentResponse represents a set current scene response
+message SceneSetAsCurrentResponse {
+    Show show = 1;
+}
+
+// SceneGetCurrentResponse represents a get current scene response
+message SceneGetCurrentResponse {
+    string scene_id = 2;
+}
+
+// SourceGetResponse represents a source get response
+message SourceGetResponse {
+    Source source = 1;
+}
+
+// SourceAddResponse represents a source add response
+message SourceAddResponse {
+    Source source = 1;
+}
+
+// SourceDuplicateResponse represents a source duplicate response
+message SourceDuplicateResponse {
+    Source source = 1;
+}
+
+// SourceSetPropertiesResponse represents a set properties response
+message SourceSetPropertiesResponse {
+    Source source = 1;
+}
+
+// HealthResponse represents a show load response
+message HealthResponse {
+    // google.protobuf.Timestamp timestamp = 1;
+    int64 timestamp = 1;
+}

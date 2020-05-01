@@ -25,15 +25,58 @@ Studio::~Studio() {
 // STUDIO                            //
 ///////////////////////////////////////
 
-StudioStatus Studio::StudioStart() {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Status Studio::StudioGet(ServerContext* ctx, const Empty* req, proto::StudioGetResponse* rep) {
+	Status s = Status::OK;
+
+	trace("Studio (get)");
+	mtx.lock();
+	try {
+		proto::StudioState* proto_studio = rep->mutable_studio();
+
+		if(active_show) {
+			proto_studio->set_active_show_id(active_show->Id());
+		} else {
+			proto_studio->set_active_show_id("");
+		}
+
+		ShowMap::iterator it;
+		for (it = shows.begin(); it != shows.end(); it++) {
+			Show* show = it->second;
+			proto::Show* proto_show = proto_studio->add_shows();
+			if(show) {
+				s = show->UpdateProto(proto_show);
+				if(!s.ok()) {
+					trace_error("Failed to update show proto", field_ns("id", show->Id()), field_ns("name", show->Name()));
+					break;
+				}
+			} else {
+				trace_error("NULL show", field_ns("id", it->first));
+				s = Status(grpc::INTERNAL, "NULL show with id="+ it->first);
+			}
+		}
+	}
+	catch(string e) {
+		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
+	}
+	catch(...) {
+		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
+	}
+	mtx.unlock();
+
+	return s;
+}
+
+Status Studio::StudioStart(ServerContext* ctx, const Empty* req, Empty* rep) {
+	Status s = Status::OK;
 
 	trace("StudioStart");
 	mtx.lock();
 	try {
 		if(!active_show) {
-			s = StudioStatus(STUDIO_SHOW_NOT_FOUND, "No active show");
-				trace_error("No active show");
+			s = Status(grpc::FAILED_PRECONDITION, "No active show");
+			trace_error("No active show");
 		} else {
 			s = studioInit();
 			if(!s.ok()) {
@@ -45,19 +88,19 @@ StudioStatus Studio::StudioStart() {
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
+		s = Status(grpc::INTERNAL, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
 	return s;
 }
 
-StudioStatus Studio::StudioStop() {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Status Studio::StudioStop(ServerContext* ctx, const Empty* req, Empty* rep) {
+	Status s = Status::OK;
 
 	trace("StudioStop");
 	mtx.lock();
@@ -71,11 +114,11 @@ StudioStatus Studio::StudioStop() {
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
+		s = Status(grpc::INTERNAL, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
@@ -86,90 +129,103 @@ StudioStatus Studio::StudioStop() {
 // SHOW                              //
 ///////////////////////////////////////
 
-ShowMap Studio::GetShows() {
-	return shows;
-}
-
-Show* Studio::GetActiveShow() {
-	return active_show;
-}
-
-Show* Studio::GetShow(string show_id) {
-	Show* show = nullptr;
+Status Studio::ShowGet(ServerContext* ctx, const proto::ShowGetRequest* req, proto::ShowGetResponse* rep) {
+	Status s = Status::OK;
 
 	trace("Show (get)");
 	mtx.lock();
 	try {
-		show = getShow(show_id);
-		if(!show) {
+		string show_id = req->show_id();
+
+		Show* show = getShow(show_id);
+		if(show) {
+			proto::Show* proto_show = rep->mutable_show();
+			s = show->UpdateProto(proto_show);
+		} else {
 			trace_error("Show not found", field_s(show_id));
+			s = Status(grpc::NOT_FOUND, "Show not found: id="+ show_id);
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return show;
+	return s;
 }
 
-Show* Studio::ShowCreate(string show_name) {
-	Show* show = nullptr;
+Status Studio::ShowCreate(ServerContext* ctx, const proto::ShowCreateRequest* req, proto::ShowCreateResponse* rep) {
+	Status s = Status::OK;
 
 	trace("ShowCreate");
 	mtx.lock();
 	try {
-		show = addShow(show_name);
+		string show_name = req->show_name();
+		Show* show = addShow(show_name);
 		if(!show) {
 			trace_error("Failed to create show");
+			s = Status(grpc::INTERNAL, "Failed to create show");
 		} else {
+			proto::Show* proto_show = rep->mutable_show();
+			s = show->UpdateProto(proto_show);
 			trace_info("Created show", field_s(show_name));
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return show;
+	return s;
 }
 
-Show* Studio::ShowDuplicate(string show_id) {
-	Show* show = nullptr;
+Status Studio::ShowDuplicate(ServerContext* ctx, const proto::ShowDuplicateRequest* req, proto::ShowDuplicateResponse* rep) {
+	Status s = Status::OK;
 
 	trace("ShowDuplicate");
 	mtx.lock();
 	try {
-		show = duplicateShow(show_id);
+		string show_id = req->show_id();
+		Show* show = duplicateShow(show_id);
 		if(!show) {
 			trace_error("Failed to duplicate show");
+			s = Status(grpc::INTERNAL, "Failed to duplicate show");
 		} else {
+			proto::Show* proto_show = rep->mutable_show();
+			s = show->UpdateProto(proto_show);
 			trace_info("Duplicated show", field_s(show_id));
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return show;
+	return s;
 }
 
-StudioStatus Studio::ShowRemove(string show_id) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Status Studio::ShowRemove(ServerContext* ctx, const proto::ShowRemoveRequest* req, Empty* rep) {
+	Status s = Status::OK;
 
 	trace("ShowRemove");
 	mtx.lock();
 	try {
+		string show_id = req->show_id();
 		s = removeShow(show_id);
 		if(!s.ok()) {
 			trace_error("Error during removeShow", error(s.error_message()));
@@ -179,241 +235,60 @@ StudioStatus Studio::ShowRemove(string show_id) {
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
+		s = Status(grpc::INTERNAL, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
 	return s;
 }
-Show* Studio::ShowLoad(string show_path) {
-	Show* show = nullptr;
+
+Status Studio::ShowLoad(ServerContext* ctx, const proto::ShowLoadRequest* req, proto::ShowLoadResponse* rep) {
+	Status s = Status::OK;
 
 	trace("ShowLoad");
 	mtx.lock();
 	try {
-		show = loadShow(show_path);
+		string show_path = req->show_path();
+		Show* show = loadShow(show_path);
 
 		if(!show) {
 			trace_error("Failed to load show", field_s(show_path));
+			s = Status(grpc::INTERNAL, "Failed to load show");
 		} else {
+			proto::Show* proto_show = rep->mutable_show();
+			s = show->UpdateProto(proto_show);
 			trace_info("Loaded show", field_s(show_path));
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return show;
+	return s;
 }
 
 ///////////////////////////////////////
 // SCENE                             //
 ///////////////////////////////////////
 
-Scene* Studio::GetScene(string show_id, string scene_id) {
-	Scene* scene = nullptr;
+Status Studio::SceneGet(ServerContext* ctx, const proto::SceneGetRequest* req, proto::SceneGetResponse* rep) {
+	Status s = Status::OK;
 
 	trace("Scene (get)");
 	mtx.lock();
 	try {
-		Show* show = getShow(show_id);
-
-		if(show) {
-			scene = show->GetScene(scene_id);
-
-			if(!scene) {
-				trace_error("Scene not found", field_s(scene_id));
-			}
-		} else {
-			trace_error("Show not found", field_s(show_id));
-		}
-	}
-	catch(string e) {
-		trace_error("An exception occured", error(e));
-	}
-	catch(...) {
-		trace_error("An uncaught exception occured !");
-	}
-	mtx.unlock();
-
-	return scene;
-}
-
-Scene* Studio::SceneAdd(string show_id, string scene_name) {
-	Scene* scene = nullptr;
-
-	trace("SceneAdd");
-	mtx.lock();
-	try {
-		Show* show = getShow(show_id);
-
-		if(show) {
-			scene = show->AddScene(scene_name);
-			if(!scene) {
-				trace_error("Failed to add scene", field_s(scene_name));
-			} else {
-				trace_info("Added scene", field_s(show_id), field_s(scene_name));
-			}
-		} else {
-			trace_error("Show not found", field_s(show_id));
-		}
-	}
-	catch(string e) {
-		trace_error("An exception occured", error(e));
-	}
-	catch(...) {
-		trace_error("An uncaught exception occured !");
-	}
-	mtx.unlock();
-
-	return scene;
-}
-
-Scene* Studio::SceneDuplicate(string show_id, string scene_id) {
-	Scene* scene = nullptr;
-
-	trace("SceneDuplicate");
-	mtx.lock();
-	try {
-		Show* show = getShow(show_id);
-
-		if(show) {
-			scene = show->DuplicateScene(scene_id);
-			if(!scene) {
-				trace_error("Failed to duplicate scene", field_s(scene_id));
-			} else {
-				trace_info("Duplicated scene", field_s(show_id), field_s(scene_id));
-			}
-		} else {
-			trace_error("Show not found", field_s(show_id));
-		}
-	}
-	catch(string e) {
-		trace_error("An exception occured", error(e));
-	}
-	catch(...) {
-		trace_error("An uncaught exception occured !");
-	}
-	mtx.unlock();
-
-	return scene;
-}
-
-StudioStatus Studio::SceneRemove(string show_id, string scene_id) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
-
-	trace("SceneRemove");
-	mtx.lock();
-	try {
-		Show* show = getShow(show_id);
-
-		if(!show) {
-			trace_error("Show not found", field_s(show_id));
-			s = StudioStatus(STUDIO_SHOW_NOT_FOUND, "id="+ show_id);
-		} else {
-			ShowStatus sh = show->RemoveScene(scene_id);
-			if(!sh.ok()) {
-				trace_error("Error in RemoveScene", field_s(show_id), field_s(scene_id));
-				s = StudioStatus(STUDIO_ERROR, s.error_message());
-			} else {
-				trace_info("Removed scene", field_s(show_id), field_s(scene_id));
-			}
-		}
-	}
-	catch(string e) {
-		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
-	}
-	catch(...) {
-		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
-	}
-	mtx.unlock();
-
-	return s;
-}
-
-StudioStatus Studio::SceneSetAsCurrent(string show_id, string scene_id) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
-
-	trace("SceneSetAsCurrent");
-	mtx.lock();
-	try {
-		Show* show = getShow(show_id);
-
-		if(show) {
-			ShowStatus sh = show->SwitchScene(scene_id);
-			if(sh.ok()) {
-				trace_info("Scene set as current", field_s(show_id), field_s(scene_id));
-			} else {
-				s = StudioStatus(STUDIO_ERROR, sh.error_message());
-			}
-		} else {
-			trace_error("Show not found", field_s(show_id));
-			s = StudioStatus(STUDIO_SHOW_NOT_FOUND, "id="+ show_id);
-		}
-	}
-	catch(string e) {
-		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
-	}
-	catch(...) {
-		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
-	}
-	mtx.unlock();
-
-	return s;
-}
-
-Scene* Studio::SceneGetCurrent(string show_id) {
-	Scene* scene = nullptr;
-
-	trace("SceneGetCurrent");
-	mtx.lock();
-	try {
-		Show* show = getShow(show_id);
-
-		if(!show) {
-			trace_error("Show not found", field_s(show_id));
-		} else {
-			scene = show->ActiveScene();
-			if(!scene) {
-				trace_error("null active scene in show", field_s(show_id));
-			} else {
-				// TODO trace
-			}
-		}
-	}
-	catch(string e) {
-		trace_error("An exception occured", error(e));
-	}
-	catch(...) {
-		trace_error("An uncaught exception occured !");
-	}
-	mtx.unlock();
-
-	return scene;
-}
-
-///////////////////////////////////////
-// SOURCE                            //
-///////////////////////////////////////
-
-Source* Studio::GetSource(string show_id, string scene_id, string source_id) {
-	Source* source = nullptr;
-
-	trace("Source (get)");
-	mtx.lock();
-	try {
+		string show_id = req->show_id();
+		string scene_id = req->scene_id();
 		Show* show = getShow(show_id);
 
 		if(show) {
@@ -421,53 +296,295 @@ Source* Studio::GetSource(string show_id, string scene_id, string source_id) {
 
 			if(!scene) {
 				trace_error("Scene not found", field_s(scene_id));
+				s = Status(grpc::NOT_FOUND, "Scene not found: id="+ scene_id);
 			} else {
-				source = scene->GetSource(source_id);
-				if(!source) {
-					trace_error("Source not found", field_s(source_id));
-				} else {
-					// TODO trace
-				}
+				proto::Scene* proto_scene = rep->mutable_scene();
+				s = scene->UpdateProto(proto_scene);
 			}
 		} else {
 			trace_error("Show not found", field_s(show_id));
+			s = Status(grpc::NOT_FOUND,"Show not found: id="+ show_id);
 		}
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return source;
+	return s;
 }
 
-Source* Studio::SourceAdd(string show_id, string scene_id, string source_name, string source_type, string source_url) {
-	Source* source = nullptr;
+Status Studio::SceneAdd(ServerContext* ctx, const proto::SceneAddRequest* req, proto::SceneAddResponse* rep) {
+	Status s = Status::OK;
+
+	trace("SceneAdd");
+	mtx.lock();
+	try {
+		string show_id = req->show_id();
+		string scene_name = req->scene_name();
+		Show* show = getShow(show_id);
+
+		if(show) {
+			Scene* scene = show->AddScene(scene_name);
+			if(!scene) {
+				trace_error("Failed to add scene", field_s(scene_name));
+				s = Status(grpc::INTERNAL, "Failed to add scene");
+			} else {
+				proto::Scene* proto_scene = rep->mutable_scene();
+				s = scene->UpdateProto(proto_scene);
+				trace_info("Added scene", field_s(show_id), field_s(scene_name));
+			}
+		} else {
+			trace_error("Show not found", field_s(show_id));
+			s = Status(grpc::NOT_FOUND,"Show not found: id="+ show_id);
+		}
+	}
+	catch(string e) {
+		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
+	}
+	catch(...) {
+		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
+	}
+	mtx.unlock();
+
+	return s;
+}
+
+Status Studio::SceneDuplicate(ServerContext* ctx, const proto::SceneDuplicateRequest* req, proto::SceneDuplicateResponse* rep) {
+	Status s = Status::OK;
+
+	trace("SceneDuplicate");
+	mtx.lock();
+	try {
+		string show_id = req->show_id();
+		string scene_id = req->scene_id();
+		Show* show = getShow(show_id);
+
+		if(show) {
+			Scene* new_scene = show->DuplicateScene(scene_id);
+			if(!new_scene) {
+				trace_error("Failed to duplicate scene", field_s(scene_id));
+				s = Status(grpc::INTERNAL, "Failed to duplicate scene");
+			} else {
+				proto::Scene* proto_scene = rep->mutable_scene();
+				s = new_scene->UpdateProto(proto_scene);
+				trace_info("Duplicated scene", field_s(show_id), field_s(scene_id));
+			}
+		} else {
+			trace_error("Show not found", field_s(show_id));
+			s = Status(grpc::NOT_FOUND,"Show not found: id="+ show_id);
+		}
+	}
+	catch(string e) {
+		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
+	}
+	catch(...) {
+		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
+	}
+	mtx.unlock();
+
+	return s;
+}
+
+Status Studio::SceneRemove(ServerContext* ctx, const proto::SceneRemoveRequest* req, Empty* rep) {
+	Status s = Status::OK;
+
+	trace("SceneRemove");
+	mtx.lock();
+	try {
+		string show_id = req->show_id();
+		string scene_id = req->scene_id();
+		Show* show = getShow(show_id);
+
+		if(!show) {
+			trace_error("Show not found", field_s(show_id));
+			s = Status(grpc::NOT_FOUND, "Show not found id="+ show_id);
+		} else {
+			s = show->RemoveScene(scene_id);
+			if(!s.ok()) {
+				trace_error("Error in RemoveScene", field_s(show_id), field_s(scene_id));
+			} else {
+				trace_info("Removed scene", field_s(show_id), field_s(scene_id));
+			}
+		}
+	}
+	catch(string e) {
+		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
+	}
+	catch(...) {
+		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
+	}
+	mtx.unlock();
+
+	return s;
+}
+
+Status Studio::SceneSetAsCurrent(ServerContext* ctx, const proto::SceneSetAsCurrentRequest* req, proto::SceneSetAsCurrentResponse* rep) {
+	Status s = Status::OK;
+
+	trace("SceneSetAsCurrent");
+	mtx.lock();
+	try {
+		string show_id = req->show_id();
+		string scene_id = req->scene_id();
+		Show* show = getShow(show_id);
+
+		if(show) {
+			s = show->SwitchScene(scene_id);
+			if(s.ok()) {
+				proto::Show* proto_show = rep->mutable_show();
+				s = show->UpdateProto(proto_show);
+				trace_info("Scene set as current", field_s(show_id), field_s(scene_id));
+			}
+		} else {
+			trace_error("Show not found", field_s(show_id));
+			s = Status(grpc::NOT_FOUND,"Show not found: id="+ show_id);
+		}
+	}
+	catch(string e) {
+		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
+	}
+	catch(...) {
+		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
+	}
+	mtx.unlock();
+
+	return s;
+}
+
+Status Studio::SceneGetCurrent(ServerContext* ctx, const proto::SceneGetCurrentRequest* req, proto::SceneGetCurrentResponse* rep) {
+	Status s = Status::OK;
+
+	trace("SceneGetCurrent");
+	mtx.lock();
+	try {
+		string show_id = req->show_id();
+		Show* show = getShow(show_id);
+
+		if(!show) {
+			trace_error("Show not found", field_s(show_id));
+			s = Status(grpc::NOT_FOUND, "Show not found id="+ show_id);
+		} else {
+			Scene* active_scene = show->ActiveScene();
+			if(!active_scene) {
+				trace_error("null active scene in show", field_s(show_id));
+				s = Status(grpc::INTERNAL, "null active scene in show id=", show_id);
+			} else {
+				rep->set_scene_id(active_scene->Id());
+			}
+		}
+	}
+	catch(string e) {
+		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
+	}
+	catch(...) {
+		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
+	}
+	mtx.unlock();
+
+	return s;
+}
+
+///////////////////////////////////////
+// SOURCE                            //
+///////////////////////////////////////
+
+Status Studio::SourceGet(ServerContext* ctx, const proto::SourceGetRequest* req, proto::SourceGetResponse* rep) {
+	Status s = Status::OK;
+
+	trace("Source (get)");
+	mtx.lock();
+	try {
+		string show_id = req->show_id();
+		string scene_id = req->scene_id();
+		string source_id = req->source_id();
+		Show* show = getShow(show_id);
+
+		if(show) {
+			Scene* scene = show->GetScene(scene_id);
+
+			if(!scene) {
+				trace_error("Scene not found", field_s(scene_id));
+				s = Status(grpc::NOT_FOUND, "Scene not found: id="+ scene_id);
+			} else {
+				Source* source = scene->GetSource(source_id);
+				if(!source) {
+					trace_error("Source not found", field_s(source_id));
+					s = Status(grpc::NOT_FOUND, "Source not found: id="+ source_id);
+				} else {
+					proto::Source* proto_source = rep->mutable_source();
+					s = source->UpdateProto(proto_source);
+				}
+			}
+		} else {
+			trace_error("Show not found", field_s(show_id));
+			s = Status(grpc::NOT_FOUND, "Show not found: id="+ show_id);
+		}
+	}
+	catch(string e) {
+		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
+	}
+	catch(...) {
+		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
+	}
+	mtx.unlock();
+
+	return s;
+}
+
+Status Studio::SourceAdd(ServerContext* ctx, const proto::SourceAddRequest* req, proto::SourceAddResponse* rep) {
+	Status s = Status::OK;
 
 	trace("SourceAdd");
 	mtx.lock();
 	try {
+		string show_id = req->show_id();
+		string scene_id = req->scene_id();
+		string source_name = req->source_name();
+		string source_type = req->source_type();
+		string source_url = req->source_url();
 		Show* show = getShow(show_id);
+
 		SourceType type = StringToSourceType(source_type);
 
 		if(type == InvalidType) {
 			trace_error("Unsupported type", field_s(source_type));
+			s = grpc::Status(grpc::INVALID_ARGUMENT, "Unsupported type="+ type);
 		} else {
 			if(!show) {
 				trace_error("Show not found", field_s(show_id));
+				s = Status(grpc::NOT_FOUND, "Show not found id="+ show_id);
 			} else {
 				Scene* scene = show->GetScene(scene_id);
 
 				if(!scene) {
 					trace_error("Scene not found", field_s(scene_id));
+					s = Status(grpc::NOT_FOUND, "Scene not found id="+ scene_id);
 				} else {
-					source = scene->AddSource(source_name, type, source_url);
+					Source* source = scene->AddSource(source_name, type, source_url);
 					if(!source) {
 						trace_error("Failed to add source", field_s(source_name));
+						s = Status(grpc::INTERNAL, "Failed to add source");
 					} else {
+						proto::Source* proto_source = rep->mutable_source();
+						s = source->UpdateProto(proto_source);
 						trace_info("Added source", field_s(show_id), field_s(scene_id), field_s(source_name), field_s(source_url));
 					}
 				}
@@ -476,35 +593,45 @@ Source* Studio::SourceAdd(string show_id, string scene_id, string source_name, s
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return source;
+	return s;
 }
 
-Source* Studio::SourceDuplicate(string show_id, string scene_id, string source_id) {
-	Source* source = nullptr;
+Status Studio::SourceDuplicate(ServerContext* ctx, const proto::SourceDuplicateRequest* req, proto::SourceDuplicateResponse* rep) {
+	Status s = Status::OK;
 
 	trace("SourceDuplicate");
 	mtx.lock();
 	try {
+		string show_id = req->show_id();
+		string scene_id = req->scene_id();
+		string source_id = req->source_id();
 		Show* show = getShow(show_id);
 
 		if(!show) {
 			trace_error("Show not found id", field_s(show_id));
+			s = Status(grpc::NOT_FOUND, "Show not found id="+ show_id);
 		} else {
 			Scene* scene = show->GetScene(scene_id);
 
 			if(!scene) {
 				trace_error("Scene not found id", field_s(scene_id));
+				s = Status(grpc::NOT_FOUND, "Scene not found id="+ scene_id);
 			} else {
-				source = scene->DuplicateSource(source_id);
+				Source* source = scene->DuplicateSource(source_id);
 				if(!source) {
 					trace_error("Failed to duplicate source", field_s(source_id));
+					s = Status(grpc::INTERNAL, "Failed to duplicate source id="+ source_id);
 				} else {
+					proto::Source* proto_source = rep->mutable_source();
+					s = source->UpdateProto(proto_source);
 					trace_info("Duplicated source", field_s(show_id), field_s(scene_id), field_s(source_id));
 				}
 			}
@@ -512,37 +639,41 @@ Source* Studio::SourceDuplicate(string show_id, string scene_id, string source_i
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
+		s = Status(grpc::INTERNAL, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
-	return source;
+	return s;
 }
 
-StudioStatus Studio::SourceRemove(string show_id, string scene_id, string source_id) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Status Studio::SourceRemove(ServerContext* ctx, const proto::SourceRemoveRequest* req, Empty* rep) {
+	Status s = Status::OK;
 
 	trace("SourceRemove");
 	mtx.lock();
 	try {
+		string show_id = req->show_id();
+		string scene_id = req->scene_id();
+		string source_id = req->source_id();
 		Show* show = getShow(show_id);
 
 		if(!show) {
 			trace_error("Show not found", field_s(show_id));
-			s = StudioStatus(STUDIO_SHOW_NOT_FOUND, "id="+ show_id);
+			s = Status(grpc::NOT_FOUND, "Show not found id="+ show_id);
 		} else {
 			Scene* scene = show->GetScene(scene_id);
 
 			if(!scene) {
 				trace_error("Scene not found", field_s(scene_id));
-				s = StudioStatus(STUDIO_SCENE_NOT_FOUND, std::string("d="+ scene_id));
+				s = Status(grpc::NOT_FOUND, "Scene not found id="+ scene_id);
 			} else {
-				SceneStatus sc = scene->RemoveSource(source_id);
-				if(!sc.ok()) {
+				s = scene->RemoveSource(source_id);
+				if(!s.ok()) {
 					trace_error("Error in RemoveSource", field_s(show_id), field_s(scene_id), field_s(source_id))
-					s = StudioStatus(STUDIO_ERROR, sc.error_message());
 				} else {
 					trace_info("Removed source", field_s(show_id), field_s(scene_id), field_s(source_id));
 				}
@@ -551,56 +682,61 @@ StudioStatus Studio::SourceRemove(string show_id, string scene_id, string source
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
+		s = Status(grpc::INTERNAL, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
 	return s;
 }
 
-StudioStatus Studio::SourceSetProperties(string show_id, string scene_id, string source_id, string source_type, string source_url) {
-	StudioStatus s = StudioStatus(STUDIO_OK);
+Status Studio::SourceSetProperties(ServerContext* ctx, const proto::SourceSetPropertiesRequest* req, proto::SourceSetPropertiesResponse* rep) {
+	Status s = Status::OK;
 
 	trace("SourceSetProperties");
 	mtx.lock();
 	try {
+		string show_id = req->show_id();
+		string scene_id = req->scene_id();
+		string source_id = req->source_id();
+		string source_type = req->source_type();
+		string source_url = req->source_url();
 		Show* show = getShow(show_id);
 
 		if(!show) {
 			trace_error("Show not found", field_s(show_id));
-			s = StudioStatus(STUDIO_SHOW_NOT_FOUND, std::string("id="+ show_id));
+			s = Status(grpc::NOT_FOUND, "Show not found id=", show_id);
 		} else {
 			Scene* scene = show->GetScene(scene_id);
 
 			if(!scene) {
 				trace_error("Scene not found", field_s(scene_id));
-				s = StudioStatus(STUDIO_SCENE_NOT_FOUND, "d="+ scene_id);
+				s = Status(grpc::NOT_FOUND, "Scene not found id="+ scene_id);
 			} else if(scene == show->ActiveScene()) {
 				trace_error("Scene is currently active", field_s(scene_id));
-				s = StudioStatus(STUDIO_SCENE_NOT_FOUND, "Scene is currently active");
+				s = Status(grpc::INVALID_ARGUMENT, "Invalid scene id");
 			} else {
 				Source* source = scene->GetSource(source_id);
 
 				if(!source) {
 					trace_error("Source not found", field_s(source_id));
-					s = StudioStatus(STUDIO_SOURCE_NOT_FOUND, "id="+ source_id);
+					s = Status(grpc::NOT_FOUND, "Source not found id="+ source_id);
 				} else {
-					SourceStatus so = source->SetUrl(source_url);
-					if(so.ok()) {
-						so = source->SetType(source_type);
-						if(so.ok()) {
+					s = source->SetUrl(source_url);
+					if(s.ok()) {
+						s = source->SetType(source_type);
+						if(s.ok()) {
+							proto::Source* proto_source = rep->mutable_source();
+							s = source->UpdateProto(proto_source);
 							trace_info("Set properties for source", field_s(show_id), field_s(scene_id), field_s(source_id), field_s(source_type), field_s(source_url));
 						} else {
-							trace_error("Source SetType failed", field_s(source_id), field_s(source_type), error(so.error_message()));
-							s = StudioStatus(STUDIO_ERROR, so.error_message());
+							trace_error("Source SetType failed", field_s(source_id), field_s(source_type), error(s.error_message()));
 						}
 					} else {
 						trace_error("Source SetUrl failed", field_s(source_id), field_s(source_url), error(s.error_message()));
-						s = StudioStatus(STUDIO_ERROR, so.error_message());
 					}
 				}
 			}
@@ -608,33 +744,38 @@ StudioStatus Studio::SourceSetProperties(string show_id, string scene_id, string
 	}
 	catch(string e) {
 		trace_error("An exception occured", error(e));
-		s = StudioStatus(STUDIO_ERROR, e.c_str());
+		s = Status(grpc::INTERNAL, e.c_str());
 	}
 	catch(...) {
 		trace_error("An uncaught exception occured !");
-		s = StudioStatus(STUDIO_ERROR, "An uncaught exception occured !");
+		s = Status(grpc::INTERNAL, "An uncaught exception occured !");
 	}
 	mtx.unlock();
 
 	return s;
 }
 
+Status Studio::Health(ServerContext* ctx, const Empty* req, proto::HealthResponse* rep) {
+	trace("Health");
+	rep->set_timestamp(std::time(nullptr));
+	return Status::OK;
+}
 
 //////////////////////
 // Private          //
 //////////////////////
 
-StudioStatus Studio::studioInit() {
+Status Studio::studioInit() {
 
 	if(init) {
-		return StudioStatus(STUDIO_ALREADY_STARTED);
+		return Status(grpc::FAILED_PRECONDITION, "Studio already initialized");
 	}
 
 	///////////////
 	// OBS init  //
 	///////////////
 	if(!obs_startup("en-US", nullptr, nullptr) || !obs_initialized()) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "obs_startup failed");
+		return Status(grpc::INTERNAL, "obs_startup failed");
 	}
 
 	memset(&ovi, 0, sizeof(ovi));
@@ -654,42 +795,42 @@ StudioStatus Studio::studioInit() {
 	trace_debug("", field_s(ovi.graphics_module));
 
 	if(obs_reset_video(&ovi) != OBS_VIDEO_SUCCESS) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "obs_reset_video failed");
+		return Status(grpc::INTERNAL, "obs_reset_video failed");
 	}
 
 	oai.samples_per_sec  = settings->audio_sample_rate;
 	oai.speakers         = SPEAKERS_STEREO; // TODO to settings
 
 	if (obs_reset_audio(&oai) != true) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "obs_reset_audio failed");
+		return Status(grpc::INTERNAL, "obs_reset_audio failed");
 	}
 
 	// Load modules
 	// For color_source
 	if(0 != loadModule(LIBOBS_PLUGINS_PATH "image-source.so", LIBOBS_PLUGINS_DATA_PATH "image-source")) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "failed to load lib image-source.so");
+		return Status(grpc::INTERNAL, "failed to load lib image-source.so");
 	}
 	if(0 != loadModule(LIBOBS_PLUGINS_PATH "obs-ffmpeg.so", LIBOBS_PLUGINS_DATA_PATH "obs-ffmpeg")) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "failed to load lib obs-ffmpeg.so");
+		return Status(grpc::INTERNAL, "failed to load lib obs-ffmpeg.so");
 	}
 	if(0 != loadModule(LIBOBS_PLUGINS_PATH "obs-transitions.so", LIBOBS_PLUGINS_DATA_PATH "obs-transitions")) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "failed to load lib obs-transitions.so");
+		return Status(grpc::INTERNAL, "failed to load lib obs-transitions.so");
 	}
 	if(0 != loadModule(LIBOBS_PLUGINS_PATH "rtmp-services.so", LIBOBS_PLUGINS_DATA_PATH "rtmp-services")) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "failed to load lib rtmp-services.so");
+		return Status(grpc::INTERNAL, "failed to load lib rtmp-services.so");
 	}
 	if(!settings->video_hw_encode) {
 		if(0 != loadModule(LIBOBS_PLUGINS_PATH "obs-x264.so", LIBOBS_PLUGINS_DATA_PATH "obs-x264")) {
-			return StudioStatus(STUDIO_LIBOBS_ERROR, "failed to load lib obs-x264.so");
+			return Status(grpc::INTERNAL, "failed to load lib obs-x264.so");
 		}
 	}
 	// For fdk-aac
 	if(0 != loadModule(LIBOBS_PLUGINS_PATH "obs-libfdk.so", LIBOBS_PLUGINS_DATA_PATH "obs-libfdk")) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "failed to load lib obs-libfdk.so");
+		return Status(grpc::INTERNAL, "failed to load lib obs-libfdk.so");
 	}
 	// For rtmp-output
 	if(0 != loadModule(LIBOBS_PLUGINS_PATH "obs-outputs.so", LIBOBS_PLUGINS_DATA_PATH "obs-outputs")) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "failed to load lib obs-outputs.so");
+		return Status(grpc::INTERNAL, "failed to load lib obs-outputs.so");
 	}
 
 	obs_post_load_modules();
@@ -697,12 +838,12 @@ StudioStatus Studio::studioInit() {
 	// output and service	
 	service = obs_service_create("rtmp_common", "rtmp service", nullptr, nullptr);
 	if (!service) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "Couldn't create service");
+		return Status(grpc::INTERNAL, "Couldn't create service");
 	}
 
 	rtmp_settings = obs_data_create();
 	if (!rtmp_settings) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "Couldn't create rtmp settings");
+		return Status(grpc::INTERNAL, "Couldn't create rtmp settings");
 	}
 	obs_data_release(rtmp_settings);
 
@@ -713,19 +854,19 @@ StudioStatus Studio::studioInit() {
 
 	output = obs_output_create("rtmp_output", "RTMP output", NULL, nullptr);
 	if (!output) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "Couldn't create output");
+		return Status(grpc::INTERNAL, "Couldn't create output");
 	}
 
 
 	// Audio encoder
 	enc_a = obs_audio_encoder_create("libfdk_aac", "aac enc", NULL, 0, nullptr);
 	if (!enc_a) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "Couldn't create enc_a");
+		return Status(grpc::INTERNAL, "Couldn't create enc_a");
 	}
 
 	enc_a_settings = obs_encoder_get_settings(enc_a);
 	if (!enc_a_settings) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "Failed to create enc_a_settings");
+		return Status(grpc::INTERNAL, "Failed to create enc_a_settings");
 	}
 
 	obs_data_set_int(	enc_a_settings, "bitrate",		settings->audio_bitrate_kbps);
@@ -737,12 +878,12 @@ StudioStatus Studio::studioInit() {
 	string encoder = settings->video_hw_encode ? "ffmpeg_nvenc" : "obs_x264";
 	enc_v = obs_video_encoder_create(encoder.c_str(), "h264 enc", NULL, nullptr);
 	if (!enc_v) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "Couldn't create enc_v");
+		return Status(grpc::INTERNAL, "Couldn't create enc_v");
 	}
 
 	enc_v_settings = obs_encoder_get_settings(enc_v);
 	if (!enc_v_settings) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "Failed to create enc_v_settings");
+		return Status(grpc::INTERNAL, "Failed to create enc_v_settings");
 	}
 
 	obs_data_set_int(	enc_v_settings, "bitrate",		settings->video_bitrate_kbps);
@@ -781,9 +922,9 @@ StudioStatus Studio::studioInit() {
 	///////////////
 	// Show init //
 	///////////////
-	ShowStatus sh = active_show->Start();
-	if(!sh.ok()) {
-		return StudioStatus(STUDIO_ERROR, sh.error_message());
+	grpc::Status s = active_show->Start();
+	if(!s.ok()) {
+		return s;
 	}
 
 	obs_set_output_source(0, active_show->Transition());
@@ -794,16 +935,16 @@ StudioStatus Studio::studioInit() {
 	obs_output_set_service(output, service);
 
 	if(obs_output_start(output) != true) {
-		return StudioStatus(STUDIO_LIBOBS_ERROR, "obs_output_start failed: "+ std::string(obs_output_get_last_error(output)));
+		s = Status(grpc::INTERNAL, "obs_output_start failed: "+ std::string(obs_output_get_last_error(output)));
 	}
 
 	init = true;
-	return StudioStatus(STUDIO_OK);
+	return Status::OK;
 }
 
-StudioStatus Studio::studioRelease() {
+Status Studio::studioRelease() {
 	if(!init) {
-		return StudioStatus(STUDIO_ALREADY_STOPPED);
+		return Status(grpc::FAILED_PRECONDITION, "Studio not started");
 	}
 
 	obs_encoder_release(enc_v);
@@ -811,15 +952,15 @@ StudioStatus Studio::studioRelease() {
 	obs_service_release(service);
 	obs_output_release(output);
 
-	ShowStatus s = active_show->Stop();
+	Status s = active_show->Stop();
 	if(!s.ok()) {
-		return StudioStatus(STUDIO_ERROR, s.error_message());
+		return s;
 	}
 
 	obs_shutdown();
 	init = false;
 	trace("StudioStop Ok !");
-	return StudioStatus(STUDIO_OK);
+	return Status::OK;
 }
 
 Show* Studio::getShow(std::string show_id) {
@@ -850,7 +991,7 @@ Show* Studio::addShow(string show_name) {
 }
 
 Show* Studio::loadShow(string show_id) {
-	ShowStatus sh;
+	Status s;
 	Show* show;
 	json_t* json_show;
 	json_error_t error;
@@ -868,11 +1009,11 @@ Show* Studio::loadShow(string show_id) {
 		return NULL;
 	}
 
-	sh = show->Load(json_show);
+	s = show->Load(json_show);
 	json_decref(json_show);
 
-	if(!sh.ok()) {
-		trace_error("Error during show Load", error(sh.error_message()));
+	if(!s.ok()) {
+		trace_error("Error during show Load", error(s.error_message()));
 		delete show;
 		return NULL;
 	}
@@ -908,13 +1049,13 @@ Show* Studio::duplicateShow(string show_id) {
 	return new_show;
 }
 
-StudioStatus Studio::removeShow(string show_id) {
+Status Studio::removeShow(string show_id) {
 	ShowMap::iterator it = shows.find(show_id);
 	if(it == shows.end()) {
-		return StudioStatus(STUDIO_SHOW_NOT_FOUND, "id="+ show_id);
+		return Status(grpc::NOT_FOUND, "Show not found id="+ show_id);
 	}
 	if(it->second == active_show) {
-		return StudioStatus(STUDIO_SHOW_ACTIVE, "id="+ show_id);
+		return Status(grpc::FAILED_PRECONDITION, "Show is active id="+ show_id);
 	}
 
 	trace_debug("Remove show", field_s(show_id));
@@ -922,7 +1063,7 @@ StudioStatus Studio::removeShow(string show_id) {
 	delete it->second;
 	shows.erase(it);
 
-	return StudioStatus(STUDIO_OK);
+	return Status::OK;
 }
 
 int Studio::loadModule(const char* binPath, const char* dataPath) {

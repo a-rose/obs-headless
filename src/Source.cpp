@@ -34,50 +34,50 @@ Source::Source(std::string id, std::string name, SourceType type, std::string ur
 Source::~Source() {
 }
 
-SourceStatus Source::SetType(std::string new_type) {
+grpc::Status Source::SetType(std::string new_type) {
 	if(started) {
 		trace_error("Source already started", field_s(id));
-		return SourceStatus(SOURCE_ALREADY_STARTED);
+		return grpc::Status(grpc::FAILED_PRECONDITION, "Source already started");
 	}
 
 	SourceType tempType = StringToSourceType(new_type);
 
 	if(tempType == InvalidType) {
 		trace_error("Unsupported type", field_s(new_type));
-		return SourceStatus(SOURCE_INVALID_TYPE, new_type);
+		return grpc::Status(grpc::INVALID_ARGUMENT, "Unsupported type="+ new_type);
 	} else {
 		type = tempType;
 		trace_info("update source", field_s(id), field_s(name), field_ns("type", SourceTypeToString(type)));
 	}
 
-	return SourceStatus(SOURCE_OK);
+	return grpc::Status::OK;
 }
 
-SourceStatus Source::SetUrl(std::string new_url) {
+grpc::Status Source::SetUrl(std::string new_url) {
 	if(started) {
 		trace_error("Source already started", field_s(id));
-		return SourceStatus(SOURCE_ALREADY_STARTED);
+		return grpc::Status(grpc::FAILED_PRECONDITION, "Source already started");
 	}
 	url = new_url;
 	trace_info("update source", field_s(id), field_s(name), field_s(url));
-	return SourceStatus(SOURCE_OK);
+	return grpc::Status::OK;
 }
 
-SourceStatus Source::Start(obs_scene_t** obs_scene_in) {
-	SourceStatus s = SourceStatus(SOURCE_OK);
+grpc::Status Source::Start(obs_scene_t** obs_scene_in) {	
+	grpc::Status s = grpc::Status::OK;
 	obs_data_t* obs_data;
 	obs_scene_ptr = obs_scene_in;
 
 	if(started) {
 		trace_error("Source already started", field_s(id));
-		return SourceStatus(SOURCE_ALREADY_STARTED);
+		return grpc::Status(grpc::FAILED_PRECONDITION, "Source already started");
 	}
 
 	// Create the source
 	obs_data = obs_data_create();
 	if (!obs_data) {
 		trace_error("Failed to create obs_data", field_s(id));
-		return SourceStatus(SOURCE_LIBOBS_ERROR, "Failed to create obs_data");
+		return grpc::Status(grpc::INTERNAL, "Failed to create obs_data");
 	}
 
 	if(type == Image) {
@@ -102,7 +102,7 @@ SourceStatus Source::Start(obs_scene_t** obs_scene_in) {
 	obs_data_release(obs_data);
 
 	if (!obs_source) {
-		return SourceStatus(SOURCE_LIBOBS_ERROR, "Failed to create obs_source");
+		return grpc::Status(grpc::INTERNAL, "Failed to create obs_source");
 	}
 
 	// Add the source to the scene
@@ -121,18 +121,18 @@ SourceStatus Source::Start(obs_scene_t** obs_scene_in) {
 	signal_handler_connect(handler, "transition_stop", SourceTransitionStopCb, this);
 
 	started = true;
-	return SourceStatus(SOURCE_OK);
+	return grpc::Status::OK;
 }
 
-SourceStatus Source::Stop() {
+grpc::Status Source::Stop() {
 	if(!started) {
 		trace_error("Source already stopped", field_s(id));
-		return SourceStatus(SOURCE_ALREADY_STOPPED);
+		return grpc::Status(grpc::FAILED_PRECONDITION, "Source already stopped");
 	}
 
 	obs_source_release(obs_source);
 	started = false;
-	return SourceStatus(SOURCE_OK);
+	return grpc::Status::OK;
 }
 
 void SourceShowCb(void *my_data, calldata_t *cd) {
@@ -206,11 +206,21 @@ void SourceTransitionStopCb(void *my_data, calldata_t *cd) {
 
 	trace_debug("sourcecb: stop transition", field_nc("id", obs_source_get_id(obs_source)), field_nc("name", obs_source_get_name(obs_source)));
 }
-SourceStatus Source::addSourceToScene(obs_source_t* source) {
+
+grpc::Status Source::UpdateProto(proto::Source* proto_source) {
+	proto_source->Clear();
+	proto_source->set_id(id);
+	proto_source->set_name(name);
+	proto_source->set_type(SourceTypeToString(type));
+	proto_source->set_url(url);
+	return grpc::Status::OK;
+}
+
+grpc::Status Source::addSourceToScene(obs_source_t* source) {
 	obs_sceneitem_t* obs_scene_item = obs_scene_add(*obs_scene_ptr, source);
 	if (!obs_scene_item) {
 		trace_error("Error while adding scene item", field_s(id));
-		return SourceStatus(SOURCE_LIBOBS_ERROR, "Error while adding scene item");
+		return grpc::Status(grpc::INTERNAL, "Error while adding scene item");
 	}
 
 	// Scale source to output size by setting bounds
@@ -222,21 +232,21 @@ SourceStatus Source::addSourceToScene(obs_source_t* source) {
 	obs_sceneitem_set_bounds(obs_scene_item, &bounds);
 	obs_sceneitem_set_bounds_alignment(obs_scene_item, align);
 
-	return SourceStatus(SOURCE_OK);
+	return grpc::Status::OK;
 }
 
-SourceStatus Source::setSourceOrder(obs_source_t* source, enum obs_order_movement order) {
+grpc::Status Source::setSourceOrder(obs_source_t* source, enum obs_order_movement order) {
 	if(obs_scene_ptr == NULL) {
 		trace_error("obs_scene_ptr is null");
-		return SourceStatus(SOURCE_LIBOBS_ERROR, "obs_scene_ptr is null");
+		return grpc::Status(grpc::INTERNAL, "obs_scene_ptr is null");
 	}
 
 	obs_sceneitem_t* si = obs_scene_find_source(*obs_scene_ptr, obs_source_get_name(source));
 	if(si == NULL) {
 		trace_error("rescue not found in scene");
-		return SourceStatus(SOURCE_LIBOBS_ERROR, "source not found in scene");
+		return grpc::Status(grpc::INTERNAL, "source not found in scene");
 	}
 
 	obs_sceneitem_set_order(si, order);
-	return SourceStatus(SOURCE_OK);
+	return grpc::Status::OK;
 }
