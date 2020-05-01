@@ -65,15 +65,15 @@ Source* Scene::DuplicateSource(std::string source_id) {
 	return DuplicateSourceFromScene(this, source_id);
 }
 
-SceneStatus Scene::RemoveSource(std::string source_id) {
+grpc::Status Scene::RemoveSource(std::string source_id) {
 	SourceMap::iterator it = sources.find(source_id);
 	if(it == sources.end()) {
 		trace_error("Source not found", field_s(source_id));
-		return SceneStatus(SCENE_SOURCE_NOT_FOUND, source_id);
+		return grpc::Status(grpc::NOT_FOUND, "Source not found id="+ source_id);
 	}
 	if(it->second == active_source) {
 		trace_error("Source is active", field_s(source_id));
-		return SceneStatus(SCENE_SOURCE_ACTIVE, source_id);
+		return grpc::Status(grpc::FAILED_PRECONDITION, "Source is active id="+ source_id);
 	}
 
 	trace_debug("Remove source", field_s(source_id));
@@ -81,15 +81,16 @@ SceneStatus Scene::RemoveSource(std::string source_id) {
 	delete it->second;
 	sources.erase(it);
 
-	return SceneStatus(SCENE_OK);
+	return grpc::Status::OK;
 }
 
-SceneStatus Scene::Start() {
+grpc::Status Scene::Start() {
+	grpc::Status s;
 	trace_debug("Start scene", field_s(id));
 
 	if(started) {
 		trace_error("Scene already started", field_s(id));
-		return SceneStatus(SCENE_ALREADY_STARTED, id);
+		return grpc::Status(grpc::FAILED_PRECONDITION, "Scene already started");
 	}
 
 
@@ -98,37 +99,64 @@ SceneStatus Scene::Start() {
 	obs_scene = obs_scene_create(scene_name.c_str());
 	if (!obs_scene) {
 		trace_error("Error while creating obs_scene", field_s(id));
-		return SceneStatus(SCENE_LIBOBS_ERROR, "Error while creating obs_scene");
+		return grpc::Status(grpc::INTERNAL, "Error while creating obs_scene");
 	}
 
 
-	SourceStatus s = active_source->Start(&obs_scene);
+	s = active_source->Start(&obs_scene);
 	if(!s.ok()) {
 		trace_error("source Start failed", error(s.error_message()));
-		return SceneStatus(SCENE_SOURCE_NOT_FOUND, s.error_message());
+		return s;
 	}
 
 	started = true;
-	return SceneStatus(SCENE_OK);
+	return grpc::Status::OK;
 }
 
 
-SceneStatus Scene::Stop() {
+grpc::Status Scene::Stop() {
+	grpc::Status s;
 	trace_debug("Stop scene", field_s(id));
 
 	if(!started) {
 		trace_error("Scene already stopped", field_s(id));
-		return SceneStatus(SCENE_ALREADY_STOPPED, id);
+		return grpc::Status(grpc::FAILED_PRECONDITION, "Scene already stopped");
 	}
 
-	SourceStatus s = active_source->Stop();
+	s = active_source->Stop();
 	if(!s.ok()) {
 		trace_error("Source Stop failed", field_s(id), error(s.error_message()));
-		return SceneStatus(SCENE_SOURCE_NOT_FOUND, s.error_message());
+		return grpc::Status(grpc::NOT_FOUND, "Source Stop failed: "+ s.error_message());
 	}
 
 	obs_scene_release(obs_scene);
 	started = false;
 
-	return SceneStatus(SCENE_OK);
+	return grpc::Status::OK;
+}
+
+grpc::Status Scene::UpdateProto(proto::Scene* proto_scene) {
+	proto_scene->Clear();
+	proto_scene->set_id(id);
+	proto_scene->set_name(name);
+
+	if(active_source) {
+		proto_scene->set_active_source_id(active_source->Id());
+	} else {
+		proto_scene->set_active_source_id("");
+	}
+
+	SourceMap::iterator it;
+	for (it = sources.begin(); it != sources.end(); it++) {
+		proto::Source* proto_source = proto_scene->add_sources();
+		Source* source = it->second;
+
+		grpc::Status s = source->UpdateProto(proto_source);
+		if(!s.ok()) {
+			trace_error("failed to update source proto");
+			return s;
+		}
+	}
+
+	return grpc::Status::OK;
 }

@@ -3,46 +3,6 @@
 #include <jansson.h>
 #include "Scene.hpp"
 
-
-enum ShowStatusCode {
-	SHOW_OK,
-    SHOW_ALREADY_STARTED,
-    SHOW_ALREADY_STOPPED,
-    SHOW_NOT_FOUND,
-    SHOW_SCENE_NOT_FOUND,
-    SHOW_SOURCE_NOT_FOUND,
-    SHOW_SCENE_ACTIVE,
-    SHOW_LIBOBS_ERROR,
-};
-
-
-class ShowStatus : public Status {
-public:
-	ShowStatus(ShowStatusCode code, std::string message) {
-		codeToStr[SHOW_OK] = "OK";
-		codeToStr[SHOW_ALREADY_STARTED] = "Show already started";
-		codeToStr[SHOW_ALREADY_STOPPED] = "Show already stopped";
-		codeToStr[SHOW_NOT_FOUND] = "Show not found";
-		codeToStr[SHOW_SCENE_NOT_FOUND] = "Scene not found";
-		codeToStr[SHOW_SOURCE_NOT_FOUND] = "Source not found";
-		codeToStr[SHOW_SCENE_ACTIVE] = "Scene is active";
-		codeToStr[SHOW_LIBOBS_ERROR] = "libobs error";
-	}
-
-	ShowStatus(ShowStatusCode code)
-		: ShowStatus(code, "") {
-	}
-
-	ShowStatus()
-		: ShowStatus(SHOW_OK) {
-	}
-};
-
-
-///////////////////////////////////////
-///////////////////////////////////////
-
-
 class Show {
 public:
 	Show(std::string id, std::string name, Settings* settings);
@@ -56,15 +16,16 @@ public:
 	obs_source_t* Transition() { return obs_transition; }
 
 	// Methods
-	ShowStatus Load(json_t* json_show);
-	ShowStatus Start();
-	ShowStatus Stop();
+	grpc::Status Load(json_t* json_show);
+	grpc::Status Start();
+	grpc::Status Stop();
 	Scene* GetScene(std::string scene_id);
 	Scene* AddScene(std::string scene_name);
 	Scene* DuplicateSceneFromShow(Show* show, std::string scene_id);
 	Scene* DuplicateScene(std::string scene_id);
-	ShowStatus RemoveScene(std::string scene_id);
-	ShowStatus SwitchScene(std::string scene_id);
+	grpc::Status RemoveScene(std::string scene_id);
+	grpc::Status SwitchScene(std::string scene_id);
+	grpc::Status UpdateProto(proto::Show* proto_show);
 
 private:
 	std::string id;

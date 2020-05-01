@@ -1,42 +1,11 @@
 #pragma once
 
 #include <string>
+#include <grpc++/grpc++.h>
+#include "proto/studio.grpc.pb.h"
 #include "obs.h"
 #include "Trace.hpp"
 #include "Settings.hpp"
-#include "Status.hpp"
-
-enum SourceStatusCode {
-	SOURCE_OK,
-	SOURCE_ALREADY_STARTED,
-    SOURCE_ALREADY_STOPPED,
-    SOURCE_INVALID_TYPE,
-    SOURCE_LIBOBS_ERROR,
-};
-
-
-class SourceStatus : public Status {
-public:
-	SourceStatus(SourceStatusCode code, std::string message) {
-		codeToStr[SOURCE_OK] = "OK";
-		codeToStr[SOURCE_ALREADY_STARTED] = "Source already started";
-		codeToStr[SOURCE_ALREADY_STOPPED] = "Source already stopped";
-		codeToStr[SOURCE_INVALID_TYPE] = "Invalid type";
-		codeToStr[SOURCE_LIBOBS_ERROR] = "libobs error";
-	}
-
-	SourceStatus(SourceStatusCode code)
-		: SourceStatus(code, "") {
-	}
-
-	SourceStatus()
-		: SourceStatus(SOURCE_OK) {
-	}
-};
-
-
-///////////////////////////////////////
-///////////////////////////////////////
 
 
 enum SourceType {
@@ -62,14 +31,16 @@ public:
 	obs_source_t* GetSource() { return obs_source; }
 
 	// Methods
-	SourceStatus SetType(std::string new_type);
-	SourceStatus SetUrl(std::string new_url);
-	SourceStatus Start(obs_scene_t** obs_scene_ptr);
-	SourceStatus Stop();
+	grpc::Status SetType(std::string new_type);
+	grpc::Status SetUrl(std::string new_url);
+	grpc::Status Start(obs_scene_t** obs_scene_ptr);
+	grpc::Status Stop();
+	grpc::Status UpdateProto(proto::Source* proto_source);
+
 
 private:
-	SourceStatus addSourceToScene(obs_source_t* source);
-	SourceStatus setSourceOrder(obs_source_t* source, enum obs_order_movement order);
+	grpc::Status addSourceToScene(obs_source_t* source);
+	grpc::Status setSourceOrder(obs_source_t* source, enum obs_order_movement order);
 
 	std::string id;
 	std::string name;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Show.hpp"
-#include <vector>
 #include <mutex>
 
 /**
@@ -15,47 +14,13 @@
 
 using namespace std;
 
+using grpc::Server;
+using grpc::ServerBuilder;
+using grpc::ServerContext;
+using grpc::Status;
+using google::protobuf::Empty;
 
-enum StudioStatusCode {
-	STUDIO_OK,
-    STUDIO_ALREADY_STARTED,
-    STUDIO_ALREADY_STOPPED,
-    STUDIO_SHOW_NOT_FOUND,
-    STUDIO_SCENE_NOT_FOUND,
-    STUDIO_SOURCE_NOT_FOUND,
-    STUDIO_SHOW_ACTIVE,
-    STUDIO_LIBOBS_ERROR,
-    STUDIO_ERROR,
-};
-
-class StudioStatus : public Status {
-public:
-	StudioStatus(StudioStatusCode code, std::string message) {
-	    codeToStr[STUDIO_OK] = "OK";
-	    codeToStr[STUDIO_ALREADY_STARTED] = "Studio already started";
-        codeToStr[STUDIO_ALREADY_STOPPED] = "Studio already stopped";
-        codeToStr[STUDIO_SHOW_NOT_FOUND] = "Show not found";
-        codeToStr[STUDIO_SCENE_NOT_FOUND] = "Scene not found";
-        codeToStr[STUDIO_SOURCE_NOT_FOUND] = "Source not found";
-        codeToStr[STUDIO_SHOW_ACTIVE] = "Show is active";
-        codeToStr[STUDIO_LIBOBS_ERROR] = "libobs error";
-        codeToStr[STUDIO_ERROR] = "Error";
-	}
-
-	StudioStatus(StudioStatusCode code)
-		: StudioStatus(code, "") {
-	}
-
-	StudioStatus()
-		: StudioStatus(STUDIO_OK) {
-	}
-};
-
-
-///////////////////////////////////////
-///////////////////////////////////////
-
-class Studio {
+class Studio final : public proto::Studio::Service {
 public:
 	/**
 	 * Studio constructor.
@@ -72,235 +37,267 @@ public:
 
 	// Studio
 
-    // TODO update doc (params, replace all @return's with good doc)
+	/**
+	 * Returns the current Studio state (each show, scene and source) to the
+	 * gRPC caller.
+	 *
+	 * @param   ctx  pointer to the gRPC server context.
+	 * @param   req  Empty request gRPC type.
+	 * @param   rep  the studio state (see proto/studio.proto).
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::INTERNAL if an exception occured or a show is NULL
+	 */
+	Status StudioGet(ServerContext* ctx, const Empty* req, proto::StudioGetResponse* rep) override;
 
 	/**
 	 * Calls studioInit to start the studio.
 	 *
 	 * @note a show must be active (for example with ShowLoad)
 	 * @note cannot be called twice without calling StudioStop in between.
-     * 
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::INTERNAL if an exception occured
+	 *
+	 * @param   ctx  pointer to the gRPC server context.
+	 * @param   req  Empty request gRPC type.
+	 * @param   rep  Empty response gRPC type.
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::INTERNAL if an exception occured
 	 */
-	StudioStatus StudioStart();
+	Status StudioStart(ServerContext* ctx, const Empty* req, Empty* rep) override;
 
 	/**
 	 * Calls studioRelease to stop the studio.
 	 *
 	 * @note cannot be called if StudioStart was not called before.
 	 *
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::INTERNAL if an exception occured
+	 * @param   ctx  pointer to the gRPC server context.
+	 * @param   req  Empty request gRPC type.
+	 * @param   rep  Empty response gRPC type.
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::INTERNAL if an exception occured
 	 */
-	StudioStatus StudioStop();
+	Status StudioStop(ServerContext* ctx, const Empty* req, Empty* rep) override;
 
 	// Show
-
-	// TODO doc
-	ShowMap GetShows();
-
-	// TODO doc
-	Show* GetActiveShow();
-
 	/**
-	 * Returns the state of a given show
+	 * Returns the state of a given show to the gRPC caller.
 	 *
-	 * @param   show_id id of the show to get
-	 * @return       OK if successful
-	 *               SHOW_NOT_FOUND if show_id is not found in the shows map
-	 *               StudioStatus::INTERNAL if an exception occured or a scene is NULL
+	 * @param   ctx  pointer to the gRPC server context.
+	 * @param   req  ShowGetRequest containing the show_id.
+	 * @param   rep  the show state (see proto/studio.proto).
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::NOT_FOUND if show_id is not found in the shows map
+	 *               grpc::Status::INTERNAL if an exception occured or a scene is NULL
 	 */
-	Show* GetShow(string show_id);
+	Status ShowGet(ServerContext* ctx, const proto::ShowGetRequest* req, proto::ShowGetResponse* rep) override;
 
 	/**
 	 * Creates a new empty show and adds it to the shows map.
 	 *
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::INTERNAL if an exception occured
+	 * @param   ctx  pointer to the gRPC server context.
+	 * @param   req  ShowCreateRequest containing the show_name.
+	 * @param   rep  the show state (see proto/studio.proto).
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::INTERNAL if an exception occured
 	 */
-	Show* ShowCreate(string show_name);
+	Status ShowCreate(ServerContext* ctx, const proto::ShowCreateRequest* req, proto::ShowCreateResponse* rep) override;
 
 	/**
 	 * Creates a new show from an existing one and adds it to the shows map. It
 	 * will have the same name with a different id. All scenes and sources are
 	 * also duplicated. The new show is not set as active and is not started.
 	 *
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::INTERNAL if an exception occured or the original show is not found
+	 * @param   ctx  pointer to the gRPC server context.
+	 * @param   req  ShowDuplicateRequest containing the show_id to duplicate.
+	 * @param   rep  the show state (see proto/studio.proto).
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::INTERNAL if an exception occured or the original show is not found
 	 */
-	Show* ShowDuplicate(string show_id);
+	Status ShowDuplicate(ServerContext* ctx, const proto::ShowDuplicateRequest* req, proto::ShowDuplicateResponse* rep) override;
 
 	/**
 	 * Calls removeShow to remove a show.
 	 *
+	 * @param   ctx  pointer to the gRPC server context.
 	 * @param   req  ShowRemoveRequest containing the show_id to remove.
 	 * @param   rep  Empty response gRPC type.
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::INTERNAL if an exception occured or the show is not found
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::INTERNAL if an exception occured or the show is not found
 	 */
-	StudioStatus ShowRemove(string show_id);
+	Status ShowRemove(ServerContext* ctx, const proto::ShowRemoveRequest* req, Empty* rep) override;
 
 	/**
 	 * Calls loadShow to load a show.
 	 *
+	 * @param   ctx  pointer to the gRPC server context.
 	 * @param   req  ShowLoadRequest containing the path to load the show from
 	 *               (named show_id).
 	 * @param   rep  the show state (see proto/studio.proto).
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::INTERNAL if an exception occured or the show failed to load
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::INTERNAL if an exception occured or the show failed to load
 	 */
-	Show* ShowLoad(string show_path);
+	Status ShowLoad(ServerContext* ctx, const proto::ShowLoadRequest* req, proto::ShowLoadResponse* rep) override;
 
 	// Scene
 	/**
 	 * Returns the state of a given scene to the gRPC caller.
 	 *
+	 * @param   ctx  pointer to the gRPC server context.
 	 * @param   req  SceneGetRequest containing the show_id and scene_id.
 	 * @param   rep  the scene state (see proto/studio.proto).
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::NOT_FOUND show_id is not found in the show
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::NOT_FOUND show_id is not found in the show
 	 *               map or if scene_id is not found in show_id.
-	 *               StudioStatus::INTERNAL if an exception occured
+	 *               grpc::Status::INTERNAL if an exception occured
 	 */
-	Scene* GetScene(string show_id, string scene_id);
+	Status SceneGet(ServerContext* ctx, const proto::SceneGetRequest* req, proto::SceneGetResponse* rep) override;
 
 	/**
 	 * Creates a new empty scene and adds it to the scenes map of a given show.
 	 *
+	 * @param   ctx  pointer to the gRPC server context.
 	 * @param   req  SceneAddRequest containing the show_id and new scene_name.
 	 * @param   rep  the scene state (see proto/studio.proto).
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::NOT_FOUND show_id is not found in the show map
-	 *               StudioStatus::INTERNAL if an exception occured or failed to
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::NOT_FOUND show_id is not found in the show map
+	 *               grpc::Status::INTERNAL if an exception occured or failed to
 	 *               add scene
 	 */
-	Scene* SceneAdd(string show_id, string scene_name);
+	Status SceneAdd(ServerContext* ctx, const proto::SceneAddRequest* req, proto::SceneAddResponse* rep) override;
 
 	/**
 	 * Creates a new scene from an existing one and adds it to the scenes map of
 	 * a given show. It will have the same name with a different id. All sources
 	 * are also duplicated. The new scene is not set as active and is not started.
 	 *
+	 * @param   ctx  pointer to the gRPC server context.
 	 * @param   req  SceneDuplicateRequest containing the show_id where the
 	 *               scene to duplicate is located, and its scene_id.
 	 * @param   rep  the scene state (see proto/studio.proto).
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::NOT_FOUND if show_id is not found
-	 *               StudioStatus::INTERNAL if an exception occured or the
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::NOT_FOUND if show_id is not found
+	 *               grpc::Status::INTERNAL if an exception occured or the
 	 *               original scene is not found
 	 */
-	Scene* SceneDuplicate(string show_id, string scene_id);
+	Status SceneDuplicate(ServerContext* ctx, const proto::SceneDuplicateRequest* req, proto::SceneDuplicateResponse* rep) override;
 
 	/**
 	 * Removes a given scene from a given show.
 	 *
+	 * @param   ctx  pointer to the gRPC server context.
 	 * @param   req  SceneRemoveRequest containing the show_id that contains the
 	 *               scene_id to remove.
 	 * @param   rep  Empty response gRPC type.
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::NOT_FOUND if show_id or scene_id is not found
-	 *               StudioStatus::FAILED_PRECONDITION if the scene is active
-	 *               StudioStatus::INTERNAL if an exception occured
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::NOT_FOUND if show_id or scene_id is not found
+	 *               grpc::Status::FAILED_PRECONDITION if the scene is active
+	 *               grpc::Status::INTERNAL if an exception occured
 	 */
-	StudioStatus SceneRemove(string show_id, string scene_name);
+	Status SceneRemove(ServerContext* ctx, const proto::SceneRemoveRequest* req, Empty* rep) override;
 
 	/**
 	 * Sets a given scene as active in a given show : the show switches to this
 	 * scene.
 	 *
+	 * @param   ctx  pointer to the gRPC server context.
 	 * @param   req  SceneSetAsCurrentRequest containing the show_id that
 	 *               contains the sceene, and scene_id of the scene to switch to.
 	 * @param   rep  the show state (see proto/studio.proto).
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::NOT_FOUND if show_id or scene_id is not found
-	 *               StudioStatus::INVALID_ARGUMENT if the scene is already active
-	 *               StudioStatus::INTERNAL if an exception occured or the scene transition failed
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::NOT_FOUND if show_id or scene_id is not found
+	 *               grpc::Status::INVALID_ARGUMENT if the scene is already active
+	 *               grpc::Status::INTERNAL if an exception occured or the scene transition failed
 	 */
-	StudioStatus SceneSetAsCurrent(string show_id, string scene_id);
+	Status SceneSetAsCurrent(ServerContext* ctx, const proto::SceneSetAsCurrentRequest* req, proto::SceneSetAsCurrentResponse* rep) override;
 
 	/**
 	 * Returns the id of the currently active scene t othe gRPC caller.
 	 *
+	 * @param   ctx  pointer to the gRPC server context.
 	 * @param   req  SceneGetCurrentRequest containing the show_id
 	 * @param   rep  SceneGetCurrentResponse containing the active scene_id.
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::NOT_FOUND if show_id is not found
-	 *               StudioStatus::INTERNAL if an exception occured or the active scene is NULL
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::NOT_FOUND if show_id is not found
+	 *               grpc::Status::INTERNAL if an exception occured or the active scene is NULL
 	 */
-	Scene* SceneGetCurrent(string show_id);
+	Status SceneGetCurrent(ServerContext* ctx, const proto::SceneGetCurrentRequest* req, proto::SceneGetCurrentResponse* rep) override;
 
 	// Source
 	/**
 	 * Returns the state of a given source to the gRPC caller.
 	 *
+	 * @param   ctx  pointer to the gRPC server context.
 	 * @param   req  SourceGetRequest containing the show_id, scene_id and source_id
 	 * @param   rep  the source state (see proto/studio.proto).
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::NOT_FOUND if show_id is not found in the show
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::NOT_FOUND if show_id is not found in the show
 	 *               map or if scene_id is not found in show_id or if source_id
 	 *               is not found in scene_id
-	 *               StudioStatus::INTERNAL if an exception occured
+	 *               grpc::Status::INTERNAL if an exception occured
 	 */
-	Source* GetSource(string show_id, string scene_id, string source_id);
+	Status SourceGet(ServerContext* ctx, const proto::SourceGetRequest* req, proto::SourceGetResponse* rep) override;
 
 	/**
 	 * Creates a new empty source and adds it to the source map of a given scene
 	 * in a given show.
 	 *
+	 * @param   ctx  pointer to the gRPC server context.
 	 * @param   req  SourceAddRequest containing the show_id and scene_id, with
 	 *               the new source_name, source_type, and source_url.
 	 * @param   rep  the source state (see proto/studio.proto).
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::INVALID_ARGUMENT if the source_type is not supported
-	 *               StudioStatus::NOT_FOUND if show_id is not found in the show
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::INVALID_ARGUMENT if the source_type is not supported
+	 *               grpc::Status::NOT_FOUND if show_id is not found in the show
 	 *               map or if scene_id is not found in show_id
-	 *               StudioStatus::INTERNAL if an exception occured or failed to
+	 *               grpc::Status::INTERNAL if an exception occured or failed to
 	 *               add source
 	 */
-	Source* SourceAdd(string show_id, string scene_id, string source_name, string source_type, string source_url);
+	Status SourceAdd(ServerContext* ctx, const proto::SourceAddRequest* req, proto::SourceAddResponse* rep) override;
 
 	/**
 	 * Creates a new source from an existing one and adds it to the source map
 	 * of a given scene in a given show. It will have the same name, type and
 	 * url with a different id. The new source is not set as active not started.
 	 *
+	 * @param   ctx  pointer to the gRPC server context.
 	 * @param   req  SourceDuplicateRequest containing the show_id and scene_id
 	 *               where the source to duplicate is located, and its source_id.
 	 * @param   rep  the source state (see proto/studio.proto).
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::NOT_FOUND if show_id or scene_id is not found
-	 *               StudioStatus::INTERNAL if an exception occured or the
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::NOT_FOUND if show_id or scene_id is not found
+	 *               grpc::Status::INTERNAL if an exception occured or the
 	 *               original source is not found
 	 */
-	Source* SourceDuplicate(string show_id, string scene_id, string source_id);
+	Status SourceDuplicate(ServerContext* ctx, const proto::SourceDuplicateRequest* req, proto::SourceDuplicateResponse* rep) override;
 
 	/**
 	 * Removes a given source from a given scene in a given show.
 	 *
+	 * @param   ctx  pointer to the gRPC server context.
 	 * @param   req  SourceRemoveRequest containing the show_id and scene_id
 	 *               that contain the source_id to remove.
 	 * @param   rep  Empty response gRPC type.
-	 * @return       StudioStatus::OK if successful
-	 *               StudioStatus::NOT_FOUND if show_id, scene_id or source_id is not found
-	 *               StudioStatus::FAILED_PRECONDITION if the source is active
-	 *               StudioStatus::INTERNAL if an exception occured
+	 * @return       grpc::Status::OK if successful
+	 *               grpc::Status::NOT_FOUND if show_id, scene_id or source_id is not found
+	 *               grpc::Status::FAILED_PRECONDITION if the source is active
+	 *               grpc::Status::INTERNAL if an exception occured
 	 */
-	StudioStatus SourceRemove(string show_id, string scene_id, string source_id);
+	Status SourceRemove(ServerContext* ctx, const proto::SourceRemoveRequest* req, Empty* rep) override;
+	
+	// TODO doc
+	Status SourceSetProperties(ServerContext* ctx, const proto::SourceSetPropertiesRequest* req, proto::SourceSetPropertiesResponse* rep) override;
 
-    // TODO doc
-	StudioStatus SourceSetProperties(string show_id, string scene_id, string source_id, string source_type, string source_url);
+	// Misc
+	Status Health(ServerContext* ctx, const Empty* req, proto::HealthResponse* rep) override;
 
 private:
 	//Initializes obs: reset video and audio context, load modules libs, create RTMP output and encoders. Then starts the currently active show.
-	StudioStatus studioInit();
+	Status studioInit();
 	// Releases the obs output and encoders, stop the currently active show, stops obs.
-	StudioStatus studioRelease();
+	Status studioRelease();
 	Show* getShow(string show_id);
 	Show* addShow(string show_name);
 	Show* loadShow(string show_id);
 	Show* duplicateShow(string show_id);
-	StudioStatus removeShow(string show_id);
+	Status removeShow(string show_id);
 	int loadModule(const char* binPath, const char* dataPath);
 
 
