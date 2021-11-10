@@ -77,3 +77,7 @@ From the client, you can switch using by pressing `s` and `Enter`.
 - [deps] fdk-aac, x264 / ffmpeg. explain ffmpeg_nvenc
 - [style] fix mixed snake_case and camelCase
 - [feat] trace level and format from env
+- [docs] copy docs from src
+- [docs] mention evans for tests, with examples
+- [*] various TODOs in the code
+- [*] pointers to ref
