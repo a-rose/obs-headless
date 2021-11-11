@@ -1,7 +1,9 @@
-FROM nvidia/cudagl:11.4.2-devel-ubuntu20.04
+FROM nvidia/cudagl:11.4.2-devel-ubuntu20.04 as builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+WORKDIR /usr/local/src
 
 # Dependencies
-ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
 		build-essential cmake git \
@@ -21,22 +23,27 @@ RUN apt-get update \
 		libgrpc++-dev libgrpc++1 libgrpc-dev libgrpc6 \
 		libprotobuf-dev protobuf-compiler-grpc
 
-# OBS
-ENV OBS_VERSION=23.2.1
-ENV OBS_INSTALL_PATH="${HOME}/obs-studio-portable"
+# Get OBS sources
+ENV OBS_INSTALL_PATH="/obs-studio-portable"
 RUN git clone --recursive https://github.com/obsproject/obs-studio.git \
 	&& cd obs-studio \
-	&& git checkout ${OBS_VERSION} \
-	&& mkdir build \
-	&& cd build \
-	&& cmake -DUNIX_STRUCTURE=0 -DCMAKE_INSTALL_PREFIX=${OBS_INSTALL_PATH} -DBUILD_BROWSER=OFF .. \
+	&& mkdir build
+
+# Checkout a specific OBS version
+ENV OBS_VERSION=23.2.1
+RUN cd obs-studio \
+	&& git checkout ${OBS_VERSION}
+
+# Build OBS
+RUN cd obs-studio/build \
+	&& cmake -DUNIX_STRUCTURE=0 -DCMAKE_INSTALL_PREFIX=${OBS_INSTALL_PATH} -DBUILD_BROWSER=OFF -DENABLE_PIPEWIRE=OFF .. \
 	&& make -j$(nproc) \
 	&& make install
 
 # obs-headless
 COPY . /usr/local/src/obs-headless
 ARG BUILD_TYPE=Release
-RUN cd /usr/local/src/obs-headless \
+RUN cd obs-headless \
 	\
 	&& echo -e "\033[32mBUILD_TYPE: ${BUILD_TYPE}\033[0m" \
 	&& echo -e "\033[32mGenerating proto files...\033[0m" \
@@ -62,6 +69,10 @@ RUN cd /usr/local/src/obs-headless \
 			linux-tools-common linux-tools-generic; \
 	fi
 
+# Copy the whole filesystem in a new build stage, to flatten the layers into
+# one and get a minimal image size
+FROM scratch
+COPY --from=builder / /
 
 # Run from OBS's directory. Core dumps will be located there.
 WORKDIR ${OBS_INSTALL_PATH}/bin/64bit/
