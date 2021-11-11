@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
                     break;
 
                 default:
-                    trace_info("Press 'q' key to stop");
+                    trace_info("Press 'q' to stop");
             }
             
             c = cin.get();
