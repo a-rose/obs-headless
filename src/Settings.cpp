@@ -79,7 +79,6 @@ Settings LoadConfig(const string& file) {
     // TODO more checks
 
     trace_debug("", field_s(s.server));
-    trace_debug("", field_s(s.key));
     trace_debug("", field_s(s.transition_type));
     trace_debug("", field(s.transition_delay_sec));
     trace_debug("", field(s.transition_duration_ms));
