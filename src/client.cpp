@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
 		}
 		trace_info("Health reply", field(server_timestamp));
 
-		client.ShowLoad(OBS_HEADLESS_PATH "shows/default.json");
+		client.ShowLoad(OBS_HEADLESS_PATH "etc/shows/default.json");
 
 		trace_info("Starting studio");
 		s = client.StudioStart();

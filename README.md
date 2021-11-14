@@ -31,7 +31,7 @@ You can undo this by executing `xhost -` on your host machine.
 
 ## Streaming Sources
 
-`shows/default.json` is used as a default scene when starting obs-headless. It contains two RTMP sources as inputs; they can be publicly available RTMP streams (for example `rtmp://213.152.6.234/iltv/high` or `rtmp://62.113.210.250/medienasa-live/ok-merseburg_high`) or streams produced locally using ffmpeg:
+`etc/shows/default.json` is used as a default scene when starting obs-headless. It contains two RTMP sources as inputs; they can be publicly available RTMP streams (for example `rtmp://213.152.6.234/iltv/high` or `rtmp://62.113.210.250/medienasa-live/ok-merseburg_high`) or streams produced locally using ffmpeg:
 
 **Stream a local FLV file on port 1936:**
 

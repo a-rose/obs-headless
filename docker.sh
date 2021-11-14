@@ -16,8 +16,7 @@ run_args="--rm \
 	--gpus all \
 	--name=$CONTAINER \
 	-e DISPLAY \
-	-v $(pwd)/etc/config.txt:/usr/local/src/obs-headless/config.txt \
-	-v $(pwd)/shows/:/usr/local/src/obs-headless/shows/ \
+	-v $(pwd)/etc/:/usr/local/src/obs-headless/etc/ \
 	--net=host"
 
 shell_args="$run_args"
