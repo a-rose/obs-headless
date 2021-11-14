@@ -41,13 +41,13 @@ RUN cd obs-studio/build \
 	&& make install
 
 # obs-headless
-COPY . /usr/local/src/obs-headless
+COPY src /usr/local/src/obs-headless
 ARG BUILD_TYPE=Release
 RUN cd obs-headless \
 	\
 	&& echo -e "\033[32mBUILD_TYPE: ${BUILD_TYPE}\033[0m" \
 	&& echo -e "\033[32mGenerating proto files...\033[0m" \
-	&& cd src/proto_gen/ \
+	&& cd proto_gen/ \
 	&& sh proto_gen.sh \
 	&& cd .. \
 	\
