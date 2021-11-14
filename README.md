@@ -2,39 +2,71 @@
 C++ program based on libobs (from obs-studio), designed to read RTMP streams and compose them as sources in different scenes.
 This implementation is a gRPC server with a test client .
 
-## QT dependcy
-The test program depends on QT5 because libobs doesn't seem to initialize OpenGL properly (segfault in gl_context_create when calling obs_reset_video).
-Calling the QT init function beforehand seems to bypass this issue.
+⚠️ At the moment, obs-headless only **works with old versions of libobs**. Version 23.2.1 is used.
 
-This could be a bug in libobs, the main obs frontend is not affected because it uses QT.
+# Prerequisites
 
-Using macOS, Qt is not needed, you can delete all references in the code and CMakeLists.txt.
+- Machine with an NVidia GPU and NVidia drivers installed.
+- X Server
+- Docker + Nvidia tutorial: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
+- ffmpeg for tests
 
-## Installing gRPC
+## CUDA versions
 
-You need to install `protoc` and `grpc` with the C++ plugin (`grpc_cpp_plugin`).
+Check which CUDA version is installed on your host using `nvidia-smi`. If needed, edit `Dockerfile` to use the same version as a base image: `FROM FROM nvidia/cudagl:<YOUR CUDA VERSION HERE>-devel-ubuntu20.04`
 
-On Ubuntu, simply install the following packages: `libgrpc++-dev libgrpc++1 libgrpc-dev libgrpc6 protobuf-compiler-grpc 
-`
+Existing tags: https://hub.docker.com/r/nvidia/cudagl/tags
 
-## Installing OBS
+# Building
 
-You need to build OBS from the sources.
- You can follow [instructions from obs-studio on Github](https://github.com/obsproject/obs-studio/wiki/Install-Instructions#linux-portable-mode-all-distros) but watch out:
+	./docker.sh build dev
 
- - ⚠️ At the moment, obs-headless only **works with old versions of libobs**. Please use `git checkout 23.2.1` to use this old tag until this issue is resolved.
- - Using Ubuntu 20.04, you need the following packages to compile OBS, which is not mentionned in the doc at the moment: `libx11-xcb-dev libxcb-randr0-dev libqt5svg5-dev`
- - Using the given cmake command-line, files are installed in `$HOME/obs-studio-portable` . If you change this path, you need to update `OBS_INSTALL_PATH` in `./config.sh` to values relevant to your setup.
+# Running
 
-## Building and running obs-headless
-Now that OBS is installed, build and run obs-headless:
- - Run `./compile.sh`
- - After compiling, set up your configuration in `config.txt`
- - You can now start the server with `./run.sh`
- - You can also start the server gdb with `./run.sh -g`
- - Start the test client with `./build/obs_headless_client`
+## X Server Access Control
 
-## TODO
+In order to allow the container to use the host's X Server, the `docker.sh` script runs the `xhost +` command everytime you use the `run`, `shell` or `gdb` actions.
+
+You can undo this by executing `xhost -` on your host machine.
+
+## Streaming Sources
+
+`shows/default.json` is used as a default scene when starting obs-headless. It contains two RTMP sources as inputs; they can be publicly available RTMP streams (for example `rtmp://213.152.6.234/iltv/high` or `rtmp://62.113.210.250/medienasa-live/ok-merseburg_high`) or streams produced locally using ffmpeg:
+
+**Stream a local FLV file on port 1936:**
+
+	ffmpeg -stream_loop -1 -re -i myfile.flv  -c copy -f flv  rtmp://localhost:1936/myfile
+
+
+**Transcode and stream local file on port 1936:**
+
+	ffmpeg -stream_loop -1 -re -i myfile.mp4 -c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 -c:a aac -b:a 128k -f flv rtmp://0.0.0.0:1936/
+
+## Streaming Output
+
+You can use any streaming platform, like Twitch, or you can start a RTMP server on your machine using ffmpeg.
+
+	ffmpeg -y -f flv -listen 1 -i rtmp://localhost:1938/live/key -c copy obs-headless-out.flv -loglevel debug
+
+Edit config.txt to set `server` and `key` with your stream URL and key.
+
+## Starting obs-headless
+
+	./docker.sh run dev
+
+For debugging:
+
+	./docker.sh gdb dev
+
+---
+
+Start the test **client** in an other terminal:
+
+	./docker.sh client
+
+From the client, you can switch using by pressing `s` and `Enter`.
+
+# TODO
 
 - [fix] Playback stops when switching source!
 - [fix] green screen when using OBS version > 23.2.1. At the moment, using (for example) v24.0.0 gives a green video output (audio is fine)
