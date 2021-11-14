@@ -19,9 +19,12 @@ run_args="--rm \
 	-v $(pwd)/etc/:/usr/local/src/obs-headless/etc/ \
 	--net=host"
 
+obs_sources=$HOME/dev/obs-studio
+
 shell_args="$run_args \
-	-v $(pwd)/src/:/usr/local/src/obs-headless/ \
-	-v /home/antoine/dev/obs-studio/:/usr/local/src/obs-studio/"
+	-v $(pwd)/etc/bashrc:/root/.bashrc \
+	-v $(pwd)/src:/usr/local/src/obs-headless/\
+	-v ${obs_sources}:/usr/local/src/obs-studio"
 
 #######################################
 # Input validation

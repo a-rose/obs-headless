@@ -104,17 +104,25 @@ Edit etc/config.txt to set `server` and `key` with your output stream URL and ke
 
 	./docker.sh run dev
 
-For debugging:
-
-	./docker.sh gdb dev
-
----
-
 Start the test **client** in an other terminal:
 
 	./docker.sh client
 
 From the client, you can switch using by pressing `s` and `Enter`.
+
+## Debugging
+
+With gdb:
+
+	./docker.sh gdb dev
+
+With attached sources: you can start a container with obs-studio and obs-headless sources attached as volumes, so you can edit sources and rebuild in the container.
+
+1. Clone obs-studio on your host (see Dockerfile for the repo URL)
+2. Set `obs_sources` in docker.sh to the path where you just cloned obs-studio
+3. Start the container: `./docker.sh shell dev`.
+4. Build obs-studio and obs-headless (see Dockerfile for build instructions)
+5. You can now edit the sources and rebuild from the container. Rebuild with `rb` and start with `st` (see etc/Bashrc for aliases).
 
 # TODO
 
