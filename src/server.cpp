@@ -1,8 +1,8 @@
 #include <QApplication>
 #include <QPushButton>
-#include "Studio.hpp"
-#include "Trace.hpp"
-#include "Settings.hpp"
+#include "lib/Studio.hpp"
+#include "lib/Trace.hpp"
+#include "lib/Settings.hpp"
 
 using namespace std;
 

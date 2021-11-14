@@ -2,8 +2,8 @@
 #include <memory>
 #include <string>
 #include <grpc++/grpc++.h>
-#include "proto/studio.grpc.pb.h"
-#include "Trace.hpp"
+#include "lib/proto/studio.grpc.pb.h"
+#include "lib/Trace.hpp"
 
 using grpc::Channel;
 using grpc::ClientContext;

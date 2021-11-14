@@ -27,21 +27,21 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 # Server
 add_executable(obs_headless_server
     server.cpp
-    Settings.cpp
-    proto/studio.pb.cc
-    proto/studio.grpc.pb.cc
-    Studio.cpp
-    Source.cpp
-    Scene.cpp
-    Show.cpp
-    Trace.hpp
-    Settings.hpp
-    proto/studio.pb.h
-    proto/studio.grpc.pb.h
-    Studio.hpp
-    Source.hpp
-    Scene.hpp
-    Show.hpp
+    lib/Settings.cpp
+    lib/proto/studio.pb.cc
+    lib/proto/studio.grpc.pb.cc
+    lib/Studio.cpp
+    lib/Source.cpp
+    lib/Scene.cpp
+    lib/Show.cpp
+    lib/Trace.hpp
+    lib/Settings.hpp
+    lib/proto/studio.pb.h
+    lib/proto/studio.grpc.pb.h
+    lib/Studio.hpp
+    lib/Source.hpp
+    lib/Scene.hpp
+    lib/Show.hpp
 )
 
 target_link_libraries(obs_headless_server
@@ -57,11 +57,11 @@ target_link_libraries(obs_headless_server
 # Client
 add_executable(obs_headless_client 
     client.cpp
-    proto/studio.pb.cc
-    proto/studio.grpc.pb.cc
-    Trace.hpp
-    proto/studio.pb.h
-    proto/studio.grpc.pb.h
+    lib/proto/studio.pb.cc
+    lib/proto/studio.grpc.pb.cc
+    lib/Trace.hpp
+    lib/proto/studio.pb.h
+    lib/proto/studio.grpc.pb.h
 )
 
 target_link_libraries(obs_headless_client
