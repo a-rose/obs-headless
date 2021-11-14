@@ -47,9 +47,9 @@ RUN cd obs-headless \
 	\
 	&& echo -e "\033[32mBUILD_TYPE: ${BUILD_TYPE}\033[0m" \
 	&& echo -e "\033[32mGenerating proto files...\033[0m" \
-	&& cd proto/ \
+	&& cd src/proto_gen/ \
 	&& sh gen_proto.sh \
-	&& cd .. \
+	&& cd ../.. \
 	\
 	&& echo -e "\033[32mPreparing build...\033[0m" \
 	&& mkdir -p build \
