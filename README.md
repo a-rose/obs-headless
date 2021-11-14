@@ -48,7 +48,7 @@ You can use any streaming platform, like Twitch, or you can start a RTMP server 
 
 	ffmpeg -y -f flv -listen 1 -i rtmp://localhost:1938/live/key -c copy obs-headless-out.flv -loglevel debug
 
-Edit config.txt to set `server` and `key` with your stream URL and key.
+Edit etc/config.txt to set `server` and `key` with your stream URL and key.
 
 ## Starting obs-headless
 
