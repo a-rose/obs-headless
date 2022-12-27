@@ -1,4 +1,5 @@
 # obs-headless
+
 C++ program based on libobs (from obs-studio), designed to read RTMP streams and compose them as sources in different scenes.
 This implementation is a gRPC server with a test client .
 
@@ -13,7 +14,7 @@ This implementation is a gRPC server with a test client .
 
 ## CUDA versions
 
-Check which CUDA version is installed on your host using `nvidia-smi`. If needed, edit `Dockerfile` to use the same version as a base image: `FROM FROM nvidia/cudagl:<YOUR CUDA VERSION HERE>-devel-ubuntu20.04`
+Check which CUDA version is installed on your host using `nvidia-smi`. If needed, edit `Dockerfile` to use the same version as a base image: `FROM nvidia/cudagl:<YOUR CUDA VERSION HERE>-devel-ubuntu22.04`
 
 Existing tags: https://hub.docker.com/r/nvidia/cudagl/tags
 
@@ -79,5 +80,8 @@ From the client, you can switch using by pressing `s` and `Enter`.
 - [feat] trace level and format from env
 - [docs] copy docs from src
 - [docs] mention evans for tests, with examples
+- [docker] use docker-compose with ffmpeg RTMP servers in containers
+- [docker] split builder and release Dockerfiles
 - [*] various TODOs in the code
 - [*] pointers to ref
+- [*] switch to Golang

@@ -1,7 +1,13 @@
-FROM nvidia/cudagl:11.4.2-devel-ubuntu20.04 as builder
+FROM nvidia/cuda:12.0.0-devel-ubuntu20.04 as builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /usr/local/src
+
+# From cudagl Dockerfiles
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        pkg-config libglvnd-dev libgl1-mesa-dev \
+        libegl1-mesa-dev libgles2-mesa-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # Dependencies
 RUN apt-get update \
