@@ -69,11 +69,12 @@ RUN cd obs-headless \
 			linux-tools-common linux-tools-generic; \
 	fi
 
+# config
+COPY etc /usr/local/src/obs-headless/etc
+
 # Copy the whole filesystem in a new build stage, to flatten the layers into
 # one and get a minimal image size
 FROM scratch
 COPY --from=builder / /
 
-# Run from OBS's directory. Core dumps will be located there.
-WORKDIR ${OBS_INSTALL_PATH}/bin/64bit/
-ENTRYPOINT ["/usr/local/src/obs-headless/build/obs_headless_server"]
+ENTRYPOINT ["/usr/local/src/obs-headless/etc/docker-entrypoint.sh"]
