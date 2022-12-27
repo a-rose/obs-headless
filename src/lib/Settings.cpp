@@ -84,7 +84,7 @@ Settings LoadConfig(const string& file) {
     trace_debug("", field(s.transition_duration_ms));
     trace_debug("", field(s.video_hw_decode));
     trace_debug("", field(s.video_hw_encode));
-    trace_debug("", field(s.video_hw_encode));
+    trace_debug("", field(s.video_gpu_conversion));
     trace_debug("", field(s.video_bitrate_kbps));
     trace_debug("", field(s.video_keyint_sec));
     trace_debug("", field_s(s.video_rate_control));
