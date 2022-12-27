@@ -845,7 +845,6 @@ Status Studio::studioInit() {
 	if (!rtmp_settings) {
 		return Status(grpc::INTERNAL, "Couldn't create rtmp settings");
 	}
-	obs_data_release(rtmp_settings);
 
 	obs_data_set_string(rtmp_settings, "server", settings->server.c_str());
 	obs_data_set_string(rtmp_settings, "key", settings->key.c_str());
