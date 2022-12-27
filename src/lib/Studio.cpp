@@ -782,7 +782,7 @@ Status Studio::studioInit() {
 	memset(&oai, 0, sizeof(oai));
 
 	ovi.adapter         = 0;
-	ovi.graphics_module = LIBOBS_PATH"libobs-opengl.so.0.0";
+	ovi.graphics_module = LIBOBS_PATH"libobs-opengl.so";
 	ovi.output_format   = VIDEO_FORMAT_NV12; // TODO to settings with VIDEO_FORMAT_I420
 	ovi.fps_num         = settings->video_fps_num;
 	ovi.fps_den         = settings->video_fps_den;
