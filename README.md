@@ -47,7 +47,7 @@ You can undo this by executing `xhost -` on your host machine.
 
 You can use any streaming platform, like Twitch, or you can start a RTMP server on your machine using ffmpeg.
 
-	ffmpeg -y -f flv -listen 1 -i rtmp://localhost:1938/live/key -c copy obs-headless-out.flv -loglevel debug
+	ffmpeg -y -f flv -listen 1 -i rtmp://localhost:1935/live/key -c copy obs-headless-out.flv -loglevel debug
 
 Edit etc/config.txt to set `server` and `key` with your stream URL and key.
 
