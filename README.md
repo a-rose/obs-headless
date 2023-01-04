@@ -34,22 +34,71 @@ You can undo this by executing `xhost -` on your host machine.
 
 `etc/shows/default.json` is used as a default scene when starting obs-headless. It contains two RTMP sources as inputs; they can be publicly available RTMP streams (for example `rtmp://213.152.6.234/iltv/high` or `rtmp://62.113.210.250/medienasa-live/ok-merseburg_high`) or streams produced locally using ffmpeg:
 
-**Stream a local FLV file on port 1936:**
+**Create a live test source and stream it (high CPU usage):**
 
-	ffmpeg -stream_loop -1 -re -i myfile.flv  -c copy -f flv  rtmp://localhost:1936/myfile
+	# First source on port 1936
+	ffmpeg -stream_loop -1 -re \
+		-f lavfi -i "testsrc=size=1920x1080" \
+		-f lavfi -i "sine=frequency=1000" -pix_fmt yuv420p \
+		-c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 \
+		-c:a aac -b:a 128k \
+		-f flv rtmp://localhost:1936/live/key
+
+	# Second source on port 1937, this one without colors so we can easily
+	# distinguish between two sources when switching.
+	ffmpeg -stream_loop -1 -re \
+		-f lavfi -i "testsrc=size=1920x1080" \
+		-f lavfi -i "sine=frequency=1000" -pix_fmt yuv420p \
+		-c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 \
+		-c:a aac -b:a 128k \
+		-f flv rtmp://localhost:1937/live/key
+
+**Transcode and stream local file (medium CPU usage)**
+
+	ffmpeg -stream_loop -1 -re \
+		-i myfile.mp4 \
+			-c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 \
+			-c:a aac -b:a 128k \
+			-f flv rtmp://localhost:1936/live/key
+
+**Stream a local FLV file (low CPU usage):**
+
+	# First, produce our own test files from the test source. This way, we can
+	# encode once and reuse the file to save some CPU.
+	# Here, we use -t 600 to get a 10 minutes file, to avoid having to restart
+	# the source too often.
+	ffmpeg \
+		-f lavfi -i "sine=frequency=1000" \
+		-f lavfi -i "testsrc=size=1920x1080" -pix_fmt yuv420p \
+		-t 600 testsrc.flv
+
+	# Produce a second file with no colors.
+	ffmpeg \
+		-f lavfi -i "sine=frequency=1000" \
+		-f lavfi -i "testsrc=size=1920x1080" -pix_fmt yuv420p -vf hue=s=0 \
+		-t 600 testsrc2.flv
+
+	# Stream a file to port 1936
+	ffmpeg -stream_loop -1 -re \
+		-i testsrc.flv -c copy \
+		-f flv rtmp://localhost:1936/live/key
 
 
-**Transcode and stream local file on port 1936:**
-
-	ffmpeg -stream_loop -1 -re -i myfile.mp4 -c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 -c:a aac -b:a 128k -f flv rtmp://0.0.0.0:1936/
 
 ## Streaming Output
 
-You can use any streaming platform, like Twitch, or you can start a RTMP server on your machine using ffmpeg.
+The easiest way is to use a streaming platform (for example Twitch), so that you can see the output in real time. You can also start a RTMP server on your machine using ffmpeg:
 
-	ffmpeg -y -f flv -listen 1 -i rtmp://localhost:1935/live/key -c copy obs-headless-out.flv -loglevel debug
+	ffmpeg -y -loglevel debug \
+		-listen 1 -f flv -i rtmp://localhost:1935/live/key \
+		-c copy \
+		-f flv rtmp://localhost:1933/live/key
 
-Edit etc/config.txt to set `server` and `key` with your stream URL and key.
+	# When you are done, check the result with:
+	ffplay obs-headless-out.flv
+	
+
+Edit etc/config.txt to set `server` and `key` with your output stream URL and key.
 
 ## Starting obs-headless
 
