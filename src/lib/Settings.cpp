@@ -79,13 +79,12 @@ Settings LoadConfig(const string& file) {
     // TODO more checks
 
     trace_debug("", field_s(s.server));
-    trace_debug("", field_s(s.key));
     trace_debug("", field_s(s.transition_type));
     trace_debug("", field(s.transition_delay_sec));
     trace_debug("", field(s.transition_duration_ms));
     trace_debug("", field(s.video_hw_decode));
     trace_debug("", field(s.video_hw_encode));
-    trace_debug("", field(s.video_hw_encode));
+    trace_debug("", field(s.video_gpu_conversion));
     trace_debug("", field(s.video_bitrate_kbps));
     trace_debug("", field(s.video_keyint_sec));
     trace_debug("", field_s(s.video_rate_control));

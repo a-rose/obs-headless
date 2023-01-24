@@ -1,4 +1,4 @@
-server rtmp://localhost:1935/live/
+server rtmp://localhost/live/
 key key
 transition_type cut_transition
 transition_delay_sec 10

@@ -1,8 +1,8 @@
 #include <QApplication>
 #include <QPushButton>
-#include "Studio.hpp"
-#include "Trace.hpp"
-#include "Settings.hpp"
+#include "lib/Studio.hpp"
+#include "lib/Trace.hpp"
+#include "lib/Settings.hpp"
 
 using namespace std;
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
 	signal(SIGINT, intHandler);
 
 	try {
-        Settings settings = LoadConfig(OBS_HEADLESS_PATH "config.txt");
+        Settings settings = LoadConfig(OBS_HEADLESS_PATH "/etc/config.txt");
 		RunServer(&settings);
 	}
     catch(const exception& e) {

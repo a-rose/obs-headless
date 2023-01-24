@@ -782,7 +782,7 @@ Status Studio::studioInit() {
 	memset(&oai, 0, sizeof(oai));
 
 	ovi.adapter         = 0;
-	ovi.graphics_module = LIBOBS_PATH"libobs-opengl.so.0.0";
+	ovi.graphics_module = LIBOBS_PATH"libobs-opengl.so";
 	ovi.output_format   = VIDEO_FORMAT_NV12; // TODO to settings with VIDEO_FORMAT_I420
 	ovi.fps_num         = settings->video_fps_num;
 	ovi.fps_den         = settings->video_fps_den;
@@ -845,7 +845,6 @@ Status Studio::studioInit() {
 	if (!rtmp_settings) {
 		return Status(grpc::INTERNAL, "Couldn't create rtmp settings");
 	}
-	obs_data_release(rtmp_settings);
 
 	obs_data_set_string(rtmp_settings, "server", settings->server.c_str());
 	obs_data_set_string(rtmp_settings, "key", settings->key.c_str());

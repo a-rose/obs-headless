@@ -1,0 +1,17 @@
+PS1="\033[44;37m \W \033[0m $ "
+
+# runtime path
+rpath="/obs-studio-portable/bin/64bit/"
+
+# OBS
+obs_src=/usr/local/src/obs-studio
+alias cdsrcobs="cd ${obs_src}"
+alias rbobs="cd ${obs_src}/build && make -j$(nproc) && make install"
+alias stobs="${rpath}/obs"
+
+# obs-headless
+obs_headless_src=/usr/local/src/obs-headless
+alias cdsrc="cd ${obs_headless_src}"
+alias rb="cdsrc && cd build && make -j$(nproc)"
+alias st="${obs_headless_src}/build/obs_headless_server"
+

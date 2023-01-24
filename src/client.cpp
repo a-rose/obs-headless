@@ -2,8 +2,8 @@
 #include <memory>
 #include <string>
 #include <grpc++/grpc++.h>
-#include "proto/studio.grpc.pb.h"
-#include "Trace.hpp"
+#include "lib/proto/studio.grpc.pb.h"
+#include "lib/Trace.hpp"
 
 using grpc::Channel;
 using grpc::ClientContext;
@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
 		}
 		trace_info("Health reply", field(server_timestamp));
 
-		client.ShowLoad(OBS_HEADLESS_PATH "shows/default.json");
+		client.ShowLoad(OBS_HEADLESS_PATH "/etc/shows/default.json");
 
 		trace_info("Starting studio");
 		s = client.StudioStart();
@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
                     break;
 
                 default:
-                    trace_info("Press 'q' key to stop");
+                    trace_info("Press 'q' to stop");
             }
             
             c = cin.get();

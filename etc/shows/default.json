@@ -7,7 +7,7 @@
                 {
                     "name": "source A",
                     "type": "RTMP",
-                    "url": "rtmp://localhost:1936/source_a"
+                    "url": "rtmp://localhost/sourceA"
                 }
             ]
         },
@@ -17,7 +17,7 @@
                 {
                     "name": "source B",
                     "type": "RTMP",
-                    "url": "rtmp://localhost:1936/source_a"
+                    "url": "rtmp://localhost/sourceB"
                 }
             ]
         }

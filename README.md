@@ -1,40 +1,69 @@
 # obs-headless
+
 C++ program based on libobs (from obs-studio), designed to read RTMP streams and compose them as sources in different scenes.
-This implementation is a gRPC server with a test client .
 
-## QT dependcy
-The test program depends on QT5 because libobs doesn't seem to initialize OpenGL properly (segfault in gl_context_create when calling obs_reset_video).
-Calling the QT init function beforehand seems to bypass this issue.
+The main part consists of a gRPC server. An example client is also provided.
 
-This could be a bug in libobs, the main obs frontend is not affected because it uses QT.
+This project uses Docker to ease build and deployment. If you follow the prerequisites below, accessing the GPU with Docker should work out of the box.
 
-Using macOS, Qt is not needed, you can delete all references in the code and CMakeLists.txt.
+⚠️ At the moment, obs-headless only **works with old versions of libobs**. Version 23.2.1 is used.
 
-## Installing gRPC
+# Prerequisites
 
-You need to install `protoc` and `grpc` with the C++ plugin (`grpc_cpp_plugin`).
+- Machine with an NVidia GPU and NVidia drivers installed.
+- X Server
+- Docker + Nvidia tutorial: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
+- Video sources and sinks to test with. Please read STREAMING.md for details on how to generate test streams.
 
-On Ubuntu, simply install the following packages: `libgrpc++-dev libgrpc++1 libgrpc-dev libgrpc6 protobuf-compiler-grpc 
-`
+## CUDA versions
 
-## Installing OBS
+Check which CUDA version is installed on your host using `nvidia-smi`. If needed, edit `Dockerfile` to use the same version as a base image: `FROM nvidia/cudagl:<YOUR CUDA VERSION HERE>-devel-ubuntu22.04`
 
-You need to build OBS from the sources.
- You can follow [instructions from obs-studio on Github](https://github.com/obsproject/obs-studio/wiki/Install-Instructions#linux-portable-mode-all-distros) but watch out:
+Existing tags: https://hub.docker.com/r/nvidia/cudagl/tags
 
- - ⚠️ At the moment, obs-headless only **works with old versions of libobs**. Please use `git checkout 23.2.1` to use this old tag until this issue is resolved.
- - Using Ubuntu 20.04, you need the following packages to compile OBS, which is not mentionned in the doc at the moment: `libx11-xcb-dev libxcb-randr0-dev libqt5svg5-dev`
- - Using the given cmake command-line, files are installed in `$HOME/obs-studio-portable` . If you change this path, you need to update `OBS_INSTALL_PATH` in `./config.sh` to values relevant to your setup.
+# Building
 
-## Building and running obs-headless
-Now that OBS is installed, build and run obs-headless:
- - Run `./compile.sh`
- - After compiling, set up your configuration in `config.txt`
- - You can now start the server with `./run.sh`
- - You can also start the server gdb with `./run.sh -g`
- - Start the test client with `./build/obs_headless_client`
+	./docker.sh build dev
 
-## TODO
+# Running
+
+## X Server Access Control
+
+In order to allow the container to use the host's X Server, the `docker.sh` script runs the `xhost +` command everytime you use the `run`, `shell` or `gdb` actions.
+
+You can undo this by executing `xhost -` on your host machine.
+
+## Configuration
+
+**Input**: edit `etc/shows/default.json` to set the default scene when starting obs-headless. It contains two RTMP sources as inputs, for which you must set the URL of public or local RTMP streams (see STREAMING.md).
+
+**Output**: edit `config.txt` to set `server` and `key` with your output stream URL and key. You can stream to any platform supporting RTMP (Twitch, Youtube, ...). You can also use any local RTMP server (see STREAMING.md).
+
+## Starting obs-headless
+
+	./docker.sh run dev
+
+Start the test **client** in an other terminal:
+
+	./docker.sh client
+
+From the client, you can switch using by pressing `s` and `Enter`.
+
+## Debugging
+
+With gdb:
+
+	./docker.sh gdb dev
+
+With attached sources: you can start a container with obs-studio and obs-headless sources attached as volumes, so you can edit sources and rebuild in the container.
+
+1. Clone obs-studio on your host (see Dockerfile for the repo URL)
+2. Set `obs_sources` in docker.sh to the path where you just cloned obs-studio
+3. Start the container: `./docker.sh shell dev`.
+4. Build obs-studio and obs-headless (see Dockerfile for build instructions)
+5. You can now edit the sources and rebuild from the container. Rebuild with `rb` and start with `st` (see etc/Bashrc for aliases).
+
+# TODO
 
 - [fix] Playback stops when switching source!
 - [fix] green screen when using OBS version > 23.2.1. At the moment, using (for example) v24.0.0 gives a green video output (audio is fine)
@@ -45,3 +74,10 @@ Now that OBS is installed, build and run obs-headless:
 - [deps] fdk-aac, x264 / ffmpeg. explain ffmpeg_nvenc
 - [style] fix mixed snake_case and camelCase
 - [feat] trace level and format from env
+- [docs] copy docs from src
+- [docs] mention evans for tests, with examples
+- [docker] use docker-compose with ffmpeg RTMP servers in containers
+- [docker] split builder and release Dockerfiles. Tagged obs-studio built sources.
+- [*] various TODOs in the code
+- [*] pointers to ref
+- [*] switch to Golang
