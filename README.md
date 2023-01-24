@@ -1,7 +1,10 @@
 # obs-headless
 
 C++ program based on libobs (from obs-studio), designed to read RTMP streams and compose them as sources in different scenes.
-This implementation is a gRPC server with a test client .
+
+The main part consists of a gRPC server. An example client is also provided.
+
+This project uses Docker to ease build and deployment. If you follow the prerequisites below, accessing the GPU with Docker should work out of the box.
 
 ⚠️ At the moment, obs-headless only **works with old versions of libobs**. Version 23.2.1 is used.
 
@@ -138,7 +141,7 @@ With attached sources: you can start a container with obs-studio and obs-headles
 - [docs] copy docs from src
 - [docs] mention evans for tests, with examples
 - [docker] use docker-compose with ffmpeg RTMP servers in containers
-- [docker] split builder and release Dockerfiles
+- [docker] split builder and release Dockerfiles. Tagged obs-studio built sources.
 - [*] various TODOs in the code
 - [*] pointers to ref
 - [*] switch to Golang

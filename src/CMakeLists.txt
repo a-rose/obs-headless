@@ -21,8 +21,11 @@ link_directories("${OBS_INSTALL_PATH}/bin/64bit/")
 
 
 # Obs-headless
-add_definitions(-DOBS_HEADLESS_PATH="${PROJECT_SOURCE_DIR}/")
+set(CMAKE_INSTALL_PREFIX "/opt/obs-headless")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+set(CMAKE_INSTALL_RPATH "${OBS_INSTALL_PATH}/bin/64bit/")
+add_definitions(-DOBS_HEADLESS_PATH="${CMAKE_INSTALL_PREFIX}")
+
 
 # Server
 add_executable(obs_headless_server
@@ -54,6 +57,10 @@ target_link_libraries(obs_headless_server
     grpc++_reflection
 )
 
+install(TARGETS obs_headless_server
+    DESTINATION ${CMAKE_INSTALL_PREFIX}
+)
+
 # Client
 add_executable(obs_headless_client 
     client.cpp
@@ -68,4 +75,8 @@ target_link_libraries(obs_headless_client
     protobuf
     grpc++
     grpc++_reflection
+)
+
+install(TARGETS obs_headless_client
+    DESTINATION ${CMAKE_INSTALL_PREFIX}
 )

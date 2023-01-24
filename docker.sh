@@ -16,7 +16,7 @@ run_args="--rm \
 	--gpus all \
 	--name=$CONTAINER \
 	-e DISPLAY \
-	-v $(pwd)/etc/:/usr/local/src/obs-headless/etc/ \
+	-v $(pwd)/etc/:/opt/obs-headless/etc/ \
 	--net=host"
 
 obs_sources=$HOME/dev/obs-studio
@@ -118,7 +118,7 @@ function gdb() {
 	pre_run_steps
 
 	echo "Run $IMAGE:$tag"
-	docker run -it $run_args --entrypoint gdb $IMAGE:"$tag" /usr/local/src/obs-headless/build/obs_headless_server
+	docker run -it $run_args --entrypoint gdb $IMAGE:"$tag" /opt/obs-headless/obs_headless_server
 }
 
 function shell() {
@@ -130,7 +130,7 @@ function shell() {
 
 
 function client() {
-	docker exec -it $CONTAINER /usr/local/src/obs-headless/build/obs_headless_client
+	docker exec -it $CONTAINER /opt/obs-headless/obs_headless_client
 }
 
 function attach() {
