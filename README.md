@@ -13,7 +13,7 @@ This project uses Docker to ease build and deployment. If you follow the prerequ
 - Machine with an NVidia GPU and NVidia drivers installed.
 - X Server
 - Docker + Nvidia tutorial: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
-- ffmpeg for tests
+- Video sources and sinks to test with. Please read STREAMING.md for details on how to generate test streams.
 
 ## CUDA versions
 
@@ -33,75 +33,11 @@ In order to allow the container to use the host's X Server, the `docker.sh` scri
 
 You can undo this by executing `xhost -` on your host machine.
 
-## Streaming Sources
+## Configuration
 
-`etc/shows/default.json` is used as a default scene when starting obs-headless. It contains two RTMP sources as inputs; they can be publicly available RTMP streams (for example `rtmp://213.152.6.234/iltv/high` or `rtmp://62.113.210.250/medienasa-live/ok-merseburg_high`) or streams produced locally using ffmpeg:
+**Input**: edit `etc/shows/default.json` to set the default scene when starting obs-headless. It contains two RTMP sources as inputs, for which you must set the URL of public or local RTMP streams (see STREAMING.md).
 
-**Create a live test source and stream it (high CPU usage):**
-
-	# First source on port 1936
-	ffmpeg -stream_loop -1 -re \
-		-f lavfi -i "testsrc=size=1920x1080" \
-		-f lavfi -i "sine=frequency=1000" -pix_fmt yuv420p \
-		-c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 \
-		-c:a aac -b:a 128k \
-		-f flv rtmp://localhost:1936/live/key
-
-	# Second source on port 1937, this one without colors so we can easily
-	# distinguish between two sources when switching.
-	ffmpeg -stream_loop -1 -re \
-		-f lavfi -i "testsrc=size=1920x1080" \
-		-f lavfi -i "sine=frequency=1000" -pix_fmt yuv420p \
-		-c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 \
-		-c:a aac -b:a 128k \
-		-f flv rtmp://localhost:1937/live/key
-
-**Transcode and stream local file (medium CPU usage)**
-
-	ffmpeg -stream_loop -1 -re \
-		-i myfile.mp4 \
-			-c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 \
-			-c:a aac -b:a 128k \
-			-f flv rtmp://localhost:1936/live/key
-
-**Stream a local FLV file (low CPU usage):**
-
-	# First, produce our own test files from the test source. This way, we can
-	# encode once and reuse the file to save some CPU.
-	# Here, we use -t 600 to get a 10 minutes file, to avoid having to restart
-	# the source too often.
-	ffmpeg \
-		-f lavfi -i "sine=frequency=1000" \
-		-f lavfi -i "testsrc=size=1920x1080" -pix_fmt yuv420p \
-		-t 600 testsrc.flv
-
-	# Produce a second file with no colors.
-	ffmpeg \
-		-f lavfi -i "sine=frequency=1000" \
-		-f lavfi -i "testsrc=size=1920x1080" -pix_fmt yuv420p -vf hue=s=0 \
-		-t 600 testsrc2.flv
-
-	# Stream a file to port 1936
-	ffmpeg -stream_loop -1 -re \
-		-i testsrc.flv -c copy \
-		-f flv rtmp://localhost:1936/live/key
-
-
-
-## Streaming Output
-
-The easiest way is to use a streaming platform (for example Twitch), so that you can see the output in real time. You can also start a RTMP server on your machine using ffmpeg:
-
-	ffmpeg -y -loglevel debug \
-		-listen 1 -f flv -i rtmp://localhost:1935/live/key \
-		-c copy \
-		-f flv rtmp://localhost:1933/live/key
-
-	# When you are done, check the result with:
-	ffplay obs-headless-out.flv
-	
-
-Edit etc/config.txt to set `server` and `key` with your output stream URL and key.
+**Output**: edit `config.txt` to set `server` and `key` with your output stream URL and key. You can stream to any platform supporting RTMP (Twitch, Youtube, ...). You can also use any local RTMP server (see STREAMING.md).
 
 ## Starting obs-headless
 

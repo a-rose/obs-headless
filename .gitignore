@@ -9,3 +9,5 @@ compile_commands.json
 CTestTestfile.cmake
 build/
 .vscode/
+etc/testsrc.mp4
+etc/testsrc2.mp4

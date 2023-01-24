@@ -7,7 +7,7 @@
                 {
                     "name": "source A",
                     "type": "RTMP",
-                    "url": "rtmp://213.152.6.234/iltv/high"
+                    "url": "rtmp://localhost/sourceA"
                 }
             ]
         },
@@ -17,7 +17,7 @@
                 {
                     "name": "source B",
                     "type": "RTMP",
-                    "url": "rtmp://62.113.210.250/medienasa-live/ok-merseburg_high"
+                    "url": "rtmp://localhost/sourceB"
                 }
             ]
         }
