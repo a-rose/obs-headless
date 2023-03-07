@@ -5,7 +5,7 @@ transition_delay_sec 10
 transition_duration_ms 990
 video_hw_decode 0
 video_hw_encode 0
-video_gpu_conversion 0
+video_gpu_conversion 1
 video_bitrate_kbps 800
 video_keyint_sec 2
 video_rate_control CBR

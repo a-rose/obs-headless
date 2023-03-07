@@ -6,7 +6,7 @@ The main part consists of a gRPC server. An example client is also provided.
 
 This project uses Docker to ease build and deployment. If you follow the prerequisites below, accessing the GPU with Docker should work out of the box.
 
-⚠️ At the moment, obs-headless only **works with old versions of libobs**. Version 23.2.1 is used.
+⚠️ At the moment, obs-headless only **works with old versions of libobs**. Version 26.0.0 is used.
 
 # Prerequisites
 
@@ -97,6 +97,7 @@ Using the base image: you can start a container with obs-studio and obs-headless
 - [docs] copy docs from src
 - [docs] mention evans for tests, with examples
 - [docker] use docker-compose with ffmpeg RTMP servers in containers
+- [docker] Github Docker registry
 - [client] q must stop the server
 - [client] show usage in cli (e.g. 's' to switch sources)
 - [*] various TODOs in the code

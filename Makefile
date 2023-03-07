@@ -5,7 +5,7 @@
 SHELL:=/bin/bash
 cwd:=$(shell pwd)
 obs_sources:=${HOME}/dev/obs-studio
-obs_version:=23.2.1
+obs_version:=26.0.0
 
 # Make sure variables defined here are exported in subprocesses (docker)
 .EXPORT_ALL_VARIABLES:
