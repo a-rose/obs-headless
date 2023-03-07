@@ -22,7 +22,7 @@ Producing test streams locally, for example using [rtsp-simple-server](https://g
 			-f lavfi -i "sine=frequency=1000" -pix_fmt yuv420p \
 			-c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 \
 			-c:a aac -b:a 128k \
-			-f flv rtmp://localhost:8554/sourceA
+			-f flv rtmp://localhost/sourceA
 
 		# Second source on port 1937, this one without colors so we can easily
 		# distinguish between two sources when switching.
@@ -31,7 +31,7 @@ Producing test streams locally, for example using [rtsp-simple-server](https://g
 			-f lavfi -i "sine=frequency=1000" -pix_fmt yuv420p -vf hue=s=0 \
 			-c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 \
 			-c:a aac -b:a 128k \
-			-f flv rtmp://localhost:8554/sourceB
+			-f flv rtmp://localhost/sourceB
 
 	b. Transcoding and streaming a local file (medium CPU usage):
 
@@ -67,14 +67,14 @@ Producing test streams locally, for example using [rtsp-simple-server](https://g
 		ffmpeg -stream_loop -1 -re \
 			-i etc/testsrc.mp4 \
 			-c copy \
-			-f rtsp rtsp://localhost:8554/sourceA
+			-f flv rtmp://localhost/sourceA
 
 		ffmpeg -stream_loop -1 -re \
 			-i etc/testsrc2.mp4 \
 			-c copy \
-			-f rtsp rtsp://localhost:8554/sourceB
+			-f flv rtmp://localhost/sourceB
 
-3. Edit your .json show file (`default.json` by default) to use `rtsp://localhost:8554/sourceA` and `rtsp://localhost:8554/sourceB`.
+3. Edit your .json show file (`default.json` by default) to use `rtmp://localhost/sourceA` and `rtmp://localhost/sourceB`.
 
 4. Set your stream output to `rtsp-simple-server` by setting a local url in `config.txt`:
 

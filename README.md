@@ -12,6 +12,7 @@ This project uses Docker to ease build and deployment. If you follow the prerequ
 
 - Machine with an NVidia GPU and NVidia drivers installed.
 - X Server
+- `apt install make`
 - Docker + Nvidia tutorial: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
 - Video sources and sinks to test with. Please read STREAMING.md for details on how to generate test streams.
 
@@ -21,17 +22,31 @@ Check which CUDA version is installed on your host using `nvidia-smi`. If needed
 
 Existing tags: https://hub.docker.com/r/nvidia/cudagl/tags
 
-# Building
+# Building and running
 
-	./docker.sh build dev
+Build and run the server:
 
-# Running
+	make release
+	make run
+
+Start the client in an other terminal:
+
+	make client
+
+From the client, you can switch the source using by pressing `s` and `Enter`.
 
 ## X Server Access Control
 
-In order to allow the container to use the host's X Server, the `docker.sh` script runs the `xhost +` command everytime you use the `run`, `shell` or `gdb` actions.
+In order to allow the container to use the host's X Server, the Makefile runs the `xhost +` command everytime you use the `run` or targets.
 
 You can undo this by executing `xhost -` on your host machine.
+
+## OBS version
+
+You can specify which OBS version to build and run with, for example:
+
+	make obs_version=26.1.2 release
+	make obs_version=26.1.2 run
 
 ## Configuration
 
@@ -39,29 +54,34 @@ You can undo this by executing `xhost -` on your host machine.
 
 **Output**: edit `config.txt` to set `server` and `key` with your output stream URL and key. You can stream to any platform supporting RTMP (Twitch, Youtube, ...). You can also use any local RTMP server (see STREAMING.md).
 
-## Starting obs-headless
+## Development
 
-	./docker.sh run dev
 
-Start the test **client** in an other terminal:
 
-	./docker.sh client
+The build system uses three images:
 
-From the client, you can switch using by pressing `s` and `Enter`.
+- **obs-headless-base**
+	- Dependencies only.
+	- Can be used to experiment with different OBS versions, by mounting OBS and
+		OBS-headless sources as a volume.
+- **obs-headless-builder**:
+	- Dependencies + OBS built from sources.
+	- Can be used for development of OBS-headless, using a fixed version of OBS,
+		by mounting sources as a volume.
+- **obs-headless-dev**:
+	- Dependencies + OBS + OBS-headless built in a single image.
+	- Use this to run OBS-headless as a server.
+- **obs-headless**:
+	- Same as obs-headless-dev with an extra step to reduce the image size.
+		Takes longer to build.
 
-## Debugging
+Using the base image: you can start a container with obs-studio and obs-headless sources attached as volumes, so you can edit sources and rebuild in the container.
 
-With gdb:
-
-	./docker.sh gdb dev
-
-With attached sources: you can start a container with obs-studio and obs-headless sources attached as volumes, so you can edit sources and rebuild in the container.
-
-1. Clone obs-studio on your host (see Dockerfile for the repo URL)
-2. Set `obs_sources` in docker.sh to the path where you just cloned obs-studio
-3. Start the container: `./docker.sh shell dev`.
-4. Build obs-studio and obs-headless (see Dockerfile for build instructions)
-5. You can now edit the sources and rebuild from the container. Rebuild with `rb` and start with `st` (see etc/Bashrc for aliases).
+1. Clone obs-studio on your host (see obs-headless-builder.Dockerfile for the repo URL)
+2. Set `obs_sources` in Makefile to the path where you just cloned obs-studio
+3. Start the container: `make base`.
+4. Build obs-studio and obs-headless (see Dockerfiles for build instructions)
+5. You can now edit the sources and rebuild from the container. Rebuild with `rb` and start with `st` (see etc/bashrc for aliases).
 
 # TODO
 
@@ -77,7 +97,8 @@ With attached sources: you can start a container with obs-studio and obs-headles
 - [docs] copy docs from src
 - [docs] mention evans for tests, with examples
 - [docker] use docker-compose with ffmpeg RTMP servers in containers
-- [docker] split builder and release Dockerfiles. Tagged obs-studio built sources.
+- [client] q must stop the server
+- [client] show usage in cli (e.g. 's' to switch sources)
 - [*] various TODOs in the code
 - [*] pointers to ref
 - [*] switch to Golang
