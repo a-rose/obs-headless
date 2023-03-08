@@ -26,7 +26,7 @@ Existing tags: https://hub.docker.com/r/nvidia/cudagl/tags
 
 Build and run the server:
 
-	make release
+	make build
 	make run
 
 Start the client in an other terminal:
@@ -45,7 +45,7 @@ You can undo this by executing `xhost -` on your host machine.
 
 You can specify which OBS version to build and run with, for example:
 
-	make obs_version=26.1.2 release
+	make obs_version=26.1.2 build
 	make obs_version=26.1.2 run
 
 ## Configuration
@@ -79,7 +79,7 @@ Using the base image: you can start a container with obs-studio and obs-headless
 
 1. Clone obs-studio on your host (see obs-headless-builder.Dockerfile for the repo URL)
 2. Set `obs_sources` in Makefile to the path where you just cloned obs-studio
-3. Start the container: `make base`.
+3. Start the container: `make shell-base`.
 4. Build obs-studio and obs-headless (see Dockerfiles for build instructions)
 5. You can now edit the sources and rebuild from the container. Rebuild with `rb` and start with `st` (see etc/bashrc for aliases).
 

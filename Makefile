@@ -26,10 +26,6 @@ ifeq ($(release), 1)
 	run_opt=-d
 endif
 
-ifeq ($(dev), 1)
-	image=obs-headless-dev
-endif
-
 
 ###########################################################
 # Docker params
@@ -85,40 +81,70 @@ endef
 # Docker targets
 ###########################################################
 
-base:
+build-base:
 	@$(call print_build_variables)
 	@docker build -f obs-headless-base.Dockerfile -t obs-headless-base:${version} .
 	@docker tag obs-headless-base:${version} obs-headless-base:${latest}
 
-builder: base
+build-builder: build-base
 	@$(call print_build_variables)
 	@docker build -f obs-headless-builder.Dockerfile -t obs-headless-builder:${version} ${build_params} .
 	@@docker tag obs-headless-builder:${version} obs-headless-builder:${latest}
 
-dev: builder
+build-dev: build-builder
 	@$(call print_build_variables)
 	@docker build -f obs-headless-dev.Dockerfile -t obs-headless-dev:${version} ${build_params} .
 	@docker tag obs-headless-dev:${version} obs-headless-dev:${latest}
 
-release: dev
+build: build-dev
 	@$(call print_build_variables)
 	@docker build -f obs-headless.Dockerfile -t obs-headless:${version} ${build_params} .
 	@docker tag obs-headless:${version} obs-headless:${latest}
+
+
+run-base: pre-run
+	@echo "Using ${image}-builder"
+	@$(call print_run_variables)
+	@xhost + && docker run ${run_params} -it ${image}-base:${version}
+
+run-builder: pre-run
+	@echo "Using ${image}-builder"
+	@$(call print_run_variables)
+	@xhost + && docker run ${run_params} -it ${image}-builder:${version}
+
+run-dev: pre-run
+	@echo "Using ${image}-dev"
+	@$(call print_run_variables)
+	@xhost + && docker run ${run_params} -it ${image}-dev:${version}
 
 run: pre-run
 	@$(call print_run_variables)
 	@xhost + && docker run ${run_params} ${image}:${version}
 
-shell: pre-run
+
+shell-base: pre-run
+	@echo "Using ${image}-base"
+	@$(call print_dev_variables)
+	@xhost + && docker run ${dev_params} -it --entrypoint /bin/bash ${image}-base:${version}
+
+shell-builder: pre-run
 	@echo "Using ${image}-builder"
 	@$(call print_dev_variables)
 	@xhost + && docker run ${dev_params} -it --entrypoint /bin/bash ${image}-builder:${version}
+
+shell-dev: pre-run
+	@echo "Using ${image}-dev"
+	@$(call print_dev_variables)
+	@xhost + && docker run ${dev_params} -it --entrypoint /bin/bash ${image}-dev:${version}
+
+shell: pre-run
+	@$(call print_dev_variables)
+	@xhost + && docker run ${dev_params} -it --entrypoint /bin/bash ${image}:${version}
 
 
 ###########################################################
 # Commands for interacting with a running container
 ###########################################################
-
 
 client:
 	@docker exec -it ${container} /opt/obs-headless/obs_headless_client
