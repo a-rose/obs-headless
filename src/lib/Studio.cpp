@@ -1,4 +1,7 @@
 #include "Studio.hpp"
+#include <QGuiApplication>
+#include <qpa/qplatformnativeinterface.h>
+#include <obs-nix-platform.h>
 
 Studio::Studio(Settings* settings_in)
 	: settings(settings_in)
@@ -770,6 +773,11 @@ Status Studio::studioInit() {
 	if(init) {
 		return Status(grpc::FAILED_PRECONDITION, "Studio already initialized");
 	}
+
+	// OBS 27+: we need to set the display manually. The OBS app does it using
+	// QT, so we do the same here.
+	QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
+	obs_set_nix_platform_display(native->nativeResourceForIntegration("display"));
 
 	///////////////
 	// OBS init  //

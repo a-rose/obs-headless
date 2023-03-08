@@ -9,6 +9,8 @@ if(NOT Qt5Widgets_FOUND)
     message(FATAL_ERROR "Failed to find Qt5")
 endif()
 set(qtlibs Qt5::Widgets)
+find_package(Qt5Gui)
+include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
 
 # Obs

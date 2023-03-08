@@ -13,5 +13,6 @@ RUN git clone --branch ${OBS_VERSION} --recursive https://github.com/obsproject/
 		-DUNIX_STRUCTURE=0 \
 		-DBUILD_BROWSER=OFF \
 		-DENABLE_PIPEWIRE=OFF \
+		-DBUILD_VST=OFF \
 	&& make -j$(nproc) \
 	&& make install
