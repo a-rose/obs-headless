@@ -6,7 +6,6 @@ The main part consists of a gRPC server. An example client is also provided.
 
 This project uses Docker to ease build and deployment. If you follow the prerequisites below, accessing the GPU with Docker should work out of the box.
 
-⚠️ At the moment, obs-headless only **works with old versions of libobs**. Version 26.0.0 is used.
 
 # Prerequisites
 
@@ -21,6 +20,7 @@ This project uses Docker to ease build and deployment. If you follow the prerequ
 Check which CUDA version is installed on your host using `nvidia-smi`. If needed, edit `Dockerfile` to use the same version as a base image: `FROM nvidia/cudagl:<YOUR CUDA VERSION HERE>-devel-ubuntu22.04`
 
 Existing tags: https://hub.docker.com/r/nvidia/cudagl/tags
+
 
 # Building and running
 
@@ -45,8 +45,8 @@ You can undo this by executing `xhost -` on your host machine.
 
 You can specify which OBS version to build and run with, for example:
 
-	make obs_version=26.1.2 build
-	make obs_version=26.1.2 run
+	make obs_version=28.0.3 build
+	make obs_version=28.0.3 run
 
 ## Configuration
 
@@ -54,9 +54,8 @@ You can specify which OBS version to build and run with, for example:
 
 **Output**: edit `config.txt` to set `server` and `key` with your output stream URL and key. You can stream to any platform supporting RTMP (Twitch, Youtube, ...). You can also use any local RTMP server (see STREAMING.md).
 
-## Development
 
-
+# Development
 
 The build system uses three images:
 
@@ -83,11 +82,11 @@ Using the base image: you can start a container with obs-studio and obs-headless
 4. Build obs-studio and obs-headless (see Dockerfiles for build instructions)
 5. You can now edit the sources and rebuild from the container. Rebuild with `rb` and start with `st` (see etc/bashrc for aliases).
 
+
 # TODO
 
 - [fix] Playback stops when switching source!
-- [fix] green screen when using OBS version > 23.2.1. At the moment, using (for example) v24.0.0 gives a green video output (audio is fine)
-- [build] Fix runtime path; currently we need to cd into obs's install path (see run.sh) for obs to find the *.effect files in `find_libobs_data_file()`
+- [build] Fix runtime path; currently we need to cd into obs's install path (see docker-entrypoint.sh) for obs to find the *.effect files in `find_libobs_data_file()`
 - [build] CMake: `set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Werror -Wno-long-long -pedantic")`
 - [config] Support more transitions: [cut/fade/swipe/slide/stinger/fade_to_color/luma_wipe]_transition
 - [feat] rescue
