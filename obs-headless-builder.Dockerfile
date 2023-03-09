@@ -10,9 +10,10 @@ RUN git clone --branch ${OBS_VERSION} --recursive https://github.com/obsproject/
 	&& cd build \
 	&& cmake .. \
 		-DCMAKE_INSTALL_PREFIX=${OBS_INSTALL_PATH} \
-		-DUNIX_STRUCTURE=0 \
-		-DBUILD_BROWSER=OFF \
+		-DLINUX_PORTABLE=ON \
+		-DENABLE_BROWSER=OFF \
 		-DENABLE_PIPEWIRE=OFF \
-		-DBUILD_VST=OFF \
+		-DENABLE_AJA=OFF \
+		-DENABLE_LIBFDK=ON \
 	&& make -j$(nproc) \
 	&& make install
