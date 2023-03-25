@@ -90,11 +90,9 @@ int main(int argc, char** argv) {
                     switch_scene(client);
                     break;
 
-                case 'q':
-                    trace_info("Exiting");
-                    break;
-
                 default:
+                    trace_info("----------------------------------------");
+                    trace_info("Press 's' to switch scene");
                     trace_info("Press 'q' to stop");
             }
             
