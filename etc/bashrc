@@ -13,5 +13,4 @@ alias stobs="${rpath}/obs"
 obs_headless_src=/usr/local/src/obs-headless
 alias cdsrc="cd ${obs_headless_src}"
 alias rb="cdsrc && cd build && make -j$(nproc)"
-alias st="${obs_headless_src}/build/obs_headless_server"
-
+alias st="/opt/obs-headless/etc/docker-entrypoint.sh"
