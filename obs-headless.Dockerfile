@@ -1,3 +1,4 @@
+ARG OBS_VERSION
 FROM obs-headless-dev:latest-obs${OBS_VERSION} as builder
 
 # Copy the whole filesystem in a new build stage, to flatten the layers into
