@@ -74,7 +74,13 @@ The build system uses three images:
 	- Same as obs-headless-dev with an extra step to reduce the image size.
 		Takes longer to build.
 
-Using the base image: you can start a container with obs-studio and obs-headless sources attached as volumes, so you can edit sources and rebuild in the container.
+Using the dev image: you can start a container with obs-headless sources attached as volumes, so you can edit sources and rebuild in the container.
+
+1. Start the container: `make shell-dev`.
+2. Build obs-headless (see Dockerfiles for build instructions)
+3. You can now edit the sources and rebuild from the container. Rebuild with `rb` and start with `st` (see etc/bashrc for aliases).
+
+Using the base image, you can also build obs-studio from sources.
 
 1. Clone obs-studio on your host (see obs-headless-builder.Dockerfile for the repo URL)
 2. Set `obs_sources` in Makefile to the path where you just cloned obs-studio
@@ -95,9 +101,9 @@ Using the base image: you can start a container with obs-studio and obs-headless
 - [feat] trace level and format from env
 - [docs] copy docs from src
 - [docs] mention evans for tests, with examples
+- [docker] reduce image size. use nvidia/cuda:12.0.0-runtime-ubuntu22.04 for release img
 - [docker] use docker-compose with ffmpeg RTMP servers in containers
 - [docker] Github Docker registry
-- [client] q must stop the server
 - [client] show usage in cli (e.g. 's' to switch sources)
 - [*] various TODOs in the code
 - [*] pointers to ref
