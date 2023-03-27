@@ -24,13 +24,7 @@ RUN cd obs-headless \
 	\
 	&& echo -e "\033[32mBuilding...\033[0m" \
 	&& make -j$(nproc) \
-	&& make install \
-	\
-	&& echo -e "\033[32mRemoving dev packages...\033[0m" \
-	&& apt-get remove --purge -y \
-		vim gdb valgrind net-tools iptables procps tcpdump \
-		linux-tools-common linux-tools-generic \
-	&& rm -rf /var/lib/apt/lists/*
+	&& make install
 
 COPY etc/ /opt/obs-headless/etc
 
