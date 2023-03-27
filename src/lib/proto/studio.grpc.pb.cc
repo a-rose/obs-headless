@@ -11,8 +11,12 @@
 #include <grpcpp/impl/codegen/channel_interface.h>
 #include <grpcpp/impl/codegen/client_unary_call.h>
 #include <grpcpp/impl/codegen/client_callback.h>
-#include <grpcpp/impl/codegen/method_handler_impl.h>
+#include <grpcpp/impl/codegen/message_allocator.h>
+#include <grpcpp/impl/codegen/method_handler.h>
 #include <grpcpp/impl/codegen/rpc_service_method.h>
+#include <grpcpp/impl/codegen/server_callback.h>
+#include <grpcpp/impl/codegen/server_callback_handlers.h>
+#include <grpcpp/impl/codegen/server_context.h>
 #include <grpcpp/impl/codegen/service_type.h>
 #include <grpcpp/impl/codegen/sync_stream.h>
 namespace proto {
@@ -74,15 +78,27 @@ Studio::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
 }
 
 void Studio::Stub::experimental_async::StudioGet(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_StudioGet_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_StudioGet_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::StudioGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::StudioGetResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_StudioGet_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::StudioGet(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_StudioGet_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::StudioGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::StudioGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_StudioGet_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::StudioGetResponse>* Studio::Stub::AsyncStudioGetRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::StudioGetResponse>::Create(channel_.get(), cq, rpcmethod_StudioGet_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::StudioGetResponse>::Create(channel_.get(), cq, rpcmethod_StudioGet_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::StudioGetResponse>* Studio::Stub::PrepareAsyncStudioGetRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::StudioGetResponse>::Create(channel_.get(), cq, rpcmethod_StudioGet_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::StudioGetResponse>::Create(channel_.get(), cq, rpcmethod_StudioGet_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::StudioStart(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::google::protobuf::Empty* response) {
@@ -90,15 +106,27 @@ void Studio::Stub::experimental_async::StudioGet(::grpc::ClientContext* context,
 }
 
 void Studio::Stub::experimental_async::StudioStart(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_StudioStart_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_StudioStart_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::StudioStart(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_StudioStart_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::StudioStart(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_StudioStart_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::StudioStart(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_StudioStart_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* Studio::Stub::AsyncStudioStartRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_StudioStart_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_StudioStart_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* Studio::Stub::PrepareAsyncStudioStartRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_StudioStart_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_StudioStart_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::StudioStop(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::google::protobuf::Empty* response) {
@@ -106,15 +134,27 @@ void Studio::Stub::experimental_async::StudioStart(::grpc::ClientContext* contex
 }
 
 void Studio::Stub::experimental_async::StudioStop(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_StudioStop_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_StudioStop_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::StudioStop(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_StudioStop_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::StudioStop(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_StudioStop_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::StudioStop(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_StudioStop_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* Studio::Stub::AsyncStudioStopRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_StudioStop_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_StudioStop_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* Studio::Stub::PrepareAsyncStudioStopRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_StudioStop_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_StudioStop_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::ShowGet(::grpc::ClientContext* context, const ::proto::ShowGetRequest& request, ::proto::ShowGetResponse* response) {
@@ -122,15 +162,27 @@ void Studio::Stub::experimental_async::StudioStop(::grpc::ClientContext* context
 }
 
 void Studio::Stub::experimental_async::ShowGet(::grpc::ClientContext* context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowGet_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowGet_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::ShowGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowGetResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowGet_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::ShowGet(::grpc::ClientContext* context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_ShowGet_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::ShowGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_ShowGet_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::ShowGetResponse>* Studio::Stub::AsyncShowGetRaw(::grpc::ClientContext* context, const ::proto::ShowGetRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::ShowGetResponse>::Create(channel_.get(), cq, rpcmethod_ShowGet_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::ShowGetResponse>::Create(channel_.get(), cq, rpcmethod_ShowGet_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::ShowGetResponse>* Studio::Stub::PrepareAsyncShowGetRaw(::grpc::ClientContext* context, const ::proto::ShowGetRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::ShowGetResponse>::Create(channel_.get(), cq, rpcmethod_ShowGet_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::ShowGetResponse>::Create(channel_.get(), cq, rpcmethod_ShowGet_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::ShowCreate(::grpc::ClientContext* context, const ::proto::ShowCreateRequest& request, ::proto::ShowCreateResponse* response) {
@@ -138,15 +190,27 @@ void Studio::Stub::experimental_async::ShowGet(::grpc::ClientContext* context, c
 }
 
 void Studio::Stub::experimental_async::ShowCreate(::grpc::ClientContext* context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowCreate_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowCreate_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::ShowCreate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowCreateResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowCreate_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::ShowCreate(::grpc::ClientContext* context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_ShowCreate_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::ShowCreate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowCreateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_ShowCreate_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::ShowCreateResponse>* Studio::Stub::AsyncShowCreateRaw(::grpc::ClientContext* context, const ::proto::ShowCreateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::ShowCreateResponse>::Create(channel_.get(), cq, rpcmethod_ShowCreate_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::ShowCreateResponse>::Create(channel_.get(), cq, rpcmethod_ShowCreate_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::ShowCreateResponse>* Studio::Stub::PrepareAsyncShowCreateRaw(::grpc::ClientContext* context, const ::proto::ShowCreateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::ShowCreateResponse>::Create(channel_.get(), cq, rpcmethod_ShowCreate_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::ShowCreateResponse>::Create(channel_.get(), cq, rpcmethod_ShowCreate_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::ShowDuplicate(::grpc::ClientContext* context, const ::proto::ShowDuplicateRequest& request, ::proto::ShowDuplicateResponse* response) {
@@ -154,15 +218,27 @@ void Studio::Stub::experimental_async::ShowCreate(::grpc::ClientContext* context
 }
 
 void Studio::Stub::experimental_async::ShowDuplicate(::grpc::ClientContext* context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowDuplicate_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowDuplicate_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::ShowDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowDuplicateResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowDuplicate_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::ShowDuplicate(::grpc::ClientContext* context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_ShowDuplicate_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::ShowDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_ShowDuplicate_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::ShowDuplicateResponse>* Studio::Stub::AsyncShowDuplicateRaw(::grpc::ClientContext* context, const ::proto::ShowDuplicateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::ShowDuplicateResponse>::Create(channel_.get(), cq, rpcmethod_ShowDuplicate_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::ShowDuplicateResponse>::Create(channel_.get(), cq, rpcmethod_ShowDuplicate_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::ShowDuplicateResponse>* Studio::Stub::PrepareAsyncShowDuplicateRaw(::grpc::ClientContext* context, const ::proto::ShowDuplicateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::ShowDuplicateResponse>::Create(channel_.get(), cq, rpcmethod_ShowDuplicate_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::ShowDuplicateResponse>::Create(channel_.get(), cq, rpcmethod_ShowDuplicate_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::ShowRemove(::grpc::ClientContext* context, const ::proto::ShowRemoveRequest& request, ::google::protobuf::Empty* response) {
@@ -170,15 +246,27 @@ void Studio::Stub::experimental_async::ShowDuplicate(::grpc::ClientContext* cont
 }
 
 void Studio::Stub::experimental_async::ShowRemove(::grpc::ClientContext* context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowRemove_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowRemove_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::ShowRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowRemove_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::ShowRemove(::grpc::ClientContext* context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_ShowRemove_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::ShowRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_ShowRemove_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* Studio::Stub::AsyncShowRemoveRaw(::grpc::ClientContext* context, const ::proto::ShowRemoveRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_ShowRemove_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_ShowRemove_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* Studio::Stub::PrepareAsyncShowRemoveRaw(::grpc::ClientContext* context, const ::proto::ShowRemoveRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_ShowRemove_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_ShowRemove_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::ShowLoad(::grpc::ClientContext* context, const ::proto::ShowLoadRequest& request, ::proto::ShowLoadResponse* response) {
@@ -186,15 +274,27 @@ void Studio::Stub::experimental_async::ShowRemove(::grpc::ClientContext* context
 }
 
 void Studio::Stub::experimental_async::ShowLoad(::grpc::ClientContext* context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowLoad_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowLoad_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::ShowLoad(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowLoadResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ShowLoad_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::ShowLoad(::grpc::ClientContext* context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_ShowLoad_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::ShowLoad(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowLoadResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_ShowLoad_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::ShowLoadResponse>* Studio::Stub::AsyncShowLoadRaw(::grpc::ClientContext* context, const ::proto::ShowLoadRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::ShowLoadResponse>::Create(channel_.get(), cq, rpcmethod_ShowLoad_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::ShowLoadResponse>::Create(channel_.get(), cq, rpcmethod_ShowLoad_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::ShowLoadResponse>* Studio::Stub::PrepareAsyncShowLoadRaw(::grpc::ClientContext* context, const ::proto::ShowLoadRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::ShowLoadResponse>::Create(channel_.get(), cq, rpcmethod_ShowLoad_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::ShowLoadResponse>::Create(channel_.get(), cq, rpcmethod_ShowLoad_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::SceneGet(::grpc::ClientContext* context, const ::proto::SceneGetRequest& request, ::proto::SceneGetResponse* response) {
@@ -202,15 +302,27 @@ void Studio::Stub::experimental_async::ShowLoad(::grpc::ClientContext* context, 
 }
 
 void Studio::Stub::experimental_async::SceneGet(::grpc::ClientContext* context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneGet_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneGet_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SceneGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneGet_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SceneGet(::grpc::ClientContext* context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SceneGet_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::SceneGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SceneGet_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SceneGetResponse>* Studio::Stub::AsyncSceneGetRaw(::grpc::ClientContext* context, const ::proto::SceneGetRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SceneGetResponse>::Create(channel_.get(), cq, rpcmethod_SceneGet_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SceneGetResponse>::Create(channel_.get(), cq, rpcmethod_SceneGet_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SceneGetResponse>* Studio::Stub::PrepareAsyncSceneGetRaw(::grpc::ClientContext* context, const ::proto::SceneGetRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SceneGetResponse>::Create(channel_.get(), cq, rpcmethod_SceneGet_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SceneGetResponse>::Create(channel_.get(), cq, rpcmethod_SceneGet_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::SceneAdd(::grpc::ClientContext* context, const ::proto::SceneAddRequest& request, ::proto::SceneAddResponse* response) {
@@ -218,15 +330,27 @@ void Studio::Stub::experimental_async::SceneGet(::grpc::ClientContext* context, 
 }
 
 void Studio::Stub::experimental_async::SceneAdd(::grpc::ClientContext* context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneAdd_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneAdd_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SceneAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneAddResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneAdd_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SceneAdd(::grpc::ClientContext* context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SceneAdd_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::SceneAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneAddResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SceneAdd_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SceneAddResponse>* Studio::Stub::AsyncSceneAddRaw(::grpc::ClientContext* context, const ::proto::SceneAddRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SceneAddResponse>::Create(channel_.get(), cq, rpcmethod_SceneAdd_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SceneAddResponse>::Create(channel_.get(), cq, rpcmethod_SceneAdd_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SceneAddResponse>* Studio::Stub::PrepareAsyncSceneAddRaw(::grpc::ClientContext* context, const ::proto::SceneAddRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SceneAddResponse>::Create(channel_.get(), cq, rpcmethod_SceneAdd_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SceneAddResponse>::Create(channel_.get(), cq, rpcmethod_SceneAdd_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::SceneDuplicate(::grpc::ClientContext* context, const ::proto::SceneDuplicateRequest& request, ::proto::SceneDuplicateResponse* response) {
@@ -234,15 +358,27 @@ void Studio::Stub::experimental_async::SceneAdd(::grpc::ClientContext* context, 
 }
 
 void Studio::Stub::experimental_async::SceneDuplicate(::grpc::ClientContext* context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneDuplicate_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneDuplicate_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SceneDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneDuplicateResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneDuplicate_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SceneDuplicate(::grpc::ClientContext* context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SceneDuplicate_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::SceneDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SceneDuplicate_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SceneDuplicateResponse>* Studio::Stub::AsyncSceneDuplicateRaw(::grpc::ClientContext* context, const ::proto::SceneDuplicateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SceneDuplicateResponse>::Create(channel_.get(), cq, rpcmethod_SceneDuplicate_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SceneDuplicateResponse>::Create(channel_.get(), cq, rpcmethod_SceneDuplicate_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SceneDuplicateResponse>* Studio::Stub::PrepareAsyncSceneDuplicateRaw(::grpc::ClientContext* context, const ::proto::SceneDuplicateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SceneDuplicateResponse>::Create(channel_.get(), cq, rpcmethod_SceneDuplicate_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SceneDuplicateResponse>::Create(channel_.get(), cq, rpcmethod_SceneDuplicate_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::SceneRemove(::grpc::ClientContext* context, const ::proto::SceneRemoveRequest& request, ::google::protobuf::Empty* response) {
@@ -250,15 +386,27 @@ void Studio::Stub::experimental_async::SceneDuplicate(::grpc::ClientContext* con
 }
 
 void Studio::Stub::experimental_async::SceneRemove(::grpc::ClientContext* context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneRemove_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneRemove_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SceneRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneRemove_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SceneRemove(::grpc::ClientContext* context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SceneRemove_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::SceneRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SceneRemove_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* Studio::Stub::AsyncSceneRemoveRaw(::grpc::ClientContext* context, const ::proto::SceneRemoveRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_SceneRemove_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_SceneRemove_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* Studio::Stub::PrepareAsyncSceneRemoveRaw(::grpc::ClientContext* context, const ::proto::SceneRemoveRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_SceneRemove_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_SceneRemove_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::SceneSetAsCurrent(::grpc::ClientContext* context, const ::proto::SceneSetAsCurrentRequest& request, ::proto::SceneSetAsCurrentResponse* response) {
@@ -266,15 +414,27 @@ void Studio::Stub::experimental_async::SceneRemove(::grpc::ClientContext* contex
 }
 
 void Studio::Stub::experimental_async::SceneSetAsCurrent(::grpc::ClientContext* context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneSetAsCurrent_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneSetAsCurrent_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SceneSetAsCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneSetAsCurrentResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneSetAsCurrent_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SceneSetAsCurrent(::grpc::ClientContext* context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SceneSetAsCurrent_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::SceneSetAsCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneSetAsCurrentResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SceneSetAsCurrent_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SceneSetAsCurrentResponse>* Studio::Stub::AsyncSceneSetAsCurrentRaw(::grpc::ClientContext* context, const ::proto::SceneSetAsCurrentRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SceneSetAsCurrentResponse>::Create(channel_.get(), cq, rpcmethod_SceneSetAsCurrent_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SceneSetAsCurrentResponse>::Create(channel_.get(), cq, rpcmethod_SceneSetAsCurrent_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SceneSetAsCurrentResponse>* Studio::Stub::PrepareAsyncSceneSetAsCurrentRaw(::grpc::ClientContext* context, const ::proto::SceneSetAsCurrentRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SceneSetAsCurrentResponse>::Create(channel_.get(), cq, rpcmethod_SceneSetAsCurrent_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SceneSetAsCurrentResponse>::Create(channel_.get(), cq, rpcmethod_SceneSetAsCurrent_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::SceneGetCurrent(::grpc::ClientContext* context, const ::proto::SceneGetCurrentRequest& request, ::proto::SceneGetCurrentResponse* response) {
@@ -282,15 +442,27 @@ void Studio::Stub::experimental_async::SceneSetAsCurrent(::grpc::ClientContext* 
 }
 
 void Studio::Stub::experimental_async::SceneGetCurrent(::grpc::ClientContext* context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneGetCurrent_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneGetCurrent_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SceneGetCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetCurrentResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SceneGetCurrent_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SceneGetCurrent(::grpc::ClientContext* context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SceneGetCurrent_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::SceneGetCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetCurrentResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SceneGetCurrent_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SceneGetCurrentResponse>* Studio::Stub::AsyncSceneGetCurrentRaw(::grpc::ClientContext* context, const ::proto::SceneGetCurrentRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SceneGetCurrentResponse>::Create(channel_.get(), cq, rpcmethod_SceneGetCurrent_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SceneGetCurrentResponse>::Create(channel_.get(), cq, rpcmethod_SceneGetCurrent_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SceneGetCurrentResponse>* Studio::Stub::PrepareAsyncSceneGetCurrentRaw(::grpc::ClientContext* context, const ::proto::SceneGetCurrentRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SceneGetCurrentResponse>::Create(channel_.get(), cq, rpcmethod_SceneGetCurrent_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SceneGetCurrentResponse>::Create(channel_.get(), cq, rpcmethod_SceneGetCurrent_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::SourceGet(::grpc::ClientContext* context, const ::proto::SourceGetRequest& request, ::proto::SourceGetResponse* response) {
@@ -298,15 +470,27 @@ void Studio::Stub::experimental_async::SceneGetCurrent(::grpc::ClientContext* co
 }
 
 void Studio::Stub::experimental_async::SourceGet(::grpc::ClientContext* context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceGet_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceGet_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SourceGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceGetResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceGet_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SourceGet(::grpc::ClientContext* context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SourceGet_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::SourceGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SourceGet_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SourceGetResponse>* Studio::Stub::AsyncSourceGetRaw(::grpc::ClientContext* context, const ::proto::SourceGetRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SourceGetResponse>::Create(channel_.get(), cq, rpcmethod_SourceGet_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SourceGetResponse>::Create(channel_.get(), cq, rpcmethod_SourceGet_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SourceGetResponse>* Studio::Stub::PrepareAsyncSourceGetRaw(::grpc::ClientContext* context, const ::proto::SourceGetRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SourceGetResponse>::Create(channel_.get(), cq, rpcmethod_SourceGet_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SourceGetResponse>::Create(channel_.get(), cq, rpcmethod_SourceGet_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::SourceAdd(::grpc::ClientContext* context, const ::proto::SourceAddRequest& request, ::proto::SourceAddResponse* response) {
@@ -314,15 +498,27 @@ void Studio::Stub::experimental_async::SourceGet(::grpc::ClientContext* context,
 }
 
 void Studio::Stub::experimental_async::SourceAdd(::grpc::ClientContext* context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceAdd_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceAdd_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SourceAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceAddResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceAdd_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SourceAdd(::grpc::ClientContext* context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SourceAdd_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::SourceAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceAddResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SourceAdd_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SourceAddResponse>* Studio::Stub::AsyncSourceAddRaw(::grpc::ClientContext* context, const ::proto::SourceAddRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SourceAddResponse>::Create(channel_.get(), cq, rpcmethod_SourceAdd_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SourceAddResponse>::Create(channel_.get(), cq, rpcmethod_SourceAdd_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SourceAddResponse>* Studio::Stub::PrepareAsyncSourceAddRaw(::grpc::ClientContext* context, const ::proto::SourceAddRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SourceAddResponse>::Create(channel_.get(), cq, rpcmethod_SourceAdd_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SourceAddResponse>::Create(channel_.get(), cq, rpcmethod_SourceAdd_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::SourceDuplicate(::grpc::ClientContext* context, const ::proto::SourceDuplicateRequest& request, ::proto::SourceDuplicateResponse* response) {
@@ -330,15 +526,27 @@ void Studio::Stub::experimental_async::SourceAdd(::grpc::ClientContext* context,
 }
 
 void Studio::Stub::experimental_async::SourceDuplicate(::grpc::ClientContext* context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceDuplicate_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceDuplicate_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SourceDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceDuplicateResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceDuplicate_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SourceDuplicate(::grpc::ClientContext* context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SourceDuplicate_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::SourceDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SourceDuplicate_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SourceDuplicateResponse>* Studio::Stub::AsyncSourceDuplicateRaw(::grpc::ClientContext* context, const ::proto::SourceDuplicateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SourceDuplicateResponse>::Create(channel_.get(), cq, rpcmethod_SourceDuplicate_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SourceDuplicateResponse>::Create(channel_.get(), cq, rpcmethod_SourceDuplicate_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SourceDuplicateResponse>* Studio::Stub::PrepareAsyncSourceDuplicateRaw(::grpc::ClientContext* context, const ::proto::SourceDuplicateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SourceDuplicateResponse>::Create(channel_.get(), cq, rpcmethod_SourceDuplicate_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SourceDuplicateResponse>::Create(channel_.get(), cq, rpcmethod_SourceDuplicate_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::SourceRemove(::grpc::ClientContext* context, const ::proto::SourceRemoveRequest& request, ::google::protobuf::Empty* response) {
@@ -346,15 +554,27 @@ void Studio::Stub::experimental_async::SourceDuplicate(::grpc::ClientContext* co
 }
 
 void Studio::Stub::experimental_async::SourceRemove(::grpc::ClientContext* context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceRemove_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceRemove_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SourceRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceRemove_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SourceRemove(::grpc::ClientContext* context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SourceRemove_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::SourceRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SourceRemove_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* Studio::Stub::AsyncSourceRemoveRaw(::grpc::ClientContext* context, const ::proto::SourceRemoveRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_SourceRemove_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_SourceRemove_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* Studio::Stub::PrepareAsyncSourceRemoveRaw(::grpc::ClientContext* context, const ::proto::SourceRemoveRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_SourceRemove_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::google::protobuf::Empty>::Create(channel_.get(), cq, rpcmethod_SourceRemove_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::SourceSetProperties(::grpc::ClientContext* context, const ::proto::SourceSetPropertiesRequest& request, ::proto::SourceSetPropertiesResponse* response) {
@@ -362,15 +582,27 @@ void Studio::Stub::experimental_async::SourceRemove(::grpc::ClientContext* conte
 }
 
 void Studio::Stub::experimental_async::SourceSetProperties(::grpc::ClientContext* context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceSetProperties_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceSetProperties_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SourceSetProperties(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceSetPropertiesResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SourceSetProperties_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::SourceSetProperties(::grpc::ClientContext* context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SourceSetProperties_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::SourceSetProperties(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceSetPropertiesResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SourceSetProperties_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SourceSetPropertiesResponse>* Studio::Stub::AsyncSourceSetPropertiesRaw(::grpc::ClientContext* context, const ::proto::SourceSetPropertiesRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SourceSetPropertiesResponse>::Create(channel_.get(), cq, rpcmethod_SourceSetProperties_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SourceSetPropertiesResponse>::Create(channel_.get(), cq, rpcmethod_SourceSetProperties_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::SourceSetPropertiesResponse>* Studio::Stub::PrepareAsyncSourceSetPropertiesRaw(::grpc::ClientContext* context, const ::proto::SourceSetPropertiesRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::SourceSetPropertiesResponse>::Create(channel_.get(), cq, rpcmethod_SourceSetProperties_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::SourceSetPropertiesResponse>::Create(channel_.get(), cq, rpcmethod_SourceSetProperties_, context, request, false);
 }
 
 ::grpc::Status Studio::Stub::Health(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::proto::HealthResponse* response) {
@@ -378,15 +610,27 @@ void Studio::Stub::experimental_async::SourceSetProperties(::grpc::ClientContext
 }
 
 void Studio::Stub::experimental_async::Health(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_Health_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_Health_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::Health(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::HealthResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_Health_, context, request, response, std::move(f));
+}
+
+void Studio::Stub::experimental_async::Health(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_Health_, context, request, response, reactor);
+}
+
+void Studio::Stub::experimental_async::Health(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::HealthResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_Health_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::HealthResponse>* Studio::Stub::AsyncHealthRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::HealthResponse>::Create(channel_.get(), cq, rpcmethod_Health_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::HealthResponse>::Create(channel_.get(), cq, rpcmethod_Health_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::proto::HealthResponse>* Studio::Stub::PrepareAsyncHealthRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::HealthResponse>::Create(channel_.get(), cq, rpcmethod_Health_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::proto::HealthResponse>::Create(channel_.get(), cq, rpcmethod_Health_, context, request, false);
 }
 
 Studio::Service::Service() {
@@ -394,102 +638,202 @@ Studio::Service::Service() {
       Studio_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::google::protobuf::Empty, ::proto::StudioGetResponse>(
-          std::mem_fn(&Studio::Service::StudioGet), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::google::protobuf::Empty* req,
+             ::proto::StudioGetResponse* resp) {
+               return service->StudioGet(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[1],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::google::protobuf::Empty, ::google::protobuf::Empty>(
-          std::mem_fn(&Studio::Service::StudioStart), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::google::protobuf::Empty* req,
+             ::google::protobuf::Empty* resp) {
+               return service->StudioStart(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[2],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::google::protobuf::Empty, ::google::protobuf::Empty>(
-          std::mem_fn(&Studio::Service::StudioStop), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::google::protobuf::Empty* req,
+             ::google::protobuf::Empty* resp) {
+               return service->StudioStop(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[3],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::ShowGetRequest, ::proto::ShowGetResponse>(
-          std::mem_fn(&Studio::Service::ShowGet), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::ShowGetRequest* req,
+             ::proto::ShowGetResponse* resp) {
+               return service->ShowGet(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[4],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::ShowCreateRequest, ::proto::ShowCreateResponse>(
-          std::mem_fn(&Studio::Service::ShowCreate), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::ShowCreateRequest* req,
+             ::proto::ShowCreateResponse* resp) {
+               return service->ShowCreate(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[5],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::ShowDuplicateRequest, ::proto::ShowDuplicateResponse>(
-          std::mem_fn(&Studio::Service::ShowDuplicate), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::ShowDuplicateRequest* req,
+             ::proto::ShowDuplicateResponse* resp) {
+               return service->ShowDuplicate(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[6],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::ShowRemoveRequest, ::google::protobuf::Empty>(
-          std::mem_fn(&Studio::Service::ShowRemove), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::ShowRemoveRequest* req,
+             ::google::protobuf::Empty* resp) {
+               return service->ShowRemove(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[7],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::ShowLoadRequest, ::proto::ShowLoadResponse>(
-          std::mem_fn(&Studio::Service::ShowLoad), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::ShowLoadRequest* req,
+             ::proto::ShowLoadResponse* resp) {
+               return service->ShowLoad(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[8],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::SceneGetRequest, ::proto::SceneGetResponse>(
-          std::mem_fn(&Studio::Service::SceneGet), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::SceneGetRequest* req,
+             ::proto::SceneGetResponse* resp) {
+               return service->SceneGet(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[9],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::SceneAddRequest, ::proto::SceneAddResponse>(
-          std::mem_fn(&Studio::Service::SceneAdd), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::SceneAddRequest* req,
+             ::proto::SceneAddResponse* resp) {
+               return service->SceneAdd(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[10],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::SceneDuplicateRequest, ::proto::SceneDuplicateResponse>(
-          std::mem_fn(&Studio::Service::SceneDuplicate), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::SceneDuplicateRequest* req,
+             ::proto::SceneDuplicateResponse* resp) {
+               return service->SceneDuplicate(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[11],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::SceneRemoveRequest, ::google::protobuf::Empty>(
-          std::mem_fn(&Studio::Service::SceneRemove), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::SceneRemoveRequest* req,
+             ::google::protobuf::Empty* resp) {
+               return service->SceneRemove(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[12],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::SceneSetAsCurrentRequest, ::proto::SceneSetAsCurrentResponse>(
-          std::mem_fn(&Studio::Service::SceneSetAsCurrent), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::SceneSetAsCurrentRequest* req,
+             ::proto::SceneSetAsCurrentResponse* resp) {
+               return service->SceneSetAsCurrent(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[13],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::SceneGetCurrentRequest, ::proto::SceneGetCurrentResponse>(
-          std::mem_fn(&Studio::Service::SceneGetCurrent), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::SceneGetCurrentRequest* req,
+             ::proto::SceneGetCurrentResponse* resp) {
+               return service->SceneGetCurrent(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[14],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::SourceGetRequest, ::proto::SourceGetResponse>(
-          std::mem_fn(&Studio::Service::SourceGet), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::SourceGetRequest* req,
+             ::proto::SourceGetResponse* resp) {
+               return service->SourceGet(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[15],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::SourceAddRequest, ::proto::SourceAddResponse>(
-          std::mem_fn(&Studio::Service::SourceAdd), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::SourceAddRequest* req,
+             ::proto::SourceAddResponse* resp) {
+               return service->SourceAdd(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[16],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::SourceDuplicateRequest, ::proto::SourceDuplicateResponse>(
-          std::mem_fn(&Studio::Service::SourceDuplicate), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::SourceDuplicateRequest* req,
+             ::proto::SourceDuplicateResponse* resp) {
+               return service->SourceDuplicate(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[17],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::SourceRemoveRequest, ::google::protobuf::Empty>(
-          std::mem_fn(&Studio::Service::SourceRemove), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::SourceRemoveRequest* req,
+             ::google::protobuf::Empty* resp) {
+               return service->SourceRemove(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[18],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::proto::SourceSetPropertiesRequest, ::proto::SourceSetPropertiesResponse>(
-          std::mem_fn(&Studio::Service::SourceSetProperties), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::proto::SourceSetPropertiesRequest* req,
+             ::proto::SourceSetPropertiesResponse* resp) {
+               return service->SourceSetProperties(ctx, req, resp);
+             }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Studio_method_names[19],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Studio::Service, ::google::protobuf::Empty, ::proto::HealthResponse>(
-          std::mem_fn(&Studio::Service::Health), this)));
+          [](Studio::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::google::protobuf::Empty* req,
+             ::proto::HealthResponse* resp) {
+               return service->Health(ctx, req, resp);
+             }, this)));
 }
 
 Studio::Service::~Service() {

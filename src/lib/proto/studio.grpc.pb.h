@@ -7,23 +7,24 @@
 #include "studio.pb.h"
 
 #include <functional>
+#include <grpc/impl/codegen/port_platform.h>
 #include <grpcpp/impl/codegen/async_generic_service.h>
 #include <grpcpp/impl/codegen/async_stream.h>
 #include <grpcpp/impl/codegen/async_unary_call.h>
-#include <grpcpp/impl/codegen/method_handler_impl.h>
+#include <grpcpp/impl/codegen/client_callback.h>
+#include <grpcpp/impl/codegen/client_context.h>
+#include <grpcpp/impl/codegen/completion_queue.h>
+#include <grpcpp/impl/codegen/message_allocator.h>
+#include <grpcpp/impl/codegen/method_handler.h>
 #include <grpcpp/impl/codegen/proto_utils.h>
 #include <grpcpp/impl/codegen/rpc_method.h>
+#include <grpcpp/impl/codegen/server_callback.h>
+#include <grpcpp/impl/codegen/server_callback_handlers.h>
+#include <grpcpp/impl/codegen/server_context.h>
 #include <grpcpp/impl/codegen/service_type.h>
 #include <grpcpp/impl/codegen/status.h>
 #include <grpcpp/impl/codegen/stub_options.h>
 #include <grpcpp/impl/codegen/sync_stream.h>
-
-namespace grpc {
-class CompletionQueue;
-class Channel;
-class ServerCompletionQueue;
-class ServerContext;
-}  // namespace grpc
 
 namespace proto {
 
@@ -189,29 +190,255 @@ class Studio final {
       virtual ~experimental_async_interface() {}
       // Studio
       virtual void StudioGet(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void StudioGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::StudioGetResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void StudioGet(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void StudioGet(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void StudioGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::StudioGetResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void StudioGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::StudioGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void StudioStart(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void StudioStart(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void StudioStart(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void StudioStart(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void StudioStart(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void StudioStart(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void StudioStop(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void StudioStop(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void StudioStop(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void StudioStop(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void StudioStop(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void StudioStop(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       // Show
       virtual void ShowGet(::grpc::ClientContext* context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ShowGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowGetResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void ShowGet(::grpc::ClientContext* context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void ShowGet(::grpc::ClientContext* context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void ShowGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowGetResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void ShowGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void ShowCreate(::grpc::ClientContext* context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ShowCreate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowCreateResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void ShowCreate(::grpc::ClientContext* context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void ShowCreate(::grpc::ClientContext* context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void ShowCreate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowCreateResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void ShowCreate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowCreateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void ShowDuplicate(::grpc::ClientContext* context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ShowDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowDuplicateResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void ShowDuplicate(::grpc::ClientContext* context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void ShowDuplicate(::grpc::ClientContext* context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void ShowDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowDuplicateResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void ShowDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void ShowRemove(::grpc::ClientContext* context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ShowRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void ShowRemove(::grpc::ClientContext* context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void ShowRemove(::grpc::ClientContext* context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void ShowRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void ShowRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void ShowLoad(::grpc::ClientContext* context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ShowLoad(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowLoadResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void ShowLoad(::grpc::ClientContext* context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void ShowLoad(::grpc::ClientContext* context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void ShowLoad(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowLoadResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void ShowLoad(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowLoadResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       // Scene
       virtual void SceneGet(::grpc::ClientContext* context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SceneGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SceneGet(::grpc::ClientContext* context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SceneGet(::grpc::ClientContext* context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SceneGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SceneGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void SceneAdd(::grpc::ClientContext* context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SceneAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneAddResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SceneAdd(::grpc::ClientContext* context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SceneAdd(::grpc::ClientContext* context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SceneAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneAddResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SceneAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneAddResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void SceneDuplicate(::grpc::ClientContext* context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SceneDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneDuplicateResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SceneDuplicate(::grpc::ClientContext* context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SceneDuplicate(::grpc::ClientContext* context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SceneDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneDuplicateResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SceneDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void SceneRemove(::grpc::ClientContext* context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SceneRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SceneRemove(::grpc::ClientContext* context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SceneRemove(::grpc::ClientContext* context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SceneRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SceneRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void SceneSetAsCurrent(::grpc::ClientContext* context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SceneSetAsCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneSetAsCurrentResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SceneSetAsCurrent(::grpc::ClientContext* context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SceneSetAsCurrent(::grpc::ClientContext* context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SceneSetAsCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneSetAsCurrentResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SceneSetAsCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneSetAsCurrentResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void SceneGetCurrent(::grpc::ClientContext* context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SceneGetCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetCurrentResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SceneGetCurrent(::grpc::ClientContext* context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SceneGetCurrent(::grpc::ClientContext* context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SceneGetCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetCurrentResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SceneGetCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetCurrentResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       // Source
       virtual void SourceGet(::grpc::ClientContext* context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SourceGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceGetResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SourceGet(::grpc::ClientContext* context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SourceGet(::grpc::ClientContext* context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SourceGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceGetResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SourceGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void SourceAdd(::grpc::ClientContext* context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SourceAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceAddResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SourceAdd(::grpc::ClientContext* context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SourceAdd(::grpc::ClientContext* context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SourceAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceAddResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SourceAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceAddResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void SourceDuplicate(::grpc::ClientContext* context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SourceDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceDuplicateResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SourceDuplicate(::grpc::ClientContext* context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SourceDuplicate(::grpc::ClientContext* context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SourceDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceDuplicateResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SourceDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void SourceRemove(::grpc::ClientContext* context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SourceRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SourceRemove(::grpc::ClientContext* context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SourceRemove(::grpc::ClientContext* context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SourceRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SourceRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void SourceSetProperties(::grpc::ClientContext* context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SourceSetProperties(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceSetPropertiesResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SourceSetProperties(::grpc::ClientContext* context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SourceSetProperties(::grpc::ClientContext* context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SourceSetProperties(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceSetPropertiesResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SourceSetProperties(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceSetPropertiesResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void Health(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void Health(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::HealthResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void Health(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void Health(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void Health(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::HealthResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void Health(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::HealthResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
     };
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    typedef class experimental_async_interface async_interface;
+    #endif
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    async_interface* async() { return experimental_async(); }
+    #endif
     virtual class experimental_async_interface* experimental_async() { return nullptr; }
   private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::proto::StudioGetResponse>* AsyncStudioGetRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) = 0;
@@ -402,25 +629,245 @@ class Studio final {
       public StubInterface::experimental_async_interface {
      public:
       void StudioGet(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response, std::function<void(::grpc::Status)>) override;
+      void StudioGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::StudioGetResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void StudioGet(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void StudioGet(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void StudioGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::StudioGetResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void StudioGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::StudioGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void StudioStart(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) override;
+      void StudioStart(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void StudioStart(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void StudioStart(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void StudioStart(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void StudioStart(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void StudioStop(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) override;
+      void StudioStop(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void StudioStop(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void StudioStop(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void StudioStop(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void StudioStop(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void ShowGet(::grpc::ClientContext* context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response, std::function<void(::grpc::Status)>) override;
+      void ShowGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowGetResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void ShowGet(::grpc::ClientContext* context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void ShowGet(::grpc::ClientContext* context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void ShowGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowGetResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void ShowGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void ShowCreate(::grpc::ClientContext* context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response, std::function<void(::grpc::Status)>) override;
+      void ShowCreate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowCreateResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void ShowCreate(::grpc::ClientContext* context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void ShowCreate(::grpc::ClientContext* context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void ShowCreate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowCreateResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void ShowCreate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowCreateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void ShowDuplicate(::grpc::ClientContext* context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response, std::function<void(::grpc::Status)>) override;
+      void ShowDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowDuplicateResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void ShowDuplicate(::grpc::ClientContext* context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void ShowDuplicate(::grpc::ClientContext* context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void ShowDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowDuplicateResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void ShowDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void ShowRemove(::grpc::ClientContext* context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) override;
+      void ShowRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void ShowRemove(::grpc::ClientContext* context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void ShowRemove(::grpc::ClientContext* context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void ShowRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void ShowRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void ShowLoad(::grpc::ClientContext* context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response, std::function<void(::grpc::Status)>) override;
+      void ShowLoad(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowLoadResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void ShowLoad(::grpc::ClientContext* context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void ShowLoad(::grpc::ClientContext* context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void ShowLoad(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowLoadResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void ShowLoad(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::ShowLoadResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void SceneGet(::grpc::ClientContext* context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response, std::function<void(::grpc::Status)>) override;
+      void SceneGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SceneGet(::grpc::ClientContext* context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SceneGet(::grpc::ClientContext* context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SceneGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SceneGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void SceneAdd(::grpc::ClientContext* context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response, std::function<void(::grpc::Status)>) override;
+      void SceneAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneAddResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SceneAdd(::grpc::ClientContext* context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SceneAdd(::grpc::ClientContext* context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SceneAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneAddResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SceneAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneAddResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void SceneDuplicate(::grpc::ClientContext* context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response, std::function<void(::grpc::Status)>) override;
+      void SceneDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneDuplicateResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SceneDuplicate(::grpc::ClientContext* context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SceneDuplicate(::grpc::ClientContext* context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SceneDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneDuplicateResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SceneDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void SceneRemove(::grpc::ClientContext* context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) override;
+      void SceneRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SceneRemove(::grpc::ClientContext* context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SceneRemove(::grpc::ClientContext* context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SceneRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SceneRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void SceneSetAsCurrent(::grpc::ClientContext* context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response, std::function<void(::grpc::Status)>) override;
+      void SceneSetAsCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneSetAsCurrentResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SceneSetAsCurrent(::grpc::ClientContext* context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SceneSetAsCurrent(::grpc::ClientContext* context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SceneSetAsCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneSetAsCurrentResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SceneSetAsCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneSetAsCurrentResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void SceneGetCurrent(::grpc::ClientContext* context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response, std::function<void(::grpc::Status)>) override;
+      void SceneGetCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetCurrentResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SceneGetCurrent(::grpc::ClientContext* context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SceneGetCurrent(::grpc::ClientContext* context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SceneGetCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetCurrentResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SceneGetCurrent(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SceneGetCurrentResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void SourceGet(::grpc::ClientContext* context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response, std::function<void(::grpc::Status)>) override;
+      void SourceGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceGetResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SourceGet(::grpc::ClientContext* context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SourceGet(::grpc::ClientContext* context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SourceGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceGetResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SourceGet(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceGetResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void SourceAdd(::grpc::ClientContext* context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response, std::function<void(::grpc::Status)>) override;
+      void SourceAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceAddResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SourceAdd(::grpc::ClientContext* context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SourceAdd(::grpc::ClientContext* context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SourceAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceAddResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SourceAdd(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceAddResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void SourceDuplicate(::grpc::ClientContext* context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response, std::function<void(::grpc::Status)>) override;
+      void SourceDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceDuplicateResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SourceDuplicate(::grpc::ClientContext* context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SourceDuplicate(::grpc::ClientContext* context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SourceDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceDuplicateResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SourceDuplicate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceDuplicateResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void SourceRemove(::grpc::ClientContext* context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) override;
+      void SourceRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SourceRemove(::grpc::ClientContext* context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SourceRemove(::grpc::ClientContext* context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SourceRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SourceRemove(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::google::protobuf::Empty* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void SourceSetProperties(::grpc::ClientContext* context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response, std::function<void(::grpc::Status)>) override;
+      void SourceSetProperties(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceSetPropertiesResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SourceSetProperties(::grpc::ClientContext* context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SourceSetProperties(::grpc::ClientContext* context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SourceSetProperties(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceSetPropertiesResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SourceSetProperties(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::SourceSetPropertiesResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void Health(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response, std::function<void(::grpc::Status)>) override;
+      void Health(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::HealthResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void Health(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void Health(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void Health(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::HealthResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void Health(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::proto::HealthResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
      private:
       friend class Stub;
       explicit experimental_async(Stub* stub): stub_(stub) { }
@@ -527,7 +974,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_StudioGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StudioGet() {
       ::grpc::Service::MarkMethodAsync(0);
@@ -536,7 +983,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status StudioGet(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response) override {
+    ::grpc::Status StudioGet(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::StudioGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -547,7 +994,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_StudioStart : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StudioStart() {
       ::grpc::Service::MarkMethodAsync(1);
@@ -556,7 +1003,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status StudioStart(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status StudioStart(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -567,7 +1014,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_StudioStop : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StudioStop() {
       ::grpc::Service::MarkMethodAsync(2);
@@ -576,7 +1023,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status StudioStop(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status StudioStop(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -587,7 +1034,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_ShowGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ShowGet() {
       ::grpc::Service::MarkMethodAsync(3);
@@ -596,7 +1043,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowGet(::grpc::ServerContext* context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response) override {
+    ::grpc::Status ShowGet(::grpc::ServerContext* /*context*/, const ::proto::ShowGetRequest* /*request*/, ::proto::ShowGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -607,7 +1054,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_ShowCreate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ShowCreate() {
       ::grpc::Service::MarkMethodAsync(4);
@@ -616,7 +1063,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowCreate(::grpc::ServerContext* context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response) override {
+    ::grpc::Status ShowCreate(::grpc::ServerContext* /*context*/, const ::proto::ShowCreateRequest* /*request*/, ::proto::ShowCreateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -627,7 +1074,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_ShowDuplicate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ShowDuplicate() {
       ::grpc::Service::MarkMethodAsync(5);
@@ -636,7 +1083,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowDuplicate(::grpc::ServerContext* context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response) override {
+    ::grpc::Status ShowDuplicate(::grpc::ServerContext* /*context*/, const ::proto::ShowDuplicateRequest* /*request*/, ::proto::ShowDuplicateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -647,7 +1094,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_ShowRemove : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ShowRemove() {
       ::grpc::Service::MarkMethodAsync(6);
@@ -656,7 +1103,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowRemove(::grpc::ServerContext* context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status ShowRemove(::grpc::ServerContext* /*context*/, const ::proto::ShowRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -667,7 +1114,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_ShowLoad : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ShowLoad() {
       ::grpc::Service::MarkMethodAsync(7);
@@ -676,7 +1123,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowLoad(::grpc::ServerContext* context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response) override {
+    ::grpc::Status ShowLoad(::grpc::ServerContext* /*context*/, const ::proto::ShowLoadRequest* /*request*/, ::proto::ShowLoadResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -687,7 +1134,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_SceneGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SceneGet() {
       ::grpc::Service::MarkMethodAsync(8);
@@ -696,7 +1143,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneGet(::grpc::ServerContext* context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response) override {
+    ::grpc::Status SceneGet(::grpc::ServerContext* /*context*/, const ::proto::SceneGetRequest* /*request*/, ::proto::SceneGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -707,7 +1154,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_SceneAdd : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SceneAdd() {
       ::grpc::Service::MarkMethodAsync(9);
@@ -716,7 +1163,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneAdd(::grpc::ServerContext* context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response) override {
+    ::grpc::Status SceneAdd(::grpc::ServerContext* /*context*/, const ::proto::SceneAddRequest* /*request*/, ::proto::SceneAddResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -727,7 +1174,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_SceneDuplicate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SceneDuplicate() {
       ::grpc::Service::MarkMethodAsync(10);
@@ -736,7 +1183,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneDuplicate(::grpc::ServerContext* context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response) override {
+    ::grpc::Status SceneDuplicate(::grpc::ServerContext* /*context*/, const ::proto::SceneDuplicateRequest* /*request*/, ::proto::SceneDuplicateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -747,7 +1194,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_SceneRemove : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SceneRemove() {
       ::grpc::Service::MarkMethodAsync(11);
@@ -756,7 +1203,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneRemove(::grpc::ServerContext* context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status SceneRemove(::grpc::ServerContext* /*context*/, const ::proto::SceneRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -767,7 +1214,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_SceneSetAsCurrent : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SceneSetAsCurrent() {
       ::grpc::Service::MarkMethodAsync(12);
@@ -776,7 +1223,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneSetAsCurrent(::grpc::ServerContext* context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response) override {
+    ::grpc::Status SceneSetAsCurrent(::grpc::ServerContext* /*context*/, const ::proto::SceneSetAsCurrentRequest* /*request*/, ::proto::SceneSetAsCurrentResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -787,7 +1234,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_SceneGetCurrent : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SceneGetCurrent() {
       ::grpc::Service::MarkMethodAsync(13);
@@ -796,7 +1243,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneGetCurrent(::grpc::ServerContext* context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response) override {
+    ::grpc::Status SceneGetCurrent(::grpc::ServerContext* /*context*/, const ::proto::SceneGetCurrentRequest* /*request*/, ::proto::SceneGetCurrentResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -807,7 +1254,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_SourceGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SourceGet() {
       ::grpc::Service::MarkMethodAsync(14);
@@ -816,7 +1263,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceGet(::grpc::ServerContext* context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response) override {
+    ::grpc::Status SourceGet(::grpc::ServerContext* /*context*/, const ::proto::SourceGetRequest* /*request*/, ::proto::SourceGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -827,7 +1274,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_SourceAdd : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SourceAdd() {
       ::grpc::Service::MarkMethodAsync(15);
@@ -836,7 +1283,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceAdd(::grpc::ServerContext* context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response) override {
+    ::grpc::Status SourceAdd(::grpc::ServerContext* /*context*/, const ::proto::SourceAddRequest* /*request*/, ::proto::SourceAddResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -847,7 +1294,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_SourceDuplicate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SourceDuplicate() {
       ::grpc::Service::MarkMethodAsync(16);
@@ -856,7 +1303,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceDuplicate(::grpc::ServerContext* context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response) override {
+    ::grpc::Status SourceDuplicate(::grpc::ServerContext* /*context*/, const ::proto::SourceDuplicateRequest* /*request*/, ::proto::SourceDuplicateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -867,7 +1314,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_SourceRemove : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SourceRemove() {
       ::grpc::Service::MarkMethodAsync(17);
@@ -876,7 +1323,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceRemove(::grpc::ServerContext* context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status SourceRemove(::grpc::ServerContext* /*context*/, const ::proto::SourceRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -887,7 +1334,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_SourceSetProperties : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SourceSetProperties() {
       ::grpc::Service::MarkMethodAsync(18);
@@ -896,7 +1343,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceSetProperties(::grpc::ServerContext* context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response) override {
+    ::grpc::Status SourceSetProperties(::grpc::ServerContext* /*context*/, const ::proto::SourceSetPropertiesRequest* /*request*/, ::proto::SourceSetPropertiesResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -907,7 +1354,7 @@ class Studio final {
   template <class BaseClass>
   class WithAsyncMethod_Health : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_Health() {
       ::grpc::Service::MarkMethodAsync(19);
@@ -916,7 +1363,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Health(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response) override {
+    ::grpc::Status Health(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::HealthResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -926,9 +1373,954 @@ class Studio final {
   };
   typedef WithAsyncMethod_StudioGet<WithAsyncMethod_StudioStart<WithAsyncMethod_StudioStop<WithAsyncMethod_ShowGet<WithAsyncMethod_ShowCreate<WithAsyncMethod_ShowDuplicate<WithAsyncMethod_ShowRemove<WithAsyncMethod_ShowLoad<WithAsyncMethod_SceneGet<WithAsyncMethod_SceneAdd<WithAsyncMethod_SceneDuplicate<WithAsyncMethod_SceneRemove<WithAsyncMethod_SceneSetAsCurrent<WithAsyncMethod_SceneGetCurrent<WithAsyncMethod_SourceGet<WithAsyncMethod_SourceAdd<WithAsyncMethod_SourceDuplicate<WithAsyncMethod_SourceRemove<WithAsyncMethod_SourceSetProperties<WithAsyncMethod_Health<Service > > > > > > > > > > > > > > > > > > > > AsyncService;
   template <class BaseClass>
+  class ExperimentalWithCallbackMethod_StudioGet : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_StudioGet() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(0,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::google::protobuf::Empty, ::proto::StudioGetResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response) { return this->StudioGet(context, request, response); }));}
+    void SetMessageAllocatorFor_StudioGet(
+        ::grpc::experimental::MessageAllocator< ::google::protobuf::Empty, ::proto::StudioGetResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(0);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::google::protobuf::Empty, ::proto::StudioGetResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_StudioGet() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status StudioGet(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::StudioGetResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* StudioGet(
+      ::grpc::CallbackServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::StudioGetResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* StudioGet(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::StudioGetResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_StudioStart : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_StudioStart() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(1,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::google::protobuf::Empty, ::google::protobuf::Empty>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response) { return this->StudioStart(context, request, response); }));}
+    void SetMessageAllocatorFor_StudioStart(
+        ::grpc::experimental::MessageAllocator< ::google::protobuf::Empty, ::google::protobuf::Empty>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(1);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::google::protobuf::Empty, ::google::protobuf::Empty>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_StudioStart() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status StudioStart(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* StudioStart(
+      ::grpc::CallbackServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* StudioStart(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_StudioStop : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_StudioStop() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(2,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::google::protobuf::Empty, ::google::protobuf::Empty>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response) { return this->StudioStop(context, request, response); }));}
+    void SetMessageAllocatorFor_StudioStop(
+        ::grpc::experimental::MessageAllocator< ::google::protobuf::Empty, ::google::protobuf::Empty>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(2);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::google::protobuf::Empty, ::google::protobuf::Empty>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_StudioStop() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status StudioStop(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* StudioStop(
+      ::grpc::CallbackServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* StudioStop(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_ShowGet : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_ShowGet() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(3,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::ShowGetRequest, ::proto::ShowGetResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response) { return this->ShowGet(context, request, response); }));}
+    void SetMessageAllocatorFor_ShowGet(
+        ::grpc::experimental::MessageAllocator< ::proto::ShowGetRequest, ::proto::ShowGetResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(3);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::ShowGetRequest, ::proto::ShowGetResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_ShowGet() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowGet(::grpc::ServerContext* /*context*/, const ::proto::ShowGetRequest* /*request*/, ::proto::ShowGetResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* ShowGet(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::ShowGetRequest* /*request*/, ::proto::ShowGetResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* ShowGet(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::ShowGetRequest* /*request*/, ::proto::ShowGetResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_ShowCreate : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_ShowCreate() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(4,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::ShowCreateRequest, ::proto::ShowCreateResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response) { return this->ShowCreate(context, request, response); }));}
+    void SetMessageAllocatorFor_ShowCreate(
+        ::grpc::experimental::MessageAllocator< ::proto::ShowCreateRequest, ::proto::ShowCreateResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(4);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::ShowCreateRequest, ::proto::ShowCreateResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_ShowCreate() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowCreate(::grpc::ServerContext* /*context*/, const ::proto::ShowCreateRequest* /*request*/, ::proto::ShowCreateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* ShowCreate(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::ShowCreateRequest* /*request*/, ::proto::ShowCreateResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* ShowCreate(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::ShowCreateRequest* /*request*/, ::proto::ShowCreateResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_ShowDuplicate : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_ShowDuplicate() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(5,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::ShowDuplicateRequest, ::proto::ShowDuplicateResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response) { return this->ShowDuplicate(context, request, response); }));}
+    void SetMessageAllocatorFor_ShowDuplicate(
+        ::grpc::experimental::MessageAllocator< ::proto::ShowDuplicateRequest, ::proto::ShowDuplicateResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(5);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::ShowDuplicateRequest, ::proto::ShowDuplicateResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_ShowDuplicate() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowDuplicate(::grpc::ServerContext* /*context*/, const ::proto::ShowDuplicateRequest* /*request*/, ::proto::ShowDuplicateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* ShowDuplicate(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::ShowDuplicateRequest* /*request*/, ::proto::ShowDuplicateResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* ShowDuplicate(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::ShowDuplicateRequest* /*request*/, ::proto::ShowDuplicateResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_ShowRemove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_ShowRemove() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(6,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::ShowRemoveRequest, ::google::protobuf::Empty>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response) { return this->ShowRemove(context, request, response); }));}
+    void SetMessageAllocatorFor_ShowRemove(
+        ::grpc::experimental::MessageAllocator< ::proto::ShowRemoveRequest, ::google::protobuf::Empty>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(6);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::ShowRemoveRequest, ::google::protobuf::Empty>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_ShowRemove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowRemove(::grpc::ServerContext* /*context*/, const ::proto::ShowRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* ShowRemove(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::ShowRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* ShowRemove(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::ShowRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_ShowLoad : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_ShowLoad() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(7,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::ShowLoadRequest, ::proto::ShowLoadResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response) { return this->ShowLoad(context, request, response); }));}
+    void SetMessageAllocatorFor_ShowLoad(
+        ::grpc::experimental::MessageAllocator< ::proto::ShowLoadRequest, ::proto::ShowLoadResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(7);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::ShowLoadRequest, ::proto::ShowLoadResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_ShowLoad() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowLoad(::grpc::ServerContext* /*context*/, const ::proto::ShowLoadRequest* /*request*/, ::proto::ShowLoadResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* ShowLoad(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::ShowLoadRequest* /*request*/, ::proto::ShowLoadResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* ShowLoad(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::ShowLoadRequest* /*request*/, ::proto::ShowLoadResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SceneGet : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SceneGet() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(8,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::SceneGetRequest, ::proto::SceneGetResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response) { return this->SceneGet(context, request, response); }));}
+    void SetMessageAllocatorFor_SceneGet(
+        ::grpc::experimental::MessageAllocator< ::proto::SceneGetRequest, ::proto::SceneGetResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(8);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::SceneGetRequest, ::proto::SceneGetResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SceneGet() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SceneGet(::grpc::ServerContext* /*context*/, const ::proto::SceneGetRequest* /*request*/, ::proto::SceneGetResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SceneGet(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::SceneGetRequest* /*request*/, ::proto::SceneGetResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SceneGet(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::SceneGetRequest* /*request*/, ::proto::SceneGetResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SceneAdd : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SceneAdd() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(9,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::SceneAddRequest, ::proto::SceneAddResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response) { return this->SceneAdd(context, request, response); }));}
+    void SetMessageAllocatorFor_SceneAdd(
+        ::grpc::experimental::MessageAllocator< ::proto::SceneAddRequest, ::proto::SceneAddResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(9);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::SceneAddRequest, ::proto::SceneAddResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SceneAdd() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SceneAdd(::grpc::ServerContext* /*context*/, const ::proto::SceneAddRequest* /*request*/, ::proto::SceneAddResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SceneAdd(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::SceneAddRequest* /*request*/, ::proto::SceneAddResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SceneAdd(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::SceneAddRequest* /*request*/, ::proto::SceneAddResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SceneDuplicate : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SceneDuplicate() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(10,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::SceneDuplicateRequest, ::proto::SceneDuplicateResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response) { return this->SceneDuplicate(context, request, response); }));}
+    void SetMessageAllocatorFor_SceneDuplicate(
+        ::grpc::experimental::MessageAllocator< ::proto::SceneDuplicateRequest, ::proto::SceneDuplicateResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(10);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(10);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::SceneDuplicateRequest, ::proto::SceneDuplicateResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SceneDuplicate() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SceneDuplicate(::grpc::ServerContext* /*context*/, const ::proto::SceneDuplicateRequest* /*request*/, ::proto::SceneDuplicateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SceneDuplicate(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::SceneDuplicateRequest* /*request*/, ::proto::SceneDuplicateResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SceneDuplicate(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::SceneDuplicateRequest* /*request*/, ::proto::SceneDuplicateResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SceneRemove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SceneRemove() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(11,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::SceneRemoveRequest, ::google::protobuf::Empty>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response) { return this->SceneRemove(context, request, response); }));}
+    void SetMessageAllocatorFor_SceneRemove(
+        ::grpc::experimental::MessageAllocator< ::proto::SceneRemoveRequest, ::google::protobuf::Empty>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(11);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(11);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::SceneRemoveRequest, ::google::protobuf::Empty>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SceneRemove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SceneRemove(::grpc::ServerContext* /*context*/, const ::proto::SceneRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SceneRemove(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::SceneRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SceneRemove(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::SceneRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SceneSetAsCurrent : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SceneSetAsCurrent() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(12,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::SceneSetAsCurrentRequest, ::proto::SceneSetAsCurrentResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response) { return this->SceneSetAsCurrent(context, request, response); }));}
+    void SetMessageAllocatorFor_SceneSetAsCurrent(
+        ::grpc::experimental::MessageAllocator< ::proto::SceneSetAsCurrentRequest, ::proto::SceneSetAsCurrentResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(12);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(12);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::SceneSetAsCurrentRequest, ::proto::SceneSetAsCurrentResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SceneSetAsCurrent() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SceneSetAsCurrent(::grpc::ServerContext* /*context*/, const ::proto::SceneSetAsCurrentRequest* /*request*/, ::proto::SceneSetAsCurrentResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SceneSetAsCurrent(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::SceneSetAsCurrentRequest* /*request*/, ::proto::SceneSetAsCurrentResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SceneSetAsCurrent(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::SceneSetAsCurrentRequest* /*request*/, ::proto::SceneSetAsCurrentResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SceneGetCurrent : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SceneGetCurrent() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(13,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::SceneGetCurrentRequest, ::proto::SceneGetCurrentResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response) { return this->SceneGetCurrent(context, request, response); }));}
+    void SetMessageAllocatorFor_SceneGetCurrent(
+        ::grpc::experimental::MessageAllocator< ::proto::SceneGetCurrentRequest, ::proto::SceneGetCurrentResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(13);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(13);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::SceneGetCurrentRequest, ::proto::SceneGetCurrentResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SceneGetCurrent() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SceneGetCurrent(::grpc::ServerContext* /*context*/, const ::proto::SceneGetCurrentRequest* /*request*/, ::proto::SceneGetCurrentResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SceneGetCurrent(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::SceneGetCurrentRequest* /*request*/, ::proto::SceneGetCurrentResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SceneGetCurrent(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::SceneGetCurrentRequest* /*request*/, ::proto::SceneGetCurrentResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SourceGet : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SourceGet() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(14,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::SourceGetRequest, ::proto::SourceGetResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response) { return this->SourceGet(context, request, response); }));}
+    void SetMessageAllocatorFor_SourceGet(
+        ::grpc::experimental::MessageAllocator< ::proto::SourceGetRequest, ::proto::SourceGetResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(14);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::SourceGetRequest, ::proto::SourceGetResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SourceGet() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SourceGet(::grpc::ServerContext* /*context*/, const ::proto::SourceGetRequest* /*request*/, ::proto::SourceGetResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SourceGet(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::SourceGetRequest* /*request*/, ::proto::SourceGetResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SourceGet(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::SourceGetRequest* /*request*/, ::proto::SourceGetResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SourceAdd : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SourceAdd() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(15,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::SourceAddRequest, ::proto::SourceAddResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response) { return this->SourceAdd(context, request, response); }));}
+    void SetMessageAllocatorFor_SourceAdd(
+        ::grpc::experimental::MessageAllocator< ::proto::SourceAddRequest, ::proto::SourceAddResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(15);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(15);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::SourceAddRequest, ::proto::SourceAddResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SourceAdd() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SourceAdd(::grpc::ServerContext* /*context*/, const ::proto::SourceAddRequest* /*request*/, ::proto::SourceAddResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SourceAdd(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::SourceAddRequest* /*request*/, ::proto::SourceAddResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SourceAdd(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::SourceAddRequest* /*request*/, ::proto::SourceAddResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SourceDuplicate : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SourceDuplicate() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(16,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::SourceDuplicateRequest, ::proto::SourceDuplicateResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response) { return this->SourceDuplicate(context, request, response); }));}
+    void SetMessageAllocatorFor_SourceDuplicate(
+        ::grpc::experimental::MessageAllocator< ::proto::SourceDuplicateRequest, ::proto::SourceDuplicateResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(16);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(16);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::SourceDuplicateRequest, ::proto::SourceDuplicateResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SourceDuplicate() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SourceDuplicate(::grpc::ServerContext* /*context*/, const ::proto::SourceDuplicateRequest* /*request*/, ::proto::SourceDuplicateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SourceDuplicate(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::SourceDuplicateRequest* /*request*/, ::proto::SourceDuplicateResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SourceDuplicate(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::SourceDuplicateRequest* /*request*/, ::proto::SourceDuplicateResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SourceRemove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SourceRemove() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(17,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::SourceRemoveRequest, ::google::protobuf::Empty>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response) { return this->SourceRemove(context, request, response); }));}
+    void SetMessageAllocatorFor_SourceRemove(
+        ::grpc::experimental::MessageAllocator< ::proto::SourceRemoveRequest, ::google::protobuf::Empty>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(17);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(17);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::SourceRemoveRequest, ::google::protobuf::Empty>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SourceRemove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SourceRemove(::grpc::ServerContext* /*context*/, const ::proto::SourceRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SourceRemove(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::SourceRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SourceRemove(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::SourceRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SourceSetProperties : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SourceSetProperties() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(18,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::proto::SourceSetPropertiesRequest, ::proto::SourceSetPropertiesResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response) { return this->SourceSetProperties(context, request, response); }));}
+    void SetMessageAllocatorFor_SourceSetProperties(
+        ::grpc::experimental::MessageAllocator< ::proto::SourceSetPropertiesRequest, ::proto::SourceSetPropertiesResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(18);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(18);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::proto::SourceSetPropertiesRequest, ::proto::SourceSetPropertiesResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SourceSetProperties() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SourceSetProperties(::grpc::ServerContext* /*context*/, const ::proto::SourceSetPropertiesRequest* /*request*/, ::proto::SourceSetPropertiesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SourceSetProperties(
+      ::grpc::CallbackServerContext* /*context*/, const ::proto::SourceSetPropertiesRequest* /*request*/, ::proto::SourceSetPropertiesResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SourceSetProperties(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::proto::SourceSetPropertiesRequest* /*request*/, ::proto::SourceSetPropertiesResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_Health : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_Health() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(19,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::google::protobuf::Empty, ::proto::HealthResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response) { return this->Health(context, request, response); }));}
+    void SetMessageAllocatorFor_Health(
+        ::grpc::experimental::MessageAllocator< ::google::protobuf::Empty, ::proto::HealthResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(19);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(19);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::google::protobuf::Empty, ::proto::HealthResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_Health() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Health(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::HealthResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* Health(
+      ::grpc::CallbackServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::HealthResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* Health(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::HealthResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+  typedef ExperimentalWithCallbackMethod_StudioGet<ExperimentalWithCallbackMethod_StudioStart<ExperimentalWithCallbackMethod_StudioStop<ExperimentalWithCallbackMethod_ShowGet<ExperimentalWithCallbackMethod_ShowCreate<ExperimentalWithCallbackMethod_ShowDuplicate<ExperimentalWithCallbackMethod_ShowRemove<ExperimentalWithCallbackMethod_ShowLoad<ExperimentalWithCallbackMethod_SceneGet<ExperimentalWithCallbackMethod_SceneAdd<ExperimentalWithCallbackMethod_SceneDuplicate<ExperimentalWithCallbackMethod_SceneRemove<ExperimentalWithCallbackMethod_SceneSetAsCurrent<ExperimentalWithCallbackMethod_SceneGetCurrent<ExperimentalWithCallbackMethod_SourceGet<ExperimentalWithCallbackMethod_SourceAdd<ExperimentalWithCallbackMethod_SourceDuplicate<ExperimentalWithCallbackMethod_SourceRemove<ExperimentalWithCallbackMethod_SourceSetProperties<ExperimentalWithCallbackMethod_Health<Service > > > > > > > > > > > > > > > > > > > > CallbackService;
+  #endif
+
+  typedef ExperimentalWithCallbackMethod_StudioGet<ExperimentalWithCallbackMethod_StudioStart<ExperimentalWithCallbackMethod_StudioStop<ExperimentalWithCallbackMethod_ShowGet<ExperimentalWithCallbackMethod_ShowCreate<ExperimentalWithCallbackMethod_ShowDuplicate<ExperimentalWithCallbackMethod_ShowRemove<ExperimentalWithCallbackMethod_ShowLoad<ExperimentalWithCallbackMethod_SceneGet<ExperimentalWithCallbackMethod_SceneAdd<ExperimentalWithCallbackMethod_SceneDuplicate<ExperimentalWithCallbackMethod_SceneRemove<ExperimentalWithCallbackMethod_SceneSetAsCurrent<ExperimentalWithCallbackMethod_SceneGetCurrent<ExperimentalWithCallbackMethod_SourceGet<ExperimentalWithCallbackMethod_SourceAdd<ExperimentalWithCallbackMethod_SourceDuplicate<ExperimentalWithCallbackMethod_SourceRemove<ExperimentalWithCallbackMethod_SourceSetProperties<ExperimentalWithCallbackMethod_Health<Service > > > > > > > > > > > > > > > > > > > > ExperimentalCallbackService;
+  template <class BaseClass>
   class WithGenericMethod_StudioGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StudioGet() {
       ::grpc::Service::MarkMethodGeneric(0);
@@ -937,7 +2329,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status StudioGet(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response) override {
+    ::grpc::Status StudioGet(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::StudioGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -945,7 +2337,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_StudioStart : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StudioStart() {
       ::grpc::Service::MarkMethodGeneric(1);
@@ -954,7 +2346,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status StudioStart(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status StudioStart(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -962,7 +2354,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_StudioStop : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StudioStop() {
       ::grpc::Service::MarkMethodGeneric(2);
@@ -971,7 +2363,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status StudioStop(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status StudioStop(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -979,7 +2371,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_ShowGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ShowGet() {
       ::grpc::Service::MarkMethodGeneric(3);
@@ -988,7 +2380,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowGet(::grpc::ServerContext* context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response) override {
+    ::grpc::Status ShowGet(::grpc::ServerContext* /*context*/, const ::proto::ShowGetRequest* /*request*/, ::proto::ShowGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -996,7 +2388,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_ShowCreate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ShowCreate() {
       ::grpc::Service::MarkMethodGeneric(4);
@@ -1005,7 +2397,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowCreate(::grpc::ServerContext* context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response) override {
+    ::grpc::Status ShowCreate(::grpc::ServerContext* /*context*/, const ::proto::ShowCreateRequest* /*request*/, ::proto::ShowCreateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1013,7 +2405,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_ShowDuplicate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ShowDuplicate() {
       ::grpc::Service::MarkMethodGeneric(5);
@@ -1022,7 +2414,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowDuplicate(::grpc::ServerContext* context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response) override {
+    ::grpc::Status ShowDuplicate(::grpc::ServerContext* /*context*/, const ::proto::ShowDuplicateRequest* /*request*/, ::proto::ShowDuplicateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1030,7 +2422,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_ShowRemove : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ShowRemove() {
       ::grpc::Service::MarkMethodGeneric(6);
@@ -1039,7 +2431,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowRemove(::grpc::ServerContext* context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status ShowRemove(::grpc::ServerContext* /*context*/, const ::proto::ShowRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1047,7 +2439,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_ShowLoad : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ShowLoad() {
       ::grpc::Service::MarkMethodGeneric(7);
@@ -1056,7 +2448,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowLoad(::grpc::ServerContext* context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response) override {
+    ::grpc::Status ShowLoad(::grpc::ServerContext* /*context*/, const ::proto::ShowLoadRequest* /*request*/, ::proto::ShowLoadResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1064,7 +2456,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_SceneGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SceneGet() {
       ::grpc::Service::MarkMethodGeneric(8);
@@ -1073,7 +2465,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneGet(::grpc::ServerContext* context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response) override {
+    ::grpc::Status SceneGet(::grpc::ServerContext* /*context*/, const ::proto::SceneGetRequest* /*request*/, ::proto::SceneGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1081,7 +2473,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_SceneAdd : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SceneAdd() {
       ::grpc::Service::MarkMethodGeneric(9);
@@ -1090,7 +2482,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneAdd(::grpc::ServerContext* context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response) override {
+    ::grpc::Status SceneAdd(::grpc::ServerContext* /*context*/, const ::proto::SceneAddRequest* /*request*/, ::proto::SceneAddResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1098,7 +2490,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_SceneDuplicate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SceneDuplicate() {
       ::grpc::Service::MarkMethodGeneric(10);
@@ -1107,7 +2499,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneDuplicate(::grpc::ServerContext* context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response) override {
+    ::grpc::Status SceneDuplicate(::grpc::ServerContext* /*context*/, const ::proto::SceneDuplicateRequest* /*request*/, ::proto::SceneDuplicateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1115,7 +2507,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_SceneRemove : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SceneRemove() {
       ::grpc::Service::MarkMethodGeneric(11);
@@ -1124,7 +2516,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneRemove(::grpc::ServerContext* context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status SceneRemove(::grpc::ServerContext* /*context*/, const ::proto::SceneRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1132,7 +2524,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_SceneSetAsCurrent : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SceneSetAsCurrent() {
       ::grpc::Service::MarkMethodGeneric(12);
@@ -1141,7 +2533,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneSetAsCurrent(::grpc::ServerContext* context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response) override {
+    ::grpc::Status SceneSetAsCurrent(::grpc::ServerContext* /*context*/, const ::proto::SceneSetAsCurrentRequest* /*request*/, ::proto::SceneSetAsCurrentResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1149,7 +2541,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_SceneGetCurrent : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SceneGetCurrent() {
       ::grpc::Service::MarkMethodGeneric(13);
@@ -1158,7 +2550,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneGetCurrent(::grpc::ServerContext* context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response) override {
+    ::grpc::Status SceneGetCurrent(::grpc::ServerContext* /*context*/, const ::proto::SceneGetCurrentRequest* /*request*/, ::proto::SceneGetCurrentResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1166,7 +2558,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_SourceGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SourceGet() {
       ::grpc::Service::MarkMethodGeneric(14);
@@ -1175,7 +2567,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceGet(::grpc::ServerContext* context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response) override {
+    ::grpc::Status SourceGet(::grpc::ServerContext* /*context*/, const ::proto::SourceGetRequest* /*request*/, ::proto::SourceGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1183,7 +2575,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_SourceAdd : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SourceAdd() {
       ::grpc::Service::MarkMethodGeneric(15);
@@ -1192,7 +2584,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceAdd(::grpc::ServerContext* context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response) override {
+    ::grpc::Status SourceAdd(::grpc::ServerContext* /*context*/, const ::proto::SourceAddRequest* /*request*/, ::proto::SourceAddResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1200,7 +2592,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_SourceDuplicate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SourceDuplicate() {
       ::grpc::Service::MarkMethodGeneric(16);
@@ -1209,7 +2601,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceDuplicate(::grpc::ServerContext* context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response) override {
+    ::grpc::Status SourceDuplicate(::grpc::ServerContext* /*context*/, const ::proto::SourceDuplicateRequest* /*request*/, ::proto::SourceDuplicateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1217,7 +2609,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_SourceRemove : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SourceRemove() {
       ::grpc::Service::MarkMethodGeneric(17);
@@ -1226,7 +2618,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceRemove(::grpc::ServerContext* context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status SourceRemove(::grpc::ServerContext* /*context*/, const ::proto::SourceRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1234,7 +2626,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_SourceSetProperties : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SourceSetProperties() {
       ::grpc::Service::MarkMethodGeneric(18);
@@ -1243,7 +2635,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceSetProperties(::grpc::ServerContext* context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response) override {
+    ::grpc::Status SourceSetProperties(::grpc::ServerContext* /*context*/, const ::proto::SourceSetPropertiesRequest* /*request*/, ::proto::SourceSetPropertiesResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1251,7 +2643,7 @@ class Studio final {
   template <class BaseClass>
   class WithGenericMethod_Health : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_Health() {
       ::grpc::Service::MarkMethodGeneric(19);
@@ -1260,7 +2652,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Health(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response) override {
+    ::grpc::Status Health(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::HealthResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1268,7 +2660,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_StudioGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StudioGet() {
       ::grpc::Service::MarkMethodRaw(0);
@@ -1277,7 +2669,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status StudioGet(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response) override {
+    ::grpc::Status StudioGet(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::StudioGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1288,7 +2680,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_StudioStart : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StudioStart() {
       ::grpc::Service::MarkMethodRaw(1);
@@ -1297,7 +2689,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status StudioStart(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status StudioStart(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1308,7 +2700,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_StudioStop : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StudioStop() {
       ::grpc::Service::MarkMethodRaw(2);
@@ -1317,7 +2709,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status StudioStop(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status StudioStop(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1328,7 +2720,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_ShowGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ShowGet() {
       ::grpc::Service::MarkMethodRaw(3);
@@ -1337,7 +2729,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowGet(::grpc::ServerContext* context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response) override {
+    ::grpc::Status ShowGet(::grpc::ServerContext* /*context*/, const ::proto::ShowGetRequest* /*request*/, ::proto::ShowGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1348,7 +2740,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_ShowCreate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ShowCreate() {
       ::grpc::Service::MarkMethodRaw(4);
@@ -1357,7 +2749,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowCreate(::grpc::ServerContext* context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response) override {
+    ::grpc::Status ShowCreate(::grpc::ServerContext* /*context*/, const ::proto::ShowCreateRequest* /*request*/, ::proto::ShowCreateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1368,7 +2760,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_ShowDuplicate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ShowDuplicate() {
       ::grpc::Service::MarkMethodRaw(5);
@@ -1377,7 +2769,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowDuplicate(::grpc::ServerContext* context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response) override {
+    ::grpc::Status ShowDuplicate(::grpc::ServerContext* /*context*/, const ::proto::ShowDuplicateRequest* /*request*/, ::proto::ShowDuplicateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1388,7 +2780,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_ShowRemove : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ShowRemove() {
       ::grpc::Service::MarkMethodRaw(6);
@@ -1397,7 +2789,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowRemove(::grpc::ServerContext* context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status ShowRemove(::grpc::ServerContext* /*context*/, const ::proto::ShowRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1408,7 +2800,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_ShowLoad : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ShowLoad() {
       ::grpc::Service::MarkMethodRaw(7);
@@ -1417,7 +2809,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ShowLoad(::grpc::ServerContext* context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response) override {
+    ::grpc::Status ShowLoad(::grpc::ServerContext* /*context*/, const ::proto::ShowLoadRequest* /*request*/, ::proto::ShowLoadResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1428,7 +2820,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_SceneGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SceneGet() {
       ::grpc::Service::MarkMethodRaw(8);
@@ -1437,7 +2829,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneGet(::grpc::ServerContext* context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response) override {
+    ::grpc::Status SceneGet(::grpc::ServerContext* /*context*/, const ::proto::SceneGetRequest* /*request*/, ::proto::SceneGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1448,7 +2840,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_SceneAdd : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SceneAdd() {
       ::grpc::Service::MarkMethodRaw(9);
@@ -1457,7 +2849,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneAdd(::grpc::ServerContext* context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response) override {
+    ::grpc::Status SceneAdd(::grpc::ServerContext* /*context*/, const ::proto::SceneAddRequest* /*request*/, ::proto::SceneAddResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1468,7 +2860,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_SceneDuplicate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SceneDuplicate() {
       ::grpc::Service::MarkMethodRaw(10);
@@ -1477,7 +2869,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneDuplicate(::grpc::ServerContext* context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response) override {
+    ::grpc::Status SceneDuplicate(::grpc::ServerContext* /*context*/, const ::proto::SceneDuplicateRequest* /*request*/, ::proto::SceneDuplicateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1488,7 +2880,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_SceneRemove : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SceneRemove() {
       ::grpc::Service::MarkMethodRaw(11);
@@ -1497,7 +2889,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneRemove(::grpc::ServerContext* context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status SceneRemove(::grpc::ServerContext* /*context*/, const ::proto::SceneRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1508,7 +2900,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_SceneSetAsCurrent : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SceneSetAsCurrent() {
       ::grpc::Service::MarkMethodRaw(12);
@@ -1517,7 +2909,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneSetAsCurrent(::grpc::ServerContext* context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response) override {
+    ::grpc::Status SceneSetAsCurrent(::grpc::ServerContext* /*context*/, const ::proto::SceneSetAsCurrentRequest* /*request*/, ::proto::SceneSetAsCurrentResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1528,7 +2920,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_SceneGetCurrent : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SceneGetCurrent() {
       ::grpc::Service::MarkMethodRaw(13);
@@ -1537,7 +2929,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SceneGetCurrent(::grpc::ServerContext* context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response) override {
+    ::grpc::Status SceneGetCurrent(::grpc::ServerContext* /*context*/, const ::proto::SceneGetCurrentRequest* /*request*/, ::proto::SceneGetCurrentResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1548,7 +2940,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_SourceGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SourceGet() {
       ::grpc::Service::MarkMethodRaw(14);
@@ -1557,7 +2949,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceGet(::grpc::ServerContext* context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response) override {
+    ::grpc::Status SourceGet(::grpc::ServerContext* /*context*/, const ::proto::SourceGetRequest* /*request*/, ::proto::SourceGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1568,7 +2960,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_SourceAdd : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SourceAdd() {
       ::grpc::Service::MarkMethodRaw(15);
@@ -1577,7 +2969,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceAdd(::grpc::ServerContext* context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response) override {
+    ::grpc::Status SourceAdd(::grpc::ServerContext* /*context*/, const ::proto::SourceAddRequest* /*request*/, ::proto::SourceAddResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1588,7 +2980,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_SourceDuplicate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SourceDuplicate() {
       ::grpc::Service::MarkMethodRaw(16);
@@ -1597,7 +2989,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceDuplicate(::grpc::ServerContext* context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response) override {
+    ::grpc::Status SourceDuplicate(::grpc::ServerContext* /*context*/, const ::proto::SourceDuplicateRequest* /*request*/, ::proto::SourceDuplicateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1608,7 +3000,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_SourceRemove : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SourceRemove() {
       ::grpc::Service::MarkMethodRaw(17);
@@ -1617,7 +3009,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceRemove(::grpc::ServerContext* context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status SourceRemove(::grpc::ServerContext* /*context*/, const ::proto::SourceRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1628,7 +3020,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_SourceSetProperties : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SourceSetProperties() {
       ::grpc::Service::MarkMethodRaw(18);
@@ -1637,7 +3029,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SourceSetProperties(::grpc::ServerContext* context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response) override {
+    ::grpc::Status SourceSetProperties(::grpc::ServerContext* /*context*/, const ::proto::SourceSetPropertiesRequest* /*request*/, ::proto::SourceSetPropertiesResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1648,7 +3040,7 @@ class Studio final {
   template <class BaseClass>
   class WithRawMethod_Health : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_Health() {
       ::grpc::Service::MarkMethodRaw(19);
@@ -1657,7 +3049,7 @@ class Studio final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Health(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response) override {
+    ::grpc::Status Health(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::HealthResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1666,19 +3058,786 @@ class Studio final {
     }
   };
   template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_StudioGet : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_StudioGet() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(0,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StudioGet(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_StudioGet() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status StudioGet(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::StudioGetResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* StudioGet(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* StudioGet(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_StudioStart : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_StudioStart() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(1,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StudioStart(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_StudioStart() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status StudioStart(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* StudioStart(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* StudioStart(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_StudioStop : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_StudioStop() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(2,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StudioStop(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_StudioStop() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status StudioStop(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* StudioStop(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* StudioStop(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_ShowGet : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_ShowGet() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(3,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ShowGet(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_ShowGet() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowGet(::grpc::ServerContext* /*context*/, const ::proto::ShowGetRequest* /*request*/, ::proto::ShowGetResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* ShowGet(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* ShowGet(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_ShowCreate : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_ShowCreate() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(4,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ShowCreate(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_ShowCreate() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowCreate(::grpc::ServerContext* /*context*/, const ::proto::ShowCreateRequest* /*request*/, ::proto::ShowCreateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* ShowCreate(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* ShowCreate(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_ShowDuplicate : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_ShowDuplicate() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(5,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ShowDuplicate(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_ShowDuplicate() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowDuplicate(::grpc::ServerContext* /*context*/, const ::proto::ShowDuplicateRequest* /*request*/, ::proto::ShowDuplicateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* ShowDuplicate(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* ShowDuplicate(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_ShowRemove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_ShowRemove() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(6,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ShowRemove(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_ShowRemove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowRemove(::grpc::ServerContext* /*context*/, const ::proto::ShowRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* ShowRemove(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* ShowRemove(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_ShowLoad : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_ShowLoad() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(7,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ShowLoad(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_ShowLoad() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowLoad(::grpc::ServerContext* /*context*/, const ::proto::ShowLoadRequest* /*request*/, ::proto::ShowLoadResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* ShowLoad(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* ShowLoad(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SceneGet : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SceneGet() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(8,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SceneGet(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SceneGet() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SceneGet(::grpc::ServerContext* /*context*/, const ::proto::SceneGetRequest* /*request*/, ::proto::SceneGetResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SceneGet(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SceneGet(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SceneAdd : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SceneAdd() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(9,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SceneAdd(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SceneAdd() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SceneAdd(::grpc::ServerContext* /*context*/, const ::proto::SceneAddRequest* /*request*/, ::proto::SceneAddResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SceneAdd(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SceneAdd(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SceneDuplicate : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SceneDuplicate() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(10,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SceneDuplicate(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SceneDuplicate() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SceneDuplicate(::grpc::ServerContext* /*context*/, const ::proto::SceneDuplicateRequest* /*request*/, ::proto::SceneDuplicateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SceneDuplicate(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SceneDuplicate(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SceneRemove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SceneRemove() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(11,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SceneRemove(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SceneRemove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SceneRemove(::grpc::ServerContext* /*context*/, const ::proto::SceneRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SceneRemove(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SceneRemove(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SceneSetAsCurrent : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SceneSetAsCurrent() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(12,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SceneSetAsCurrent(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SceneSetAsCurrent() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SceneSetAsCurrent(::grpc::ServerContext* /*context*/, const ::proto::SceneSetAsCurrentRequest* /*request*/, ::proto::SceneSetAsCurrentResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SceneSetAsCurrent(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SceneSetAsCurrent(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SceneGetCurrent : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SceneGetCurrent() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(13,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SceneGetCurrent(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SceneGetCurrent() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SceneGetCurrent(::grpc::ServerContext* /*context*/, const ::proto::SceneGetCurrentRequest* /*request*/, ::proto::SceneGetCurrentResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SceneGetCurrent(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SceneGetCurrent(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SourceGet : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SourceGet() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(14,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SourceGet(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SourceGet() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SourceGet(::grpc::ServerContext* /*context*/, const ::proto::SourceGetRequest* /*request*/, ::proto::SourceGetResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SourceGet(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SourceGet(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SourceAdd : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SourceAdd() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(15,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SourceAdd(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SourceAdd() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SourceAdd(::grpc::ServerContext* /*context*/, const ::proto::SourceAddRequest* /*request*/, ::proto::SourceAddResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SourceAdd(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SourceAdd(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SourceDuplicate : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SourceDuplicate() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(16,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SourceDuplicate(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SourceDuplicate() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SourceDuplicate(::grpc::ServerContext* /*context*/, const ::proto::SourceDuplicateRequest* /*request*/, ::proto::SourceDuplicateResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SourceDuplicate(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SourceDuplicate(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SourceRemove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SourceRemove() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(17,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SourceRemove(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SourceRemove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SourceRemove(::grpc::ServerContext* /*context*/, const ::proto::SourceRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SourceRemove(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SourceRemove(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SourceSetProperties : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SourceSetProperties() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(18,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SourceSetProperties(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SourceSetProperties() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SourceSetProperties(::grpc::ServerContext* /*context*/, const ::proto::SourceSetPropertiesRequest* /*request*/, ::proto::SourceSetPropertiesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SourceSetProperties(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SourceSetProperties(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_Health : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_Health() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(19,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Health(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_Health() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Health(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::HealthResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* Health(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* Health(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_StudioGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StudioGet() {
       ::grpc::Service::MarkMethodStreamed(0,
-        new ::grpc::internal::StreamedUnaryHandler< ::google::protobuf::Empty, ::proto::StudioGetResponse>(std::bind(&WithStreamedUnaryMethod_StudioGet<BaseClass>::StreamedStudioGet, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::google::protobuf::Empty, ::proto::StudioGetResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::google::protobuf::Empty, ::proto::StudioGetResponse>* streamer) {
+                       return this->StreamedStudioGet(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_StudioGet() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status StudioGet(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::proto::StudioGetResponse* response) override {
+    ::grpc::Status StudioGet(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::StudioGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1688,17 +3847,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_StudioStart : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StudioStart() {
       ::grpc::Service::MarkMethodStreamed(1,
-        new ::grpc::internal::StreamedUnaryHandler< ::google::protobuf::Empty, ::google::protobuf::Empty>(std::bind(&WithStreamedUnaryMethod_StudioStart<BaseClass>::StreamedStudioStart, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::google::protobuf::Empty, ::google::protobuf::Empty>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::google::protobuf::Empty, ::google::protobuf::Empty>* streamer) {
+                       return this->StreamedStudioStart(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_StudioStart() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status StudioStart(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status StudioStart(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1708,17 +3874,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_StudioStop : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StudioStop() {
       ::grpc::Service::MarkMethodStreamed(2,
-        new ::grpc::internal::StreamedUnaryHandler< ::google::protobuf::Empty, ::google::protobuf::Empty>(std::bind(&WithStreamedUnaryMethod_StudioStop<BaseClass>::StreamedStudioStop, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::google::protobuf::Empty, ::google::protobuf::Empty>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::google::protobuf::Empty, ::google::protobuf::Empty>* streamer) {
+                       return this->StreamedStudioStop(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_StudioStop() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status StudioStop(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status StudioStop(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1728,17 +3901,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_ShowGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ShowGet() {
       ::grpc::Service::MarkMethodStreamed(3,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::ShowGetRequest, ::proto::ShowGetResponse>(std::bind(&WithStreamedUnaryMethod_ShowGet<BaseClass>::StreamedShowGet, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::ShowGetRequest, ::proto::ShowGetResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::ShowGetRequest, ::proto::ShowGetResponse>* streamer) {
+                       return this->StreamedShowGet(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_ShowGet() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status ShowGet(::grpc::ServerContext* context, const ::proto::ShowGetRequest* request, ::proto::ShowGetResponse* response) override {
+    ::grpc::Status ShowGet(::grpc::ServerContext* /*context*/, const ::proto::ShowGetRequest* /*request*/, ::proto::ShowGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1748,17 +3928,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_ShowCreate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ShowCreate() {
       ::grpc::Service::MarkMethodStreamed(4,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::ShowCreateRequest, ::proto::ShowCreateResponse>(std::bind(&WithStreamedUnaryMethod_ShowCreate<BaseClass>::StreamedShowCreate, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::ShowCreateRequest, ::proto::ShowCreateResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::ShowCreateRequest, ::proto::ShowCreateResponse>* streamer) {
+                       return this->StreamedShowCreate(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_ShowCreate() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status ShowCreate(::grpc::ServerContext* context, const ::proto::ShowCreateRequest* request, ::proto::ShowCreateResponse* response) override {
+    ::grpc::Status ShowCreate(::grpc::ServerContext* /*context*/, const ::proto::ShowCreateRequest* /*request*/, ::proto::ShowCreateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1768,17 +3955,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_ShowDuplicate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ShowDuplicate() {
       ::grpc::Service::MarkMethodStreamed(5,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::ShowDuplicateRequest, ::proto::ShowDuplicateResponse>(std::bind(&WithStreamedUnaryMethod_ShowDuplicate<BaseClass>::StreamedShowDuplicate, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::ShowDuplicateRequest, ::proto::ShowDuplicateResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::ShowDuplicateRequest, ::proto::ShowDuplicateResponse>* streamer) {
+                       return this->StreamedShowDuplicate(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_ShowDuplicate() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status ShowDuplicate(::grpc::ServerContext* context, const ::proto::ShowDuplicateRequest* request, ::proto::ShowDuplicateResponse* response) override {
+    ::grpc::Status ShowDuplicate(::grpc::ServerContext* /*context*/, const ::proto::ShowDuplicateRequest* /*request*/, ::proto::ShowDuplicateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1788,17 +3982,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_ShowRemove : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ShowRemove() {
       ::grpc::Service::MarkMethodStreamed(6,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::ShowRemoveRequest, ::google::protobuf::Empty>(std::bind(&WithStreamedUnaryMethod_ShowRemove<BaseClass>::StreamedShowRemove, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::ShowRemoveRequest, ::google::protobuf::Empty>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::ShowRemoveRequest, ::google::protobuf::Empty>* streamer) {
+                       return this->StreamedShowRemove(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_ShowRemove() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status ShowRemove(::grpc::ServerContext* context, const ::proto::ShowRemoveRequest* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status ShowRemove(::grpc::ServerContext* /*context*/, const ::proto::ShowRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1808,17 +4009,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_ShowLoad : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ShowLoad() {
       ::grpc::Service::MarkMethodStreamed(7,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::ShowLoadRequest, ::proto::ShowLoadResponse>(std::bind(&WithStreamedUnaryMethod_ShowLoad<BaseClass>::StreamedShowLoad, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::ShowLoadRequest, ::proto::ShowLoadResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::ShowLoadRequest, ::proto::ShowLoadResponse>* streamer) {
+                       return this->StreamedShowLoad(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_ShowLoad() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status ShowLoad(::grpc::ServerContext* context, const ::proto::ShowLoadRequest* request, ::proto::ShowLoadResponse* response) override {
+    ::grpc::Status ShowLoad(::grpc::ServerContext* /*context*/, const ::proto::ShowLoadRequest* /*request*/, ::proto::ShowLoadResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1828,17 +4036,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_SceneGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SceneGet() {
       ::grpc::Service::MarkMethodStreamed(8,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::SceneGetRequest, ::proto::SceneGetResponse>(std::bind(&WithStreamedUnaryMethod_SceneGet<BaseClass>::StreamedSceneGet, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::SceneGetRequest, ::proto::SceneGetResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::SceneGetRequest, ::proto::SceneGetResponse>* streamer) {
+                       return this->StreamedSceneGet(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_SceneGet() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SceneGet(::grpc::ServerContext* context, const ::proto::SceneGetRequest* request, ::proto::SceneGetResponse* response) override {
+    ::grpc::Status SceneGet(::grpc::ServerContext* /*context*/, const ::proto::SceneGetRequest* /*request*/, ::proto::SceneGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1848,17 +4063,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_SceneAdd : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SceneAdd() {
       ::grpc::Service::MarkMethodStreamed(9,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::SceneAddRequest, ::proto::SceneAddResponse>(std::bind(&WithStreamedUnaryMethod_SceneAdd<BaseClass>::StreamedSceneAdd, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::SceneAddRequest, ::proto::SceneAddResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::SceneAddRequest, ::proto::SceneAddResponse>* streamer) {
+                       return this->StreamedSceneAdd(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_SceneAdd() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SceneAdd(::grpc::ServerContext* context, const ::proto::SceneAddRequest* request, ::proto::SceneAddResponse* response) override {
+    ::grpc::Status SceneAdd(::grpc::ServerContext* /*context*/, const ::proto::SceneAddRequest* /*request*/, ::proto::SceneAddResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1868,17 +4090,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_SceneDuplicate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SceneDuplicate() {
       ::grpc::Service::MarkMethodStreamed(10,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::SceneDuplicateRequest, ::proto::SceneDuplicateResponse>(std::bind(&WithStreamedUnaryMethod_SceneDuplicate<BaseClass>::StreamedSceneDuplicate, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::SceneDuplicateRequest, ::proto::SceneDuplicateResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::SceneDuplicateRequest, ::proto::SceneDuplicateResponse>* streamer) {
+                       return this->StreamedSceneDuplicate(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_SceneDuplicate() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SceneDuplicate(::grpc::ServerContext* context, const ::proto::SceneDuplicateRequest* request, ::proto::SceneDuplicateResponse* response) override {
+    ::grpc::Status SceneDuplicate(::grpc::ServerContext* /*context*/, const ::proto::SceneDuplicateRequest* /*request*/, ::proto::SceneDuplicateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1888,17 +4117,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_SceneRemove : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SceneRemove() {
       ::grpc::Service::MarkMethodStreamed(11,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::SceneRemoveRequest, ::google::protobuf::Empty>(std::bind(&WithStreamedUnaryMethod_SceneRemove<BaseClass>::StreamedSceneRemove, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::SceneRemoveRequest, ::google::protobuf::Empty>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::SceneRemoveRequest, ::google::protobuf::Empty>* streamer) {
+                       return this->StreamedSceneRemove(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_SceneRemove() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SceneRemove(::grpc::ServerContext* context, const ::proto::SceneRemoveRequest* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status SceneRemove(::grpc::ServerContext* /*context*/, const ::proto::SceneRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1908,17 +4144,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_SceneSetAsCurrent : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SceneSetAsCurrent() {
       ::grpc::Service::MarkMethodStreamed(12,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::SceneSetAsCurrentRequest, ::proto::SceneSetAsCurrentResponse>(std::bind(&WithStreamedUnaryMethod_SceneSetAsCurrent<BaseClass>::StreamedSceneSetAsCurrent, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::SceneSetAsCurrentRequest, ::proto::SceneSetAsCurrentResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::SceneSetAsCurrentRequest, ::proto::SceneSetAsCurrentResponse>* streamer) {
+                       return this->StreamedSceneSetAsCurrent(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_SceneSetAsCurrent() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SceneSetAsCurrent(::grpc::ServerContext* context, const ::proto::SceneSetAsCurrentRequest* request, ::proto::SceneSetAsCurrentResponse* response) override {
+    ::grpc::Status SceneSetAsCurrent(::grpc::ServerContext* /*context*/, const ::proto::SceneSetAsCurrentRequest* /*request*/, ::proto::SceneSetAsCurrentResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1928,17 +4171,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_SceneGetCurrent : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SceneGetCurrent() {
       ::grpc::Service::MarkMethodStreamed(13,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::SceneGetCurrentRequest, ::proto::SceneGetCurrentResponse>(std::bind(&WithStreamedUnaryMethod_SceneGetCurrent<BaseClass>::StreamedSceneGetCurrent, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::SceneGetCurrentRequest, ::proto::SceneGetCurrentResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::SceneGetCurrentRequest, ::proto::SceneGetCurrentResponse>* streamer) {
+                       return this->StreamedSceneGetCurrent(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_SceneGetCurrent() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SceneGetCurrent(::grpc::ServerContext* context, const ::proto::SceneGetCurrentRequest* request, ::proto::SceneGetCurrentResponse* response) override {
+    ::grpc::Status SceneGetCurrent(::grpc::ServerContext* /*context*/, const ::proto::SceneGetCurrentRequest* /*request*/, ::proto::SceneGetCurrentResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1948,17 +4198,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_SourceGet : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SourceGet() {
       ::grpc::Service::MarkMethodStreamed(14,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::SourceGetRequest, ::proto::SourceGetResponse>(std::bind(&WithStreamedUnaryMethod_SourceGet<BaseClass>::StreamedSourceGet, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::SourceGetRequest, ::proto::SourceGetResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::SourceGetRequest, ::proto::SourceGetResponse>* streamer) {
+                       return this->StreamedSourceGet(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_SourceGet() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SourceGet(::grpc::ServerContext* context, const ::proto::SourceGetRequest* request, ::proto::SourceGetResponse* response) override {
+    ::grpc::Status SourceGet(::grpc::ServerContext* /*context*/, const ::proto::SourceGetRequest* /*request*/, ::proto::SourceGetResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1968,17 +4225,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_SourceAdd : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SourceAdd() {
       ::grpc::Service::MarkMethodStreamed(15,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::SourceAddRequest, ::proto::SourceAddResponse>(std::bind(&WithStreamedUnaryMethod_SourceAdd<BaseClass>::StreamedSourceAdd, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::SourceAddRequest, ::proto::SourceAddResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::SourceAddRequest, ::proto::SourceAddResponse>* streamer) {
+                       return this->StreamedSourceAdd(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_SourceAdd() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SourceAdd(::grpc::ServerContext* context, const ::proto::SourceAddRequest* request, ::proto::SourceAddResponse* response) override {
+    ::grpc::Status SourceAdd(::grpc::ServerContext* /*context*/, const ::proto::SourceAddRequest* /*request*/, ::proto::SourceAddResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1988,17 +4252,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_SourceDuplicate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SourceDuplicate() {
       ::grpc::Service::MarkMethodStreamed(16,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::SourceDuplicateRequest, ::proto::SourceDuplicateResponse>(std::bind(&WithStreamedUnaryMethod_SourceDuplicate<BaseClass>::StreamedSourceDuplicate, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::SourceDuplicateRequest, ::proto::SourceDuplicateResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::SourceDuplicateRequest, ::proto::SourceDuplicateResponse>* streamer) {
+                       return this->StreamedSourceDuplicate(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_SourceDuplicate() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SourceDuplicate(::grpc::ServerContext* context, const ::proto::SourceDuplicateRequest* request, ::proto::SourceDuplicateResponse* response) override {
+    ::grpc::Status SourceDuplicate(::grpc::ServerContext* /*context*/, const ::proto::SourceDuplicateRequest* /*request*/, ::proto::SourceDuplicateResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2008,17 +4279,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_SourceRemove : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SourceRemove() {
       ::grpc::Service::MarkMethodStreamed(17,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::SourceRemoveRequest, ::google::protobuf::Empty>(std::bind(&WithStreamedUnaryMethod_SourceRemove<BaseClass>::StreamedSourceRemove, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::SourceRemoveRequest, ::google::protobuf::Empty>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::SourceRemoveRequest, ::google::protobuf::Empty>* streamer) {
+                       return this->StreamedSourceRemove(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_SourceRemove() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SourceRemove(::grpc::ServerContext* context, const ::proto::SourceRemoveRequest* request, ::google::protobuf::Empty* response) override {
+    ::grpc::Status SourceRemove(::grpc::ServerContext* /*context*/, const ::proto::SourceRemoveRequest* /*request*/, ::google::protobuf::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2028,17 +4306,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_SourceSetProperties : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SourceSetProperties() {
       ::grpc::Service::MarkMethodStreamed(18,
-        new ::grpc::internal::StreamedUnaryHandler< ::proto::SourceSetPropertiesRequest, ::proto::SourceSetPropertiesResponse>(std::bind(&WithStreamedUnaryMethod_SourceSetProperties<BaseClass>::StreamedSourceSetProperties, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::proto::SourceSetPropertiesRequest, ::proto::SourceSetPropertiesResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::proto::SourceSetPropertiesRequest, ::proto::SourceSetPropertiesResponse>* streamer) {
+                       return this->StreamedSourceSetProperties(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_SourceSetProperties() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SourceSetProperties(::grpc::ServerContext* context, const ::proto::SourceSetPropertiesRequest* request, ::proto::SourceSetPropertiesResponse* response) override {
+    ::grpc::Status SourceSetProperties(::grpc::ServerContext* /*context*/, const ::proto::SourceSetPropertiesRequest* /*request*/, ::proto::SourceSetPropertiesResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2048,17 +4333,24 @@ class Studio final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_Health : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_Health() {
       ::grpc::Service::MarkMethodStreamed(19,
-        new ::grpc::internal::StreamedUnaryHandler< ::google::protobuf::Empty, ::proto::HealthResponse>(std::bind(&WithStreamedUnaryMethod_Health<BaseClass>::StreamedHealth, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::google::protobuf::Empty, ::proto::HealthResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::google::protobuf::Empty, ::proto::HealthResponse>* streamer) {
+                       return this->StreamedHealth(context,
+                         streamer);
+                  }));
     }
     ~WithStreamedUnaryMethod_Health() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status Health(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::proto::HealthResponse* response) override {
+    ::grpc::Status Health(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::proto::HealthResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
