@@ -303,6 +303,7 @@ grpc::Status Show::SwitchScene(std::string scene_id) {
 grpc::Status Show::UpdateProto(proto::Show* proto_show) {
 	proto_show->Clear();
 	proto_show->set_id(id);
+	proto_show->set_name(name);
 
 	if(active_scene) {
 		proto_show->set_active_scene_id(active_scene->Id());
