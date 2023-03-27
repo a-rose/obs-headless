@@ -56,6 +56,7 @@ private:
 };
 
 void switch_scene(StudioClient& client);
+void describe_state(StudioClient& client);
 
 
 int main(int argc, char** argv) {
@@ -86,12 +87,17 @@ int main(int argc, char** argv) {
         // Wait for 'q' to stop the thread
         do {
             switch(c) {
+                case 'd':
+                    describe_state(client);
+                    break;
+
                 case 's':
                     switch_scene(client);
                     break;
 
                 default:
                     trace_info("----------------------------------------");
+                    trace_info("Press 'd' to describe current state");
                     trace_info("Press 's' to switch scene");
                     trace_info("Press 'q' to stop");
             }
@@ -119,18 +125,30 @@ int main(int argc, char** argv) {
 }
 
 
+void describe_state(StudioClient& client) {
+	proto::StudioState studio_state = client.StudioGet();
+	trace_info("Listing studio state (* = active)");
+
+	for(auto show : studio_state.shows()) {
+		string show_pre = (show.id() == studio_state.active_show_id()) ? "*" : "-";
+		trace_info("  " + show_pre +" Show", field_ns("id", show.id()), field_ns("name", show.name()));
+
+		for(auto scene : show.scenes()) {
+			string scene_pre = (scene.id() == show.active_scene_id()) ? "*" : "-";
+			trace_info("      " + scene_pre +" Scene", field_ns("id", scene.id()), field_ns("name", scene.name()));
+
+			for(auto source : scene.sources()) {
+				string source_pre = (source.id() == scene.active_source_id()) ? "*" : "-";
+				trace_info("          " + source_pre +" Source", field_ns("id", source.id()), field_ns("name", source.name()));
+			}
+		}
+	}
+}
+
 void switch_scene(StudioClient& client) {
 	proto::StudioState studio_state = client.StudioGet();
-
-	trace_info("Listing shows");
-	for(auto show : studio_state.shows()) {
-		trace_info("Show", field_s(show.id()), field_s(show.name()));
-	}
-
 	string active_show_id = studio_state.active_show_id();
-	trace_info("Active show", field_s(active_show_id));
-
-    string active_scene_id = client.SceneGetCurrent(active_show_id);
+	string active_scene_id = client.SceneGetCurrent(active_show_id);
 	string next_scene_id = (active_scene_id == "scene_0") ? "scene_1" : "scene_0";
 	trace_info("Switching scene", field_s(active_scene_id), field_s(next_scene_id));
 	
