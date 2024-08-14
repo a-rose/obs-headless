@@ -3,14 +3,13 @@ project(obs_headless)
 
 
 # Qt
-find_package(Qt5X11Extras REQUIRED)
-find_package(Qt5Widgets ${FIND_MODE})
-if(NOT Qt5Widgets_FOUND)
-    message(FATAL_ERROR "Failed to find Qt5")
+find_package(Qt6Widgets ${FIND_MODE})
+if(NOT Qt6Widgets_FOUND)
+    message(FATAL_ERROR "Failed to find Qt6")
 endif()
-set(qtlibs Qt5::Widgets)
-find_package(Qt5Gui)
-include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+set(qtlibs Qt6::Widgets)
+find_package(Qt6Gui)
+include_directories(${Qt6Gui_PRIVATE_INCLUDE_DIRS})
 
 
 # Obs
@@ -52,7 +51,7 @@ add_executable(obs_headless_server
 target_link_libraries(obs_headless_server
     obs
     pthread
-    Qt5::Widgets
+    Qt6::Widgets
     jansson
     protobuf
     grpc++

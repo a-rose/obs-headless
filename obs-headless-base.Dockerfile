@@ -4,8 +4,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /usr/local/src
 
 # Packages:
+#	- libdatachannel dependencies
 #	- librist dependencies
-#	- from OBS build instructions:
+#	- from OBS build instructions (see 
+# https://github.com/obsproject/obs-studio/wiki/build-instructions-for-linux)
 #		- build system
 #		- core dependencies
 #		- UI dependencies
@@ -16,6 +18,8 @@ WORKDIR /usr/local/src
 #	- debug tools (removed in the release image)
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
+		libssl-dev \
+		\
 		meson \
 		\
 		cmake ninja-build pkg-config clang clang-format build-essential curl \
@@ -29,14 +33,16 @@ RUN apt-get update \
 		libxcomposite-dev libxinerama-dev libxcb1-dev libx11-xcb-dev \
 		libxcb-xfixes0-dev swig libcmocka-dev libxss-dev libglvnd-dev \
 		libgles2-mesa libgles2-mesa-dev libwayland-dev \
-		libsrt-openssl-dev libpci-dev \
+		libsrt-openssl-dev libpci-dev libpipewire-0.3-dev libqrcodegencpp-dev \
+		uthash-dev \
 		\
-		qtbase5-dev qtbase5-private-dev libqt5svg5-dev qtwayland5 \
-		libqt5x11extras5-dev \
+		qt6-base-private-dev libqt6svg6-dev qt6-wayland \
+		qt6-image-formats-plugins \
 		\
 		libasound2-dev libfdk-aac-dev libfontconfig-dev libfreetype6-dev \
-		libjack-jackd2-dev libpulse-dev libsndio-dev libspeexdsp-dev \
-		libudev-dev libv4l-dev libva-dev libvlc-dev libdrm-dev \
+		libjack-jackd2-dev libpulse-dev libspeexdsp-dev libudev-dev libv4l-dev \
+		libva-dev libvlc-dev libvpl2 libvpl-dev libdrm-dev nlohmann-json3-dev \
+		libwebsocketpp-dev libasio-dev \
 		\
 		libgrpc++-dev libgrpc++1 libgrpc-dev libgrpc10 \
 		libprotobuf-dev protobuf-compiler-grpc \
@@ -53,3 +59,20 @@ RUN git clone https://code.videolan.org/rist/librist.git \
 	&& meson .. \
 	&& ninja \
 	&& ninja install
+
+# Install FFnvcodec (OBS dependency)
+RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
+	&& cd nv-codec-headers \
+	&& git checkout n12.1.14.0 \
+	&& make -j $(nproc) \
+	&& make install
+
+# Install libdatachannel (OBS dependency)
+RUN git clone https://github.com/paullouisageneau/libdatachannel.git \
+	&& cd libdatachannel \
+	&& git checkout v0.20.3 \
+	&& git submodule update --init --recursive --depth 1 \
+	&& cmake -B build -DUSE_GNUTLS=0 -DUSE_NICE=0 -DCMAKE_BUILD_TYPE=Release \
+	&& cd build \
+	&& make -j2 \
+	&& make install
