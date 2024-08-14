@@ -1,3 +1,4 @@
+#include <csignal>
 #include <QApplication>
 #include <QPushButton>
 #include "lib/Studio.hpp"

@@ -91,6 +91,20 @@ Using the base image, you can also build obs-studio from sources.
 
 # TODO
 
+- [build] update build system:
+	```
+	  ============ LEGACY BUILD SYSTEM IS DEPRECATED ============
+
+	  You are using the legacy build system to build OBS Studio.  The legacy
+	  build system is unsupported and will be removed in the near future.
+
+	  To migrate to the new build system, familiarize yourself with CMake presets
+	  (https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html) and
+	  create a user preset with your customized build settings, inheriting from
+	  one of the default presets.
+
+	  ============ LEGACY BUILD SYSTEM IS DEPRECATED ============
+	```
 - [fix] Playback stops when switching source!
 - [build] Fix runtime path; currently we need to cd into obs's install path (see docker-entrypoint.sh) for obs to find the *.effect files in `find_libobs_data_file()`
 - [build] CMake: `set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Werror -Wno-long-long -pedantic")`
