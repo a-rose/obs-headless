@@ -86,7 +86,7 @@ message Show {
 message Scene {
     string id = 1;
     string name = 2;
-    string active_source_id = 3;
+    repeated string active_source_ids = 3;
     repeated Source sources = 4;
 }
 

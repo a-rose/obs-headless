@@ -720,11 +720,35 @@ class Scene PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kActiveSourceIdsFieldNumber = 3,
     kSourcesFieldNumber = 4,
     kIdFieldNumber = 1,
     kNameFieldNumber = 2,
-    kActiveSourceIdFieldNumber = 3,
   };
+  // repeated string active_source_ids = 3;
+  int active_source_ids_size() const;
+  private:
+  int _internal_active_source_ids_size() const;
+  public:
+  void clear_active_source_ids();
+  const std::string& active_source_ids(int index) const;
+  std::string* mutable_active_source_ids(int index);
+  void set_active_source_ids(int index, const std::string& value);
+  void set_active_source_ids(int index, std::string&& value);
+  void set_active_source_ids(int index, const char* value);
+  void set_active_source_ids(int index, const char* value, size_t size);
+  std::string* add_active_source_ids();
+  void add_active_source_ids(const std::string& value);
+  void add_active_source_ids(std::string&& value);
+  void add_active_source_ids(const char* value);
+  void add_active_source_ids(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& active_source_ids() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_active_source_ids();
+  private:
+  const std::string& _internal_active_source_ids(int index) const;
+  std::string* _internal_add_active_source_ids();
+  public:
+
   // repeated .proto.Source sources = 4;
   int sources_size() const;
   private:
@@ -793,31 +817,6 @@ class Scene PROTOBUF_FINAL :
   std::string* _internal_mutable_name();
   public:
 
-  // string active_source_id = 3;
-  void clear_active_source_id();
-  const std::string& active_source_id() const;
-  void set_active_source_id(const std::string& value);
-  void set_active_source_id(std::string&& value);
-  void set_active_source_id(const char* value);
-  void set_active_source_id(const char* value, size_t size);
-  std::string* mutable_active_source_id();
-  std::string* release_active_source_id();
-  void set_allocated_active_source_id(std::string* active_source_id);
-  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
-  "    string fields are deprecated and will be removed in a"
-  "    future release.")
-  std::string* unsafe_arena_release_active_source_id();
-  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
-  "    string fields are deprecated and will be removed in a"
-  "    future release.")
-  void unsafe_arena_set_allocated_active_source_id(
-      std::string* active_source_id);
-  private:
-  const std::string& _internal_active_source_id() const;
-  void _internal_set_active_source_id(const std::string& value);
-  std::string* _internal_mutable_active_source_id();
-  public:
-
   // @@protoc_insertion_point(class_scope:proto.Scene)
  private:
   class _Internal;
@@ -825,10 +824,10 @@ class Scene PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> active_source_ids_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::Source > sources_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr id_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr active_source_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_studio_2eproto;
 };
@@ -6944,85 +6943,78 @@ inline void Scene::unsafe_arena_set_allocated_name(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:proto.Scene.name)
 }
 
-// string active_source_id = 3;
-inline void Scene::clear_active_source_id() {
-  active_source_id_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+// repeated string active_source_ids = 3;
+inline int Scene::_internal_active_source_ids_size() const {
+  return active_source_ids_.size();
 }
-inline const std::string& Scene::active_source_id() const {
-  // @@protoc_insertion_point(field_get:proto.Scene.active_source_id)
-  return _internal_active_source_id();
+inline int Scene::active_source_ids_size() const {
+  return _internal_active_source_ids_size();
 }
-inline void Scene::set_active_source_id(const std::string& value) {
-  _internal_set_active_source_id(value);
-  // @@protoc_insertion_point(field_set:proto.Scene.active_source_id)
+inline void Scene::clear_active_source_ids() {
+  active_source_ids_.Clear();
 }
-inline std::string* Scene::mutable_active_source_id() {
-  // @@protoc_insertion_point(field_mutable:proto.Scene.active_source_id)
-  return _internal_mutable_active_source_id();
+inline std::string* Scene::add_active_source_ids() {
+  // @@protoc_insertion_point(field_add_mutable:proto.Scene.active_source_ids)
+  return _internal_add_active_source_ids();
 }
-inline const std::string& Scene::_internal_active_source_id() const {
-  return active_source_id_.Get();
+inline const std::string& Scene::_internal_active_source_ids(int index) const {
+  return active_source_ids_.Get(index);
 }
-inline void Scene::_internal_set_active_source_id(const std::string& value) {
-  
-  active_source_id_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+inline const std::string& Scene::active_source_ids(int index) const {
+  // @@protoc_insertion_point(field_get:proto.Scene.active_source_ids)
+  return _internal_active_source_ids(index);
 }
-inline void Scene::set_active_source_id(std::string&& value) {
-  
-  active_source_id_.Set(
-    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:proto.Scene.active_source_id)
+inline std::string* Scene::mutable_active_source_ids(int index) {
+  // @@protoc_insertion_point(field_mutable:proto.Scene.active_source_ids)
+  return active_source_ids_.Mutable(index);
 }
-inline void Scene::set_active_source_id(const char* value) {
+inline void Scene::set_active_source_ids(int index, const std::string& value) {
+  // @@protoc_insertion_point(field_set:proto.Scene.active_source_ids)
+  active_source_ids_.Mutable(index)->assign(value);
+}
+inline void Scene::set_active_source_ids(int index, std::string&& value) {
+  // @@protoc_insertion_point(field_set:proto.Scene.active_source_ids)
+  active_source_ids_.Mutable(index)->assign(std::move(value));
+}
+inline void Scene::set_active_source_ids(int index, const char* value) {
   GOOGLE_DCHECK(value != nullptr);
-  
-  active_source_id_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
-              GetArena());
-  // @@protoc_insertion_point(field_set_char:proto.Scene.active_source_id)
+  active_source_ids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:proto.Scene.active_source_ids)
 }
-inline void Scene::set_active_source_id(const char* value,
-    size_t size) {
-  
-  active_source_id_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
-      reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:proto.Scene.active_source_id)
+inline void Scene::set_active_source_ids(int index, const char* value, size_t size) {
+  active_source_ids_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:proto.Scene.active_source_ids)
 }
-inline std::string* Scene::_internal_mutable_active_source_id() {
-  
-  return active_source_id_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+inline std::string* Scene::_internal_add_active_source_ids() {
+  return active_source_ids_.Add();
 }
-inline std::string* Scene::release_active_source_id() {
-  // @@protoc_insertion_point(field_release:proto.Scene.active_source_id)
-  return active_source_id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+inline void Scene::add_active_source_ids(const std::string& value) {
+  active_source_ids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:proto.Scene.active_source_ids)
 }
-inline void Scene::set_allocated_active_source_id(std::string* active_source_id) {
-  if (active_source_id != nullptr) {
-    
-  } else {
-    
-  }
-  active_source_id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), active_source_id,
-      GetArena());
-  // @@protoc_insertion_point(field_set_allocated:proto.Scene.active_source_id)
+inline void Scene::add_active_source_ids(std::string&& value) {
+  active_source_ids_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:proto.Scene.active_source_ids)
 }
-inline std::string* Scene::unsafe_arena_release_active_source_id() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:proto.Scene.active_source_id)
-  GOOGLE_DCHECK(GetArena() != nullptr);
-  
-  return active_source_id_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      GetArena());
+inline void Scene::add_active_source_ids(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  active_source_ids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:proto.Scene.active_source_ids)
 }
-inline void Scene::unsafe_arena_set_allocated_active_source_id(
-    std::string* active_source_id) {
-  GOOGLE_DCHECK(GetArena() != nullptr);
-  if (active_source_id != nullptr) {
-    
-  } else {
-    
-  }
-  active_source_id_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      active_source_id, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:proto.Scene.active_source_id)
+inline void Scene::add_active_source_ids(const char* value, size_t size) {
+  active_source_ids_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:proto.Scene.active_source_ids)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+Scene::active_source_ids() const {
+  // @@protoc_insertion_point(field_list:proto.Scene.active_source_ids)
+  return active_source_ids_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+Scene::mutable_active_source_ids() {
+  // @@protoc_insertion_point(field_mutable_list:proto.Scene.active_source_ids)
+  return &active_source_ids_;
 }
 
 // repeated .proto.Source sources = 4;

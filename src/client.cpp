@@ -1,6 +1,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <vector>
+#include <algorithm>
 #include <grpc++/grpc++.h>
 #include "lib/proto/studio.grpc.pb.h"
 #include "lib/Trace.hpp"
@@ -75,9 +77,11 @@ int main(int argc, char** argv) {
 		}
 		trace_info("Health reply", field(server_timestamp));
 
-		client.ShowLoad(OBS_HEADLESS_PATH "/etc/shows/default.json");
+		// TODO param
+		string show_path = "/etc/shows/bigshow.json";
+		client.ShowLoad(OBS_HEADLESS_PATH + show_path);
 
-		trace_info("Starting studio");
+		trace_info("Starting studio with show", field_ns("show", show_path.c_str()));
 		s = client.StudioStart();
         if(!s.ok()) {
             throw runtime_error("Failed to start studio: " + s.error_message());
@@ -137,8 +141,17 @@ void describe_state(StudioClient& client) {
 			string scene_pre = (scene.id() == show.active_scene_id()) ? "*" : "-";
 			trace_info("      " + scene_pre +" Scene", field_ns("id", scene.id()), field_ns("name", scene.name()));
 
+			std::vector<std::string> active_source_ids;
+			for(int i=0; i<scene.active_source_ids_size(); i++) {
+				active_source_ids.push_back(scene.active_source_ids(i));
+			}
+
 			for(auto source : scene.sources()) {
-				string source_pre = (source.id() == scene.active_source_id()) ? "*" : "-";
+				string source_pre = "-";
+				if(std::find(active_source_ids.begin(), active_source_ids.end(), source.id()) != active_source_ids.end()) {
+					source_pre = "*";
+				}
+
 				trace_info("          " + source_pre +" Source", field_ns("id", source.id()), field_ns("name", source.name()));
 			}
 		}

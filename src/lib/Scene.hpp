@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "Source.hpp"
 
 class Scene {
@@ -15,7 +16,7 @@ public:
 
 	// Methods
 	Source* GetSource(std::string source_id);
-	Source* AddSource(std::string source_name, SourceType type, std::string source_url);
+	Source* AddSource(std::string source_name, SourceType type, std::string source_url, int width, int height);
 	Source* DuplicateSourceFromScene(Scene* scene, std::string source_id);
 	Source* DuplicateSource(std::string source_id);
 	grpc::Status RemoveSource(std::string source_id);
@@ -29,7 +30,7 @@ private:
 	bool started;
 	obs_scene_t* obs_scene;
 	SourceMap sources;
-	Source* active_source;
+	std::vector<Source*> active_sources;
 	Settings* settings;
 	uint64_t source_id_counter;
 };

@@ -1,13 +1,25 @@
 {
-    "name": "DefaultShow",
+    "name": "Big Show",
     "scenes": [
         {
             "name": "scene_0",
             "sources": [
                 {
-                    "name": "source_0",
+                    "name": "video A",
                     "type": "RTMP",
-                    "url": "rtmp://localhost:1936/source_a"
+                    "url": "rtmp://localhost/sourceA"
+                },
+                {
+                    "name": "rec_img",
+                    "type": "Image",
+                    "url": "/opt/obs-headless/etc/rec.png"
+                },
+                {
+                    "name": "logo_img",
+                    "type": "Image",
+                    "url": "/opt/obs-headless/etc/logo.png",
+                    "width": 128,
+                    "height": 128
                 }
             ]
         },
@@ -15,19 +27,16 @@
             "name": "scene_1",
             "sources": [
                 {
-                    "name": "source_1",
+                    "name": "video B",
                     "type": "RTMP",
-                    "url": "rtmp://localhost:1936/source_a"
-                }
-            ]
-        },
-        {
-            "name": "scene_2",
-            "sources": [
+                    "url": "rtmp://localhost/sourceB"
+                },
                 {
-                    "name": "source_2",
+                    "name": "video A",
                     "type": "RTMP",
-                    "url": "rtmp://localhost:1936/source_a"
+                    "url": "rtmp://localhost/sourceA",
+                    "width": 230,
+                    "height": 135
                 }
             ]
         }

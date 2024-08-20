@@ -19,11 +19,13 @@ SourceType StringToSourceType(std::string type) {
 	return InvalidType;
 }
 
-Source::Source(std::string id, std::string name, SourceType type, std::string url, Settings* settings)
+Source::Source(std::string id, std::string name, SourceType type, std::string url, int width, int height, Settings* settings)
 	: id(id)
 	, name(name)
 	, type(type)
 	, url(url)
+	, width(width)
+	, height(height)
 	, started(false)
 	, obs_source(nullptr)
 	, obs_scene_ptr(nullptr)
@@ -225,8 +227,13 @@ grpc::Status Source::addSourceToScene(obs_source_t* source) {
 
 	// Scale source to output size by setting bounds
 	struct vec2 bounds;
-	bounds.x = settings->video_width;
-	bounds.y = settings->video_height;
+	if(width > 0 && height > 0) {
+		bounds.x = width;
+		bounds.y = height;
+	} else {
+		bounds.x = settings->video_width;
+		bounds.y = settings->video_height;
+	}
 	uint32_t align = OBS_ALIGN_TOP + OBS_ALIGN_LEFT;
 	obs_sceneitem_set_bounds_type(obs_scene_item, OBS_BOUNDS_SCALE_INNER);
 	obs_sceneitem_set_bounds(obs_scene_item, &bounds);
