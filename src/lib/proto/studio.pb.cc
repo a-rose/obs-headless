@@ -713,7 +713,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_studio_2eproto::offsets[] PROT
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::proto::Scene, id_),
   PROTOBUF_FIELD_OFFSET(::proto::Scene, name_),
-  PROTOBUF_FIELD_OFFSET(::proto::Scene, active_source_id_),
+  PROTOBUF_FIELD_OFFSET(::proto::Scene, active_source_ids_),
   PROTOBUF_FIELD_OFFSET(::proto::Scene, sources_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::proto::Source, _internal_metadata_),
@@ -1020,91 +1020,91 @@ const char descriptor_table_protodef_studio_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "_id\030\001 \001(\t\022\032\n\005shows\030\002 \003(\0132\013.proto.Show\"W\n"
   "\004Show\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\027\n\017activ"
   "e_scene_id\030\003 \001(\t\022\034\n\006scenes\030\004 \003(\0132\014.proto"
-  ".Scene\"[\n\005Scene\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002 \001("
-  "\t\022\030\n\020active_source_id\030\003 \001(\t\022\036\n\007sources\030\004"
-  " \003(\0132\r.proto.Source\"=\n\006Source\022\n\n\002id\030\001 \001("
-  "\t\022\014\n\004name\030\002 \001(\t\022\014\n\004type\030\003 \001(\t\022\013\n\003url\030\004 \001"
-  "(\t\"!\n\016ShowGetRequest\022\017\n\007show_id\030\001 \001(\t\"&\n"
-  "\021ShowCreateRequest\022\021\n\tshow_name\030\001 \001(\t\"\'\n"
-  "\024ShowDuplicateRequest\022\017\n\007show_id\030\001 \001(\t\"$"
-  "\n\021ShowRemoveRequest\022\017\n\007show_id\030\001 \001(\t\"$\n\017"
-  "ShowLoadRequest\022\021\n\tshow_path\030\001 \001(\t\"4\n\017Sc"
-  "eneGetRequest\022\017\n\007show_id\030\001 \001(\t\022\020\n\010scene_"
-  "id\030\002 \001(\t\"6\n\017SceneAddRequest\022\017\n\007show_id\030\001"
-  " \001(\t\022\022\n\nscene_name\030\002 \001(\t\":\n\025SceneDuplica"
-  "teRequest\022\017\n\007show_id\030\001 \001(\t\022\020\n\010scene_id\030\002"
-  " \001(\t\"7\n\022SceneRemoveRequest\022\017\n\007show_id\030\001 "
-  "\001(\t\022\020\n\010scene_id\030\002 \001(\t\"=\n\030SceneSetAsCurre"
-  "ntRequest\022\017\n\007show_id\030\001 \001(\t\022\020\n\010scene_id\030\002"
-  " \001(\t\")\n\026SceneGetCurrentRequest\022\017\n\007show_i"
-  "d\030\001 \001(\t\"H\n\020SourceGetRequest\022\017\n\007show_id\030\001"
-  " \001(\t\022\020\n\010scene_id\030\002 \001(\t\022\021\n\tsource_id\030\003 \001("
-  "\t\"s\n\020SourceAddRequest\022\017\n\007show_id\030\001 \001(\t\022\020"
-  "\n\010scene_id\030\002 \001(\t\022\023\n\013source_name\030\003 \001(\t\022\023\n"
-  "\013source_type\030\004 \001(\t\022\022\n\nsource_url\030\005 \001(\t\"N"
-  "\n\026SourceDuplicateRequest\022\017\n\007show_id\030\001 \001("
-  "\t\022\020\n\010scene_id\030\002 \001(\t\022\021\n\tsource_id\030\003 \001(\t\"K"
-  "\n\023SourceRemoveRequest\022\017\n\007show_id\030\001 \001(\t\022\020"
-  "\n\010scene_id\030\002 \001(\t\022\021\n\tsource_id\030\003 \001(\t\"{\n\032S"
-  "ourceSetPropertiesRequest\022\017\n\007show_id\030\001 \001"
-  "(\t\022\020\n\010scene_id\030\002 \001(\t\022\021\n\tsource_id\030\003 \001(\t\022"
-  "\023\n\013source_type\030\004 \001(\t\022\022\n\nsource_url\030\005 \001(\t"
-  "\"7\n\021StudioGetResponse\022\"\n\006studio\030\001 \001(\0132\022."
-  "proto.StudioState\",\n\017ShowGetResponse\022\031\n\004"
-  "show\030\001 \001(\0132\013.proto.Show\"/\n\022ShowCreateRes"
-  "ponse\022\031\n\004show\030\001 \001(\0132\013.proto.Show\"2\n\025Show"
-  "DuplicateResponse\022\031\n\004show\030\001 \001(\0132\013.proto."
-  "Show\"-\n\020ShowLoadResponse\022\031\n\004show\030\001 \001(\0132\013"
-  ".proto.Show\"5\n\030ShowSwitchSourceResponse\022"
-  "\031\n\004show\030\001 \001(\0132\013.proto.Show\"/\n\020SceneGetRe"
-  "sponse\022\033\n\005scene\030\001 \001(\0132\014.proto.Scene\"/\n\020S"
-  "ceneAddResponse\022\033\n\005scene\030\001 \001(\0132\014.proto.S"
-  "cene\"5\n\026SceneDuplicateResponse\022\033\n\005scene\030"
-  "\001 \001(\0132\014.proto.Scene\"6\n\031SceneSetAsCurrent"
-  "Response\022\031\n\004show\030\001 \001(\0132\013.proto.Show\"+\n\027S"
-  "ceneGetCurrentResponse\022\020\n\010scene_id\030\002 \001(\t"
-  "\"2\n\021SourceGetResponse\022\035\n\006source\030\001 \001(\0132\r."
-  "proto.Source\"2\n\021SourceAddResponse\022\035\n\006sou"
-  "rce\030\001 \001(\0132\r.proto.Source\"8\n\027SourceDuplic"
-  "ateResponse\022\035\n\006source\030\001 \001(\0132\r.proto.Sour"
-  "ce\"<\n\033SourceSetPropertiesResponse\022\035\n\006sou"
-  "rce\030\001 \001(\0132\r.proto.Source\"#\n\016HealthRespon"
-  "se\022\021\n\ttimestamp\030\001 \001(\0032\354\n\n\006Studio\022=\n\tStud"
-  "ioGet\022\026.google.protobuf.Empty\032\030.proto.St"
-  "udioGetResponse\022=\n\013StudioStart\022\026.google."
-  "protobuf.Empty\032\026.google.protobuf.Empty\022<"
-  "\n\nStudioStop\022\026.google.protobuf.Empty\032\026.g"
-  "oogle.protobuf.Empty\0228\n\007ShowGet\022\025.proto."
-  "ShowGetRequest\032\026.proto.ShowGetResponse\022A"
-  "\n\nShowCreate\022\030.proto.ShowCreateRequest\032\031"
-  ".proto.ShowCreateResponse\022J\n\rShowDuplica"
-  "te\022\033.proto.ShowDuplicateRequest\032\034.proto."
-  "ShowDuplicateResponse\022>\n\nShowRemove\022\030.pr"
-  "oto.ShowRemoveRequest\032\026.google.protobuf."
-  "Empty\022;\n\010ShowLoad\022\026.proto.ShowLoadReques"
-  "t\032\027.proto.ShowLoadResponse\022;\n\010SceneGet\022\026"
-  ".proto.SceneGetRequest\032\027.proto.SceneGetR"
-  "esponse\022;\n\010SceneAdd\022\026.proto.SceneAddRequ"
-  "est\032\027.proto.SceneAddResponse\022M\n\016SceneDup"
-  "licate\022\034.proto.SceneDuplicateRequest\032\035.p"
-  "roto.SceneDuplicateResponse\022@\n\013SceneRemo"
-  "ve\022\031.proto.SceneRemoveRequest\032\026.google.p"
-  "rotobuf.Empty\022V\n\021SceneSetAsCurrent\022\037.pro"
-  "to.SceneSetAsCurrentRequest\032 .proto.Scen"
-  "eSetAsCurrentResponse\022P\n\017SceneGetCurrent"
-  "\022\035.proto.SceneGetCurrentRequest\032\036.proto."
-  "SceneGetCurrentResponse\022>\n\tSourceGet\022\027.p"
-  "roto.SourceGetRequest\032\030.proto.SourceGetR"
-  "esponse\022>\n\tSourceAdd\022\027.proto.SourceAddRe"
-  "quest\032\030.proto.SourceAddResponse\022P\n\017Sourc"
-  "eDuplicate\022\035.proto.SourceDuplicateReques"
-  "t\032\036.proto.SourceDuplicateResponse\022B\n\014Sou"
-  "rceRemove\022\032.proto.SourceRemoveRequest\032\026."
-  "google.protobuf.Empty\022\\\n\023SourceSetProper"
-  "ties\022!.proto.SourceSetPropertiesRequest\032"
-  "\".proto.SourceSetPropertiesResponse\0227\n\006H"
-  "ealth\022\026.google.protobuf.Empty\032\025.proto.He"
-  "althResponseb\006proto3"
+  ".Scene\"\\\n\005Scene\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002 \001("
+  "\t\022\031\n\021active_source_ids\030\003 \003(\t\022\036\n\007sources\030"
+  "\004 \003(\0132\r.proto.Source\"=\n\006Source\022\n\n\002id\030\001 \001"
+  "(\t\022\014\n\004name\030\002 \001(\t\022\014\n\004type\030\003 \001(\t\022\013\n\003url\030\004 "
+  "\001(\t\"!\n\016ShowGetRequest\022\017\n\007show_id\030\001 \001(\t\"&"
+  "\n\021ShowCreateRequest\022\021\n\tshow_name\030\001 \001(\t\"\'"
+  "\n\024ShowDuplicateRequest\022\017\n\007show_id\030\001 \001(\t\""
+  "$\n\021ShowRemoveRequest\022\017\n\007show_id\030\001 \001(\t\"$\n"
+  "\017ShowLoadRequest\022\021\n\tshow_path\030\001 \001(\t\"4\n\017S"
+  "ceneGetRequest\022\017\n\007show_id\030\001 \001(\t\022\020\n\010scene"
+  "_id\030\002 \001(\t\"6\n\017SceneAddRequest\022\017\n\007show_id\030"
+  "\001 \001(\t\022\022\n\nscene_name\030\002 \001(\t\":\n\025SceneDuplic"
+  "ateRequest\022\017\n\007show_id\030\001 \001(\t\022\020\n\010scene_id\030"
+  "\002 \001(\t\"7\n\022SceneRemoveRequest\022\017\n\007show_id\030\001"
+  " \001(\t\022\020\n\010scene_id\030\002 \001(\t\"=\n\030SceneSetAsCurr"
+  "entRequest\022\017\n\007show_id\030\001 \001(\t\022\020\n\010scene_id\030"
+  "\002 \001(\t\")\n\026SceneGetCurrentRequest\022\017\n\007show_"
+  "id\030\001 \001(\t\"H\n\020SourceGetRequest\022\017\n\007show_id\030"
+  "\001 \001(\t\022\020\n\010scene_id\030\002 \001(\t\022\021\n\tsource_id\030\003 \001"
+  "(\t\"s\n\020SourceAddRequest\022\017\n\007show_id\030\001 \001(\t\022"
+  "\020\n\010scene_id\030\002 \001(\t\022\023\n\013source_name\030\003 \001(\t\022\023"
+  "\n\013source_type\030\004 \001(\t\022\022\n\nsource_url\030\005 \001(\t\""
+  "N\n\026SourceDuplicateRequest\022\017\n\007show_id\030\001 \001"
+  "(\t\022\020\n\010scene_id\030\002 \001(\t\022\021\n\tsource_id\030\003 \001(\t\""
+  "K\n\023SourceRemoveRequest\022\017\n\007show_id\030\001 \001(\t\022"
+  "\020\n\010scene_id\030\002 \001(\t\022\021\n\tsource_id\030\003 \001(\t\"{\n\032"
+  "SourceSetPropertiesRequest\022\017\n\007show_id\030\001 "
+  "\001(\t\022\020\n\010scene_id\030\002 \001(\t\022\021\n\tsource_id\030\003 \001(\t"
+  "\022\023\n\013source_type\030\004 \001(\t\022\022\n\nsource_url\030\005 \001("
+  "\t\"7\n\021StudioGetResponse\022\"\n\006studio\030\001 \001(\0132\022"
+  ".proto.StudioState\",\n\017ShowGetResponse\022\031\n"
+  "\004show\030\001 \001(\0132\013.proto.Show\"/\n\022ShowCreateRe"
+  "sponse\022\031\n\004show\030\001 \001(\0132\013.proto.Show\"2\n\025Sho"
+  "wDuplicateResponse\022\031\n\004show\030\001 \001(\0132\013.proto"
+  ".Show\"-\n\020ShowLoadResponse\022\031\n\004show\030\001 \001(\0132"
+  "\013.proto.Show\"5\n\030ShowSwitchSourceResponse"
+  "\022\031\n\004show\030\001 \001(\0132\013.proto.Show\"/\n\020SceneGetR"
+  "esponse\022\033\n\005scene\030\001 \001(\0132\014.proto.Scene\"/\n\020"
+  "SceneAddResponse\022\033\n\005scene\030\001 \001(\0132\014.proto."
+  "Scene\"5\n\026SceneDuplicateResponse\022\033\n\005scene"
+  "\030\001 \001(\0132\014.proto.Scene\"6\n\031SceneSetAsCurren"
+  "tResponse\022\031\n\004show\030\001 \001(\0132\013.proto.Show\"+\n\027"
+  "SceneGetCurrentResponse\022\020\n\010scene_id\030\002 \001("
+  "\t\"2\n\021SourceGetResponse\022\035\n\006source\030\001 \001(\0132\r"
+  ".proto.Source\"2\n\021SourceAddResponse\022\035\n\006so"
+  "urce\030\001 \001(\0132\r.proto.Source\"8\n\027SourceDupli"
+  "cateResponse\022\035\n\006source\030\001 \001(\0132\r.proto.Sou"
+  "rce\"<\n\033SourceSetPropertiesResponse\022\035\n\006so"
+  "urce\030\001 \001(\0132\r.proto.Source\"#\n\016HealthRespo"
+  "nse\022\021\n\ttimestamp\030\001 \001(\0032\354\n\n\006Studio\022=\n\tStu"
+  "dioGet\022\026.google.protobuf.Empty\032\030.proto.S"
+  "tudioGetResponse\022=\n\013StudioStart\022\026.google"
+  ".protobuf.Empty\032\026.google.protobuf.Empty\022"
+  "<\n\nStudioStop\022\026.google.protobuf.Empty\032\026."
+  "google.protobuf.Empty\0228\n\007ShowGet\022\025.proto"
+  ".ShowGetRequest\032\026.proto.ShowGetResponse\022"
+  "A\n\nShowCreate\022\030.proto.ShowCreateRequest\032"
+  "\031.proto.ShowCreateResponse\022J\n\rShowDuplic"
+  "ate\022\033.proto.ShowDuplicateRequest\032\034.proto"
+  ".ShowDuplicateResponse\022>\n\nShowRemove\022\030.p"
+  "roto.ShowRemoveRequest\032\026.google.protobuf"
+  ".Empty\022;\n\010ShowLoad\022\026.proto.ShowLoadReque"
+  "st\032\027.proto.ShowLoadResponse\022;\n\010SceneGet\022"
+  "\026.proto.SceneGetRequest\032\027.proto.SceneGet"
+  "Response\022;\n\010SceneAdd\022\026.proto.SceneAddReq"
+  "uest\032\027.proto.SceneAddResponse\022M\n\016SceneDu"
+  "plicate\022\034.proto.SceneDuplicateRequest\032\035."
+  "proto.SceneDuplicateResponse\022@\n\013SceneRem"
+  "ove\022\031.proto.SceneRemoveRequest\032\026.google."
+  "protobuf.Empty\022V\n\021SceneSetAsCurrent\022\037.pr"
+  "oto.SceneSetAsCurrentRequest\032 .proto.Sce"
+  "neSetAsCurrentResponse\022P\n\017SceneGetCurren"
+  "t\022\035.proto.SceneGetCurrentRequest\032\036.proto"
+  ".SceneGetCurrentResponse\022>\n\tSourceGet\022\027."
+  "proto.SourceGetRequest\032\030.proto.SourceGet"
+  "Response\022>\n\tSourceAdd\022\027.proto.SourceAddR"
+  "equest\032\030.proto.SourceAddResponse\022P\n\017Sour"
+  "ceDuplicate\022\035.proto.SourceDuplicateReque"
+  "st\032\036.proto.SourceDuplicateResponse\022B\n\014So"
+  "urceRemove\022\032.proto.SourceRemoveRequest\032\026"
+  ".google.protobuf.Empty\022\\\n\023SourceSetPrope"
+  "rties\022!.proto.SourceSetPropertiesRequest"
+  "\032\".proto.SourceSetPropertiesResponse\0227\n\006"
+  "Health\022\026.google.protobuf.Empty\032\025.proto.H"
+  "ealthResponseb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_studio_2eproto_deps[1] = {
   &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
@@ -1149,7 +1149,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_stu
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_studio_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_studio_2eproto = {
-  false, false, descriptor_table_protodef_studio_2eproto, "studio.proto", 3580,
+  false, false, descriptor_table_protodef_studio_2eproto, "studio.proto", 3581,
   &descriptor_table_studio_2eproto_once, descriptor_table_studio_2eproto_sccs, descriptor_table_studio_2eproto_deps, 36, 1,
   schemas, file_default_instances, TableStruct_studio_2eproto::offsets,
   file_level_metadata_studio_2eproto, 36, file_level_enum_descriptors_studio_2eproto, file_level_service_descriptors_studio_2eproto,
@@ -1727,6 +1727,7 @@ class Scene::_Internal {
 
 Scene::Scene(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  active_source_ids_(arena),
   sources_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
@@ -1734,6 +1735,7 @@ Scene::Scene(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 }
 Scene::Scene(const Scene& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
+      active_source_ids_(from.active_source_ids_),
       sources_(from.sources_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
@@ -1746,11 +1748,6 @@ Scene::Scene(const Scene& from)
     name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_name(),
       GetArena());
   }
-  active_source_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_active_source_id().empty()) {
-    active_source_id_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_active_source_id(),
-      GetArena());
-  }
   // @@protoc_insertion_point(copy_constructor:proto.Scene)
 }
 
@@ -1758,7 +1755,6 @@ void Scene::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Scene_studio_2eproto.base);
   id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  active_source_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 Scene::~Scene() {
@@ -1771,7 +1767,6 @@ void Scene::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
   id_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  active_source_id_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void Scene::ArenaDtor(void* object) {
@@ -1795,10 +1790,10 @@ void Scene::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  active_source_ids_.Clear();
   sources_.Clear();
   id_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  active_source_id_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1828,13 +1823,18 @@ const char* Scene::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inte
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string active_source_id = 3;
+      // repeated string active_source_ids = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          auto str = _internal_mutable_active_source_id();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "proto.Scene.active_source_id"));
-          CHK_(ptr);
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_active_source_ids();
+            ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "proto.Scene.active_source_ids"));
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
         } else goto handle_unusual;
         continue;
       // repeated .proto.Source sources = 4;
@@ -1897,14 +1897,14 @@ failure:
         2, this->_internal_name(), target);
   }
 
-  // string active_source_id = 3;
-  if (this->active_source_id().size() > 0) {
+  // repeated string active_source_ids = 3;
+  for (int i = 0, n = this->_internal_active_source_ids_size(); i < n; i++) {
+    const auto& s = this->_internal_active_source_ids(i);
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_active_source_id().data(), static_cast<int>(this->_internal_active_source_id().length()),
+      s.data(), static_cast<int>(s.length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "proto.Scene.active_source_id");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_active_source_id(), target);
+      "proto.Scene.active_source_ids");
+    target = stream->WriteString(3, s, target);
   }
 
   // repeated .proto.Source sources = 4;
@@ -1931,6 +1931,14 @@ size_t Scene::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // repeated string active_source_ids = 3;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(active_source_ids_.size());
+  for (int i = 0, n = active_source_ids_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      active_source_ids_.Get(i));
+  }
+
   // repeated .proto.Source sources = 4;
   total_size += 1UL * this->_internal_sources_size();
   for (const auto& msg : this->sources_) {
@@ -1950,13 +1958,6 @@ size_t Scene::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_name());
-  }
-
-  // string active_source_id = 3;
-  if (this->active_source_id().size() > 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_active_source_id());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1990,15 +1991,13 @@ void Scene::MergeFrom(const Scene& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  active_source_ids_.MergeFrom(from.active_source_ids_);
   sources_.MergeFrom(from.sources_);
   if (from.id().size() > 0) {
     _internal_set_id(from._internal_id());
   }
   if (from.name().size() > 0) {
     _internal_set_name(from._internal_name());
-  }
-  if (from.active_source_id().size() > 0) {
-    _internal_set_active_source_id(from._internal_active_source_id());
   }
 }
 
@@ -2023,10 +2022,10 @@ bool Scene::IsInitialized() const {
 void Scene::InternalSwap(Scene* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  active_source_ids_.InternalSwap(&other->active_source_ids_);
   sources_.InternalSwap(&other->sources_);
   id_.Swap(&other->id_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   name_.Swap(&other->name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  active_source_id_.Swap(&other->active_source_id_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Scene::GetMetadata() const {

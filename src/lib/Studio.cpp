@@ -581,7 +581,8 @@ Status Studio::SourceAdd(ServerContext* ctx, const proto::SourceAddRequest* req,
 					trace_error("Scene not found", field_s(scene_id));
 					s = Status(grpc::NOT_FOUND, "Scene not found id="+ scene_id);
 				} else {
-					Source* source = scene->AddSource(source_name, type, source_url);
+					// TODO width and height
+					Source* source = scene->AddSource(source_name, type, source_url, -1, -1);
 					if(!source) {
 						trace_error("Failed to add source", field_s(source_name));
 						s = Status(grpc::INTERNAL, "Failed to add source");
