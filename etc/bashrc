@@ -14,3 +14,70 @@ obs_headless_src=/usr/local/src/obs-headless
 alias cdsrc="cd ${obs_headless_src}"
 alias rb="cdsrc && cd build && make -j$(nproc) && make install"
 alias st="/opt/obs-headless/etc/docker-entrypoint.sh"
+
+################################################################################
+
+function rebuild() {
+	pushd .
+	set -e
+
+	OBS_HEADLESS_INSTALL_PATH="/opt/obs-headless"
+	OBS_INSTALL_PATH="/opt/obs-studio-portable"
+
+	cdsrc
+	echo -e "\033[32mGenerating proto files...\033[0m"
+	cd proto_gen/
+	sh proto_gen.sh
+	cd ..
+	echo -e "\033[32mPreparing build...\033[0m"
+	mkdir -p build
+	cd build
+	cmake .. \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX="${OBS_HEADLESS_INSTALL_PATH}" \
+		-DCMAKE_INSTALL_RPATH="${OBS_HEADLESS_INSTALL_PATH}/lib" \
+		-DOBS_INSTALL_PATH="${OBS_INSTALL_PATH}"
+	echo -e "\033[32mBuilding...\033[0m"
+	make -j$(nproc)
+	make install
+
+	set +e
+	popd
+}
+
+function start {
+    args=$(getopt -o "hm:" -- "$@")
+    eval set -- "$args"
+
+    mode=""
+
+    while [ $# -ge 1 ]; do
+            case "$1" in
+                    --)
+                        # No more options left.
+                        shift
+                        break
+                    ;;
+                    -h)
+                            echo "start [-m <mode>] [-c <config_file>]"
+                            echo "    -m <mode> : start mode (default: nothing special)"
+                            echo "        gdb:        run in gdb"
+                            echo "        memcheck:   run in valgrind with memory checks"
+                            echo "        callgrind:  run in valgrind with profiling"
+                            return 1
+                            ;;
+                    -m)
+                            mode="$2"
+                            ;;
+                    -c)
+                            config_file="$2"
+                            shift
+                            ;;
+            esac
+
+            shift
+    done
+
+    clear
+    MODE=${mode} /opt/obs-headless/etc/docker-entrypoint.sh
+}

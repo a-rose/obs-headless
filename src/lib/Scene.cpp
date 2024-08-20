@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Scene.hpp"
 
 Scene::Scene(std::string id, std::string name, Settings* settings)
@@ -6,8 +7,7 @@ Scene::Scene(std::string id, std::string name, Settings* settings)
 	, started(false)
 	, obs_scene(nullptr)
 	, settings(settings)
-	, source_id_counter(0)
-	, active_source(nullptr) {
+	, source_id_counter(0) {
 	trace_debug("Create Scene", field_s(id), field_s(name));
 }
 
@@ -27,11 +27,11 @@ Source* Scene::GetSource(std::string source_id) {
 }
 
 
-Source* Scene::AddSource(std::string source_name, SourceType type, std::string source_url) {
+Source* Scene::AddSource(std::string source_name, SourceType type, std::string source_url, int width, int height) {
 	std::string source_id = "source_"+ std::to_string(source_id_counter);
 	source_id_counter++;
 
-	Source* source = new Source(source_id, source_name, type, source_url, settings);
+	Source* source = new Source(source_id, source_name, type, source_url, width, height, settings);
 	if(!source) {
 		trace_error("Failed to create a source", field_s(source_id));
 		return NULL;
@@ -39,9 +39,10 @@ Source* Scene::AddSource(std::string source_name, SourceType type, std::string s
 
 	trace_debug("Add source", field_s(source_id));
 	sources[source_id] = source;
-	if(!active_source) {
-		active_source = source;// TODO need a setActive method
-	}
+
+	// TODO at the moment, all sources are always active. Add a way to switch
+	// sources on and off.
+	active_sources.push_back(source); // TODO need a setActive method
 	return source;
 }
 
@@ -52,7 +53,8 @@ Source* Scene::DuplicateSourceFromScene(Scene* scene, std::string source_id) {
 		return NULL;
 	}
 
-	Source* new_source = AddSource(source->Name(), source->Type(), source->Url());
+	// TODO width & height
+	Source* new_source = AddSource(source->Name(), source->Type(), source->Url(), -1, -1);
 	if(!new_source) {
 		trace_error("Failed to duplicate source");
 		return NULL;
@@ -71,7 +73,8 @@ grpc::Status Scene::RemoveSource(std::string source_id) {
 		trace_error("Source not found", field_s(source_id));
 		return grpc::Status(grpc::NOT_FOUND, "Source not found id="+ source_id);
 	}
-	if(it->second == active_source) {
+
+	if(std::find(active_sources.begin(), active_sources.end(), it->second) != active_sources.end()) {
 		trace_error("Source is active", field_s(source_id));
 		return grpc::Status(grpc::FAILED_PRECONDITION, "Source is active id="+ source_id);
 	}
@@ -103,10 +106,12 @@ grpc::Status Scene::Start() {
 	}
 
 
-	s = active_source->Start(&obs_scene);
-	if(!s.ok()) {
-		trace_error("source Start failed", error(s.error_message()));
-		return s;
+	for (auto & source : active_sources) {
+		s = source->Start(&obs_scene);
+		if(!s.ok()) {
+			trace_error("source Start failed", field_s(source->Id()), error(s.error_message()));
+			return s;
+		}
 	}
 
 	started = true;
@@ -123,10 +128,12 @@ grpc::Status Scene::Stop() {
 		return grpc::Status(grpc::FAILED_PRECONDITION, "Scene already stopped");
 	}
 
-	s = active_source->Stop();
-	if(!s.ok()) {
-		trace_error("Source Stop failed", field_s(id), error(s.error_message()));
-		return grpc::Status(grpc::NOT_FOUND, "Source Stop failed: "+ s.error_message());
+	for (auto & source : active_sources) {
+		s = source->Stop();
+		if(!s.ok()) {
+			trace_error("Source Stop failed", field_s(source->Id()), error(s.error_message()));
+			return s;
+		}
 	}
 
 	obs_scene_release(obs_scene);
@@ -140,10 +147,8 @@ grpc::Status Scene::UpdateProto(proto::Scene* proto_scene) {
 	proto_scene->set_id(id);
 	proto_scene->set_name(name);
 
-	if(active_source) {
-		proto_scene->set_active_source_id(active_source->Id());
-	} else {
-		proto_scene->set_active_source_id("");
+	for (auto & s : active_sources) {
+		proto_scene->add_active_source_ids(s->Id());
 	}
 
 	SourceMap::iterator it;

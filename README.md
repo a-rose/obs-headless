@@ -122,3 +122,4 @@ Using the base image, you can also build obs-studio from sources.
 - [*] various TODOs in the code
 - [*] pointers to ref
 - [*] switch to Golang
+- [server] segfault in libsrt when stopping (see https://github.com/Haivision/srt/issues/2770)

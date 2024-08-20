@@ -114,7 +114,19 @@ grpc::Status Show::Load(json_t* jsonShow) {
 				return grpc::Status(grpc::INVALID_ARGUMENT, "Unsupported source type="+ std::string(strSourceType));
 			}
 
-			Source* source = scene->AddSource(std::string(strSourceName), type, std::string(strSourceUrl));
+			int sourceWidth = -1;
+			json_t* jsonSourceWidth = json_object_get(jsonSource, "width");
+			if (jsonSourceWidth && json_is_integer(jsonSourceWidth)) {
+				sourceWidth = json_integer_value(jsonSourceWidth);
+			}
+
+			int sourceHeight = -1;
+			json_t* jsonSourceHeight = json_object_get(jsonSource, "height");
+			if (jsonSourceHeight && json_is_integer(jsonSourceHeight)) {
+				sourceHeight = json_integer_value(jsonSourceHeight);
+			}
+
+			Source* source = scene->AddSource(std::string(strSourceName), type, std::string(strSourceUrl), sourceWidth, sourceHeight);
 			if(!source) {
 				trace_error("Failed to add source", field(sceneIdx), field(sourceIdx));
 				return grpc::Status(grpc::INVALID_ARGUMENT, "Failed to add source sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
