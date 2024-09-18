@@ -2,28 +2,30 @@ ARG OBS_VERSION
 FROM obs-headless-builder:latest-obs${OBS_VERSION}
 
 ENV DEBIAN_FRONTEND=noninteractive
-WORKDIR /usr/local/src
 
-ENV OBS_HEADLESS_INSTALL_PATH="/opt/obs-headless"
+WORKDIR /usr/local/src
 COPY src/ /usr/local/src/obs-headless
-RUN cd obs-headless \
-	\
-	&& echo -e "\033[32mGenerating proto files...\033[0m" \
-	&& cd proto_gen/ \
-	&& sh proto_gen.sh \
-	&& cd .. \
-	\
-	&& echo -e "\033[32mPreparing build...\033[0m" \
+
+WORKDIR /usr/local/src/obs-headless/proto_gen
+RUN echo -e "\033[32mGenerating proto files...\033[0m" \
+	&& find / -name "libabsl_log_internal_globals.so*" \
+	&& ldconfig \
+	&& sh proto_gen.sh
+
+WORKDIR /usr/local/src/obs-headless
+ENV OBS_HEADLESS_INSTALL_PATH="/opt/obs-headless"
+RUN echo -e "\033[32mPreparing build...\033[0m" \
 	&& mkdir -p build \
 	&& cd build \
 	&& cmake .. \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX="${OBS_HEADLESS_INSTALL_PATH}" \
 		-DCMAKE_INSTALL_RPATH="${OBS_HEADLESS_INSTALL_PATH}/lib" \
-		-DOBS_INSTALL_PATH="${OBS_INSTALL_PATH}" \
-	\
-	&& echo -e "\033[32mBuilding...\033[0m" \
-	&& make -j$(nproc) \
+		-DOBS_INSTALL_PATH="${OBS_INSTALL_PATH}"
+
+WORKDIR /usr/local/src/obs-headless/build
+RUN echo -e "\033[32mBuilding...\033[0m" \
+	&& make -j $(nproc) \
 	&& make install
 
 COPY etc/ /opt/obs-headless/etc

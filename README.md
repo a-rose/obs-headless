@@ -6,10 +6,11 @@ The main part consists of a gRPC server. An example client is also provided.
 
 This project uses Docker to ease build and deployment. If you follow the prerequisites below, accessing the GPU with Docker should work out of the box.
 
-
 # Prerequisites
 
 - Machine with an NVidia GPU and NVidia drivers installed.
+	- On Ubuntu: `sudo ubuntu-drivers install`. More info: https://ubuntu.com/server/docs/nvidia-drivers-installation
+	- Ensure `nvidia-smi` works. If not, you might need to disable Secure Boot in your BIOS.
 - X Server
 - `apt install make`
 - Docker + Nvidia tutorial: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
@@ -20,7 +21,6 @@ This project uses Docker to ease build and deployment. If you follow the prerequ
 Check which CUDA version is installed on your host using `nvidia-smi`. If needed, edit `Dockerfile` to use the same version as a base image: `FROM nvidia/cudagl:<YOUR CUDA VERSION HERE>-devel-ubuntu22.04`
 
 Existing tags: https://hub.docker.com/r/nvidia/cudagl/tags
-
 
 # Building and running
 
@@ -54,7 +54,6 @@ You can specify which OBS version to build and run with, for example:
 
 **Output**: edit `config.txt` to set `server` and `key` with your output stream URL and key. You can stream to any platform supporting RTMP (Twitch, Youtube, ...). You can also use any local RTMP server (see STREAMING.md).
 
-
 # Development
 
 The build system uses three images:
@@ -87,7 +86,6 @@ Using the base image, you can also build obs-studio from sources.
 3. Start the container: `make shell-base`.
 4. Build obs-studio and obs-headless (see Dockerfiles for build instructions)
 5. You can now edit the sources and rebuild from the container. Rebuild with `rb` and start with `st` (see etc/bashrc for aliases).
-
 
 # TODO
 
@@ -123,3 +121,4 @@ Using the base image, you can also build obs-studio from sources.
 - [*] pointers to ref
 - [*] switch to Golang
 - [server] segfault in libsrt when stopping (see https://github.com/Haivision/srt/issues/2770)
+- [docker] move ldconfig in builder
