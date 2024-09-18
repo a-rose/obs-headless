@@ -1,11 +1,10 @@
-FROM nvidia/cuda:12.0.0-devel-ubuntu22.04
+FROM nvidia/cuda:12.6.0-devel-ubuntu24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /usr/local/src
 
 # Packages:
 #	- libdatachannel dependencies
-#	- librist dependencies
 #	- from OBS build instructions (see 
 # https://github.com/obsproject/obs-studio/wiki/build-instructions-for-linux)
 #		- build system
@@ -14,13 +13,10 @@ WORKDIR /usr/local/src
 #		- plugin dependencies
 #	- from cudagl Dockerfile
 #	- OBS dependencies
-#	- gRPC
 #	- debug tools (removed in the release image)
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
 		libssl-dev \
-		\
-		meson \
 		\
 		cmake ninja-build pkg-config clang clang-format build-essential curl \
 		ccache git \
@@ -32,9 +28,9 @@ RUN apt-get update \
 		libxcb-shm0-dev libxcb-xinerama0-dev libxcb-composite0-dev \
 		libxcomposite-dev libxinerama-dev libxcb1-dev libx11-xcb-dev \
 		libxcb-xfixes0-dev swig libcmocka-dev libxss-dev libglvnd-dev \
-		libgles2-mesa libgles2-mesa-dev libwayland-dev \
+		libgles2-mesa-dev libwayland-dev \
 		libsrt-openssl-dev libpci-dev libpipewire-0.3-dev libqrcodegencpp-dev \
-		uthash-dev \
+		uthash-dev librist-dev \
 		\
 		qt6-base-private-dev libqt6svg6-dev qt6-wayland \
 		qt6-image-formats-plugins \
@@ -44,21 +40,8 @@ RUN apt-get update \
 		libva-dev libvlc-dev libvpl2 libvpl-dev libdrm-dev nlohmann-json3-dev \
 		libwebsocketpp-dev libasio-dev \
 		\
-		libgrpc++-dev libgrpc++1 libgrpc-dev libgrpc10 \
-		libprotobuf-dev protobuf-compiler-grpc \
-		\
 		vim gdb valgrind net-tools iptables procps tcpdump \
 		linux-tools-common linux-tools-generic
-
-# Install librist (OBS dependency)
-RUN git clone https://code.videolan.org/rist/librist.git \
-	&& cd librist \
-	&& git checkout v0.2.7 \
-	&& mkdir build \
-	&& cd build \
-	&& meson .. \
-	&& ninja \
-	&& ninja install
 
 # Install FFnvcodec (OBS dependency)
 RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
@@ -74,5 +57,20 @@ RUN git clone https://github.com/paullouisageneau/libdatachannel.git \
 	&& git submodule update --init --recursive --depth 1 \
 	&& cmake -B build -DUSE_GNUTLS=0 -DUSE_NICE=0 -DCMAKE_BUILD_TYPE=Release \
 	&& cd build \
-	&& make -j2 \
+	&& make -j $(nproc) \
+	&& make install
+
+# gRPC
+RUN git clone --recurse-submodules -b v1.66.1 --depth 1 --shallow-submodules https://github.com/grpc/grpc
+RUN cd grpc \
+	&& mkdir -p cmake/build \
+	&& cd cmake/build \
+	&& cmake \
+		-DgRPC_INSTALL=ON \
+		-DgRPC_BUILD_TESTS=OFF \
+		-DgRPC_SSL_PROVIDER=package \
+		-DABSL_ENABLE_INSTALL=ON \
+		-DBUILD_SHARED_LIBS=ON \
+		../.. \
+	&& make -j $(nproc) \
 	&& make install
