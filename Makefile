@@ -44,6 +44,7 @@ run_params:=-it \
 		  --name=${container} \
 		  --net=host \
 		  -e DISPLAY \
+		  -e MODE=normal \
 		  -v $(cwd)/etc/:/opt/obs-headless/etc/
 
 dev_params:=${run_params} \
@@ -123,17 +124,17 @@ run: pre-run
 
 
 shell-base: pre-run
-	@echo "Using ${image}-base"
+	@echo "Using ${image}-base:${version}"
 	@$(call print_dev_variables)
 	@xhost + && docker run ${dev_params} -it --entrypoint /bin/bash ${image}-base:${version}
 
 shell-builder: pre-run
-	@echo "Using ${image}-builder"
+	@echo "Using ${image}-builder:${version}"
 	@$(call print_dev_variables)
 	@xhost + && docker run ${dev_params} -it --entrypoint /bin/bash ${image}-builder:${version}
 
 shell-dev: pre-run
-	@echo "Using ${image}-dev"
+	@echo "Using ${image}-dev:${version}"
 	@$(call print_dev_variables)
 	@xhost + && docker run ${dev_params} -it --entrypoint /bin/bash ${image}-dev:${version}
 

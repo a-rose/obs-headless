@@ -16,5 +16,5 @@ RUN cmake -S . \
 		-DENABLE_AJA=OFF \
 		-DENABLE_LIBFDK=ON \
 		-DCALM_DEPRECATION=ON \
-	&& cmake --build ${OBS_BUILD_PATH} \
+	&& cmake --build ${OBS_BUILD_PATH} --parallel $(nproc) \
 	&& cmake --install ${OBS_BUILD_PATH} --prefix ${OBS_INSTALL_PATH}
