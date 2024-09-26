@@ -8,7 +8,6 @@ COPY src/ /usr/local/src/obs-headless
 
 WORKDIR /usr/local/src/obs-headless/proto_gen
 RUN echo -e "\033[32mGenerating proto files...\033[0m" \
-	&& find / -name "libabsl_log_internal_globals.so*" \
 	&& ldconfig \
 	&& sh proto_gen.sh
 
