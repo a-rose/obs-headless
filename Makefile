@@ -12,7 +12,7 @@ obs_version:=30.2.3
 
 image:=obs-headless
 container:=obs-headless
-version:=v2.2.0-obs${obs_version}
+version:=v2.3.1-obs${obs_version}
 latest:=latest-obs${obs_version}
 
 # TODO

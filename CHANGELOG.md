@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.1] - 2024-09-26
+
+### Fixed
+- fix(docker): remove 'find' cmd aht makes the build fail
+
 ## [2.3.0] - 2024-09-18
 
 ### Changed
