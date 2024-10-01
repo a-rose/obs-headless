@@ -1,5 +1,5 @@
 ARG OBS_VERSION
-FROM obs-headless-base:latest-obs${OBS_VERSION}
+FROM obs-headless-base:latest
 
 # Build OBS from sources
 ENV OBS_BUILD_PATH="./build"

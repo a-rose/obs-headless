@@ -1,5 +1,5 @@
 ARG OBS_VERSION
-FROM obs-headless-dev:latest-obs${OBS_VERSION} as builder
+FROM obs-headless-dev:latest as builder
 
 RUN echo -e "\033[32mRemoving dev packages...\033[0m" \
 	&& apt-get remove --purge -y \
