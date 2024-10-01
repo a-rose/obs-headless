@@ -1,0 +1,109 @@
+services:
+
+  server:
+    extends:
+      service: server-dev
+    image: obs-headless:latest
+    build:
+      dockerfile: obs-headless.Dockerfile
+      tags:
+      - obs-headless:latest
+      - obs-headless:${VERSION}
+
+  server-dev:
+    extends:
+      service: server-builder
+    image: obs-headless-dev:latest
+    build:
+      dockerfile: obs-headless-dev.Dockerfile
+      tags:
+      - obs-headless-dev:latest
+      - obs-headless-dev:${VERSION}
+    volumes:
+      - type: bind
+        source: ./etc/bashrc
+        target: /root/.bashrc
+      - type: bind
+        source: ${OBS_SRC_PATH_DEV}
+        target: /usr/local/src/obs-studio
+      - type: bind
+        source: ./etc
+        target: /opt/obs-headless/etc/
+      - type: bind
+        source: ./sources
+        target: /opt/obs-headless/sources/
+
+  server-builder:
+    extends:
+      service: server-base
+    image: obs-headless-builder:latest
+    build:
+      dockerfile: obs-headless-builder.Dockerfile
+      tags:
+      - obs-headless-builder:latest
+      - obs-headless-builder:${VERSION}
+      network: host
+      args:
+        OBS_VERSION: ${OBS_VERSION}
+    volumes:
+      - type: bind
+        source: ./etc/bashrc
+        target: /root/.bashrc
+      - type: bind
+        source: ${OBS_SRC_PATH_DEV}
+        target: /usr/local/src/obs-studio
+
+  server-base:
+    image: obs-headless-base:latest
+    build:
+      context: .
+      dockerfile: obs-headless-base.Dockerfile
+      tags:
+      - obs-headless-base:latest
+      - obs-headless-base:${VERSION}
+    network_mode: host
+    stdin_open:   true
+    tty:          true
+    entrypoint:   /bin/bash
+    privileged:   true
+    security_opt:
+      - seccomp:unconfined
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver:       nvidia
+              count:        all
+              capabilities: [gpu]
+    environment:
+      DISPLAY: $DISPLAY
+      MODE:    normal
+    volumes:
+      - type: bind
+        source: ./etc/bashrc
+        target: /root/.bashrc
+
+  client:
+    image:        obs-headless
+    network_mode: host
+    stdin_open:   true
+    tty:          true
+    entrypoint:   /opt/obs-headless/obs_headless_client
+
+  rtsp:
+    image:        aler9/rtsp-simple-server
+    network_mode: host
+  
+  sourceA:
+    image:        linuxserver/ffmpeg
+    network_mode: host
+    command:      -stream_loop -1 -re -i sources/testsrc.mp4 -c copy -f flv rtmp://localhost/sourceA
+    volumes:
+      - ./sources/:/sources/
+
+  sourceB:
+    image:        linuxserver/ffmpeg
+    network_mode: host
+    command:      -stream_loop -1 -re -i sources/testsrc2.mp4 -c copy -f flv rtmp://localhost/sourceB
+    volumes:
+      - ./sources/:/sources/

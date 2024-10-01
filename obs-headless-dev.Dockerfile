@@ -1,5 +1,5 @@
 ARG OBS_VERSION
-FROM obs-headless-builder:latest-obs${OBS_VERSION}
+FROM obs-headless-builder:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
