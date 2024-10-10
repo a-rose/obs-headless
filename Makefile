@@ -6,14 +6,21 @@ export
 # Build
 ##########################################
 
-# Build all compose services at once
-build:
+build-base:
 	@echo "\n\033[42m=== Building server-base ===\033[0m"
 	@docker compose build server-base
+
+build-builder: build-base
 	@echo "\n\033[42m=== Building server-builder ===\033[0m"
 	@docker compose build server-builder
+
+# Build up to the dev container
+build-dev: build-builder
 	@echo "\n\033[42m=== Building server-dev ===\033[0m"
 	@docker compose build server-dev
+
+# Build all compose services at once
+build: build-dev
 	@echo "\n\033[42m=== Building server ===\033[0m"
 	@docker compose build server
 
