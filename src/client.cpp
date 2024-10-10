@@ -83,48 +83,48 @@ int main(int argc, char** argv) {
 
 		trace_info("Starting studio with show", field_ns("show", show_path.c_str()));
 		s = client.StudioStart();
-        if(!s.ok()) {
-            throw runtime_error("Failed to start studio: " + s.error_message());
-        }
-        
-        char c = 0;
-        // Wait for 'q' to stop the thread
-        do {
-            switch(c) {
-                case 'd':
-                    describe_state(client);
-                    break;
+		if(!s.ok()) {
+			throw runtime_error("Failed to start studio: " + s.error_message());
+		}
+		
+		char c = 0;
+		// Wait for 'q' to stop the thread
+		do {
+			switch(c) {
+				case 'd':
+					describe_state(client);
+					break;
 
-                case 's':
-                    switch_scene(client);
-                    break;
+				case 's':
+					switch_scene(client);
+					break;
 
-                default:
-                    trace_info("----------------------------------------");
-                    trace_info("Press 'd' to describe current state");
-                    trace_info("Press 's' to switch scene");
-                    trace_info("Press 'q' to stop");
-            }
-            
-            c = cin.get();
-        } while (c != 'q');
+				default:
+					trace_info("----------------------------------------");
+					trace_info("Press 'd' to describe current state");
+					trace_info("Press 's' to switch scene");
+					trace_info("Press 'q' to stop");
+			}
+			
+			c = cin.get();
+		} while (c != 'q');
 
-        s = client.StudioStop();
-        if(!s.ok()) {
-            throw runtime_error("Failed to stop studio: " + s.error_message());
-        }
+		s = client.StudioStop();
+		if(!s.ok()) {
+			throw runtime_error("Failed to stop studio: " + s.error_message());
+		}
 
 	} catch(const exception& e) {
-        trace_error("An exception occured: ", field_ns("exception", e.what()));
-    }
-    catch(const string& e) {
-        trace_error("An exception occured: ", field_ns("exception", e.c_str()));
-    }
-    catch(...) {
-        trace_error("An uncaught exception occured !");
-    }
+		trace_error("An exception occured: ", field_ns("exception", e.what()));
+	}
+	catch(const string& e) {
+		trace_error("An exception occured: ", field_ns("exception", e.c_str()));
+	}
+	catch(...) {
+		trace_error("An uncaught exception occured !");
+	}
 
-    trace("Exit client");
+	trace("Exit client");
 	return 0;
 }
 
