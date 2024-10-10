@@ -86,7 +86,8 @@ grpc::Status Source::Start(obs_scene_t** obs_scene_in) {
 		obs_data_set_string(obs_data, "file", url.c_str());
 		obs_data_set_bool(obs_data, "unload", false);
 
-		obs_source = obs_source_create("image_source", "obs_image_source", obs_data, nullptr);
+		std::string source_name = std::string("obs_src_img_"+name);
+		obs_source = obs_source_create("image_source", source_name.c_str(), obs_data, nullptr);
 	} else if(type == RTMP){
 		trace_debug("create ffmpeg src", field_s(id), field_s(name), field_s(url));
 
