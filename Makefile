@@ -80,3 +80,12 @@ client:
 # Play obs-headless server output stream
 play:
 	@ffplay rtmp://localhost/live/key
+
+
+##########################################
+# Misc
+##########################################
+
+# Open a tty on a running dev container
+attach:
+	@docker compose exec server-dev bash
