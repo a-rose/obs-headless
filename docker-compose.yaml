@@ -24,8 +24,8 @@ services:
         source: ./etc/bashrc
         target: /root/.bashrc
       - type: bind
-        source: ${OBS_SRC_PATH_DEV}
-        target: /usr/local/src/obs-studio
+        source: ./src
+        target: /usr/local/src/obs-headless
       - type: bind
         source: ./etc
         target: /opt/obs-headless/etc/
