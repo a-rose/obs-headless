@@ -58,7 +58,7 @@ Status Studio::StudioGet(ServerContext* ctx, const Empty* req, proto::StudioGetR
 			}
 		}
 	}
-	catch(string e) {
+	catch(string& e) {
 		trace_error("An exception occured", error(e));
 		s = Status(grpc::INTERNAL, e.c_str());
 	}
@@ -965,6 +965,17 @@ Status Studio::studioRelease() {
 		return s;
 	}
 
+	active_show = nullptr;
+
+	for (auto const& [show_id, _] : shows) {
+		auto s = removeShow(show_id);
+		if(!s.ok()) {
+			trace_error("Error during removeShow", error(s.error_message()));
+		} else {
+			trace_info("Removed show", field_s(show_id));
+		}
+	}
+
 	obs_shutdown();
 	init = false;
 	trace("StudioStop Ok !");
@@ -1062,8 +1073,8 @@ Status Studio::removeShow(string show_id) {
 	if(it == shows.end()) {
 		return Status(grpc::NOT_FOUND, "Show not found id="+ show_id);
 	}
-	if(it->second == active_show) {
-		return Status(grpc::FAILED_PRECONDITION, "Show is active id="+ show_id);
+	if(it->second->IsStarted() && it->second == active_show) {
+		return Status(grpc::FAILED_PRECONDITION, "Show is started and active, id="+ show_id);
 	}
 
 	trace_debug("Remove show", field_s(show_id));

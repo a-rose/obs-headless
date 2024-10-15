@@ -14,6 +14,7 @@ public:
 	SceneMap Scenes() { return scenes; }
 	Scene* ActiveScene() { return active_scene; }
 	obs_source_t* Transition() { return obs_transition; }
+	bool IsStarted() { return started; }
 
 	// Methods
 	grpc::Status Load(json_t* json_show);
