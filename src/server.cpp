@@ -1,3 +1,4 @@
+#include <thread>
 #include <csignal>
 #include <QApplication>
 #include <QPushButton>
@@ -16,7 +17,10 @@ int gTraceFormat = TRACE_FORMAT_TEXT;
 void intHandler(int dummy) {
 	if(server != nullptr) {
 		trace_info("Stopping the server");
-		server->Shutdown();
+
+		// Need to call Shutdown from another thread to avoid deadlocking the main thread
+		std::thread shutdown_thread([]{ server->Shutdown(); });
+		shutdown_thread.join();
 	}
 }
 
