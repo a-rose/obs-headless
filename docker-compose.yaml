@@ -9,6 +9,7 @@ services:
       tags:
       - obs-headless:latest
       - obs-headless:${VERSION}
+    entrypoint: /opt/obs-headless/etc/docker-entrypoint.sh
 
   server-dev:
     extends:
