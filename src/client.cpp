@@ -63,57 +63,16 @@ void describe_state(StudioClient& client);
 
 int main(int argc, char** argv) {
 
-	try {
-		proto::StudioState studio_state;
-		Status s;
+	Status s;
+	long server_timestamp;
+	string show_path;
+	char c = 0;
+	StudioClient* client = NULL;
 
+	try {
 		// The channel isn't authenticated (use of InsecureChannelCredentials()).
 		// TODO URL to settings
-		StudioClient client(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()));
-
-		long server_timestamp = client.Health();
-		if(server_timestamp < 0) {
-			throw runtime_error("Failed to get server Health");
-		}
-		trace_info("Health reply", field(server_timestamp));
-
-		// TODO param
-		string show_path = "/etc/shows/bigshow.json";
-		client.ShowLoad(OBS_HEADLESS_PATH + show_path);
-
-		trace_info("Starting studio with show", field_ns("show", show_path.c_str()));
-		s = client.StudioStart();
-		if(!s.ok()) {
-			throw runtime_error("Failed to start studio: " + s.error_message());
-		}
-		
-		char c = 0;
-		// Wait for 'q' to stop the thread
-		do {
-			switch(c) {
-				case 'd':
-					describe_state(client);
-					break;
-
-				case 's':
-					switch_scene(client);
-					break;
-
-				default:
-					trace_info("----------------------------------------");
-					trace_info("Press 'd' to describe current state");
-					trace_info("Press 's' to switch scene");
-					trace_info("Press 'q' to stop");
-			}
-			
-			c = cin.get();
-		} while (c != 'q');
-
-		s = client.StudioStop();
-		if(!s.ok()) {
-			throw runtime_error("Failed to stop studio: " + s.error_message());
-		}
-
+		client = new StudioClient(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()));
 	} catch(const exception& e) {
 		trace_error("An exception occured: ", field_ns("exception", e.what()));
 	}
@@ -124,6 +83,72 @@ int main(int argc, char** argv) {
 		trace_error("An uncaught exception occured !");
 	}
 
+	// Wait for 'q' to stop the thread
+	do {
+		try {
+			switch(c) {
+				case 'd':
+					describe_state(*client);
+					break;
+
+				case 'h':
+					server_timestamp = client->Health();
+					if(server_timestamp < 0) {
+						throw runtime_error("Failed to get server Health");
+					}
+					trace_info("Health reply", field(server_timestamp));
+					break;
+
+				case 'g':
+					show_path = "/etc/shows/bigshow.json";
+					// TODO show_path should be a param
+					client->ShowLoad(OBS_HEADLESS_PATH + show_path);
+
+					trace_info("Starting studio with show", field_ns("show", show_path.c_str()));
+					s = client->StudioStart();
+					if(!s.ok()) {
+						throw runtime_error("Failed to start studio: " + s.error_message());
+					}
+					break;
+
+				case 's':
+					switch_scene(*client);
+					break;
+
+				case 'q':
+					s = client->StudioStop();
+					if(!s.ok()) {
+						throw runtime_error("Failed to stop studio: " + s.error_message());
+					}
+					c = 'e';
+					break;
+
+				default:
+					trace_info("----------------------------------------");
+					trace_info("d: describe current state");
+					trace_info("h: get current health");
+					trace_info("g: start the studio");
+					trace_info("s: switch scene");
+					trace_info("q: stop the studio");
+					trace_info("e: exit the client");
+			}
+
+		} catch(const exception& e) {
+			trace_error("An exception occured: ", field_ns("exception", e.what()));
+		}
+		catch(const string& e) {
+			trace_error("An exception occured: ", field_ns("exception", e.c_str()));
+		}
+		catch(...) {
+			trace_error("An uncaught exception occured !");
+		}
+			
+		c = cin.get();
+	} while (c != 'e');
+
+	if (client) {
+		delete client;
+	}
 	trace("Exit client");
 	return 0;
 }
