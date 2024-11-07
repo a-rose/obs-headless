@@ -14,7 +14,20 @@ Producing test streams locally:
 
 2. Stream somthing to the server. You can choose between:
 
-	a. Streaming live test sources to `rtsp-simple-server` (high CPU usage)
+	a. Generating and streaming local files (low CPU usage):
+
+		make generate
+		make testsrc
+
+	b. Transcoding and streaming a local file (medium CPU usage):
+
+		ffmpeg -stream_loop -1 -re \
+			-i myfile.mp4 \
+			-c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 \
+			-c:a aac -b:a 128k \
+			-f flv rtmp://localhost:8554/sourceA
+
+	c. Streaming live test sources to `rtsp-simple-server` (high CPU usage)
 
 		# First source on port 1936
 		ffmpeg -stream_loop -1 -re \
@@ -32,19 +45,6 @@ Producing test streams locally:
 			-c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 \
 			-c:a aac -b:a 128k \
 			-f flv rtmp://localhost/sourceB
-
-	b. Transcoding and streaming a local file (medium CPU usage):
-
-		ffmpeg -stream_loop -1 -re \
-			-i myfile.mp4 \
-			-c:v libx264 -b:v 2M -maxrate 2M -bufsize 1M -g 60 \
-			-c:a aac -b:a 128k \
-			-f flv rtmp://localhost:8554/sourceA
-
-	c. Generating and streaming local files (low CPU usage):
-
-		make generate
-		make testsrc
 
 3. Edit your .json show file (`default.json` by default) to use `rtmp://localhost/sourceA` and `rtmp://localhost/sourceB`.
 
