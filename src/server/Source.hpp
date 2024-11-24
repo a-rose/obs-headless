@@ -2,9 +2,9 @@
 
 #include <string>
 #include <grpc++/grpc++.h>
-#include "proto/studio.grpc.pb.h"
+#include "../lib/studio.grpc.pb.h"
+#include "../lib/Trace.hpp"
 #include "obs.h"
-#include "Trace.hpp"
 #include "Settings.hpp"
 
 

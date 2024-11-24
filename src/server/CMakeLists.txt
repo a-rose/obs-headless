@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(obs_headless)
+project(obs_headless_server)
 
 
 ###################
@@ -55,7 +55,7 @@ link_directories("${OBS_INSTALL_PATH}/bin/64bit/")
 
 
 ###################
-# Obs-headless
+# obs-headless-server
 ###################
 
 set(CMAKE_INSTALL_PREFIX "/opt/obs-headless")
@@ -63,39 +63,28 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 set(CMAKE_INSTALL_RPATH "${OBS_INSTALL_PATH}/bin/64bit/")
 add_definitions(-DOBS_HEADLESS_PATH="${CMAKE_INSTALL_PREFIX}")
 
-
-###################
-# Server
-###################
-
-add_executable(obs_headless_server
-    server.cpp
-    lib/Settings.cpp
-    lib/proto/studio.pb.cc
-    lib/proto/studio.grpc.pb.cc
-    lib/Studio.cpp
-    lib/Source.cpp
-    lib/Scene.cpp
-    lib/Show.cpp
-    lib/Trace.hpp
-    lib/Settings.hpp
-    lib/proto/studio.pb.h
-    lib/proto/studio.grpc.pb.h
-    lib/Studio.hpp
-    lib/Source.hpp
-    lib/Scene.hpp
-    lib/Show.hpp
+add_executable(server
+    main.cpp
+    Settings.hpp
+    Settings.cpp
+    Studio.hpp
+    Studio.cpp
+    Source.hpp
+    Source.cpp
+    Scene.hpp
+    Scene.cpp
+    Show.hpp
+    Show.cpp
+    ../lib/Trace.hpp
+    ../lib/studio.pb.h
+    ../lib/studio.pb.cc
+    ../lib/studio.grpc.pb.h
+    ../lib/studio.grpc.pb.cc
 )
 
 include_directories("/include")
 
-
-#   absl::check
-#   absl::flags
-#   absl::flags_parse
-#   absl::log
-
-target_link_libraries(obs_headless_server
+target_link_libraries(server
     obs
     pthread
     Qt6::Widgets
@@ -105,30 +94,7 @@ target_link_libraries(obs_headless_server
     protobuf::libprotobuf
 )
 
-install(TARGETS obs_headless_server
+install(TARGETS server
     DESTINATION ${CMAKE_INSTALL_PREFIX}
 )
 
-
-###################
-# Client
-###################
-
-add_executable(obs_headless_client 
-    client.cpp
-    lib/proto/studio.pb.cc
-    lib/proto/studio.grpc.pb.cc
-    lib/Trace.hpp
-    lib/proto/studio.pb.h
-    lib/proto/studio.grpc.pb.h
-)
-
-target_link_libraries(obs_headless_client
-    gRPC::grpc++
-    gRPC::grpc++_reflection
-    protobuf::libprotobuf
-)
-
-install(TARGETS obs_headless_client
-    DESTINATION ${CMAKE_INSTALL_PREFIX}
-)

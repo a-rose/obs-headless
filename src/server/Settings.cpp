@@ -2,7 +2,7 @@
 #include <sstream>
 #include <ios>
 #include "Settings.hpp"
-#include "Trace.hpp"
+#include "../lib/Trace.hpp"
 
 Settings LoadConfig(const string& file) {
     Settings s;

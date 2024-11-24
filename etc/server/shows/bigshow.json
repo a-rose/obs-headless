@@ -12,12 +12,12 @@
                 {
                     "name": "rec_img",
                     "type": "Image",
-                    "url": "/opt/obs-headless/etc/rec.png"
+                    "url": "/opt/obs-headless/etc/shows/img/rec.png"
                 },
                 {
                     "name": "logo_img",
                     "type": "Image",
-                    "url": "/opt/obs-headless/etc/logo.png",
+                    "url": "/opt/obs-headless/etc/shows/img/logo.png",
                     "width": 128,
                     "height": 128
                 }

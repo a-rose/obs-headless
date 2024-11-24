@@ -64,7 +64,7 @@ The output endpoint is set as server + key in `etc/config.txt`.
 
 ### CUDA versions
 
-Check which CUDA version is installed on your host using `nvidia-smi`. If needed, edit `Dockerfile` to use the same version as a base image: `FROM nvidia/cudagl:<YOUR CUDA VERSION HERE>-devel-ubuntu24.04`
+Check which CUDA version is installed on your host using `nvidia-smi`. If needed, edit `docker/base.Dockerfile` to use the same version as a base image: `FROM nvidia/cudagl:<YOUR CUDA VERSION HERE>-devel-ubuntu24.04`
 
 Existing tags: https://hub.docker.com/r/nvidia/cudagl/tags
 
@@ -72,7 +72,7 @@ Existing tags: https://hub.docker.com/r/nvidia/cudagl/tags
 
 You can generate video sources to use as inputs (you only need to do this once):
 
-	make generate
+	make video-test-sources
 
 You can also use live sources, check out STREAMING.md for details.
 
@@ -91,6 +91,8 @@ Start the client in an other terminal:
 
 	make client
 
+Type `g` and `Enter` to start the studio.
+
 Play the output stream:
 
 	make play
@@ -99,40 +101,45 @@ From the client, you can switch the source using by pressing `s` and `Enter`.
 
 ## X Server Access Control
 
-In order to allow the container to use the host's X Server, the `xhost +` command is run when using `make up/make server/make dev`.
+In order to allow the container to use the host's X Server, the `xhost +` command is run when starting some services (check the Makefile).
 
 The effect of this command persists after running the container, you can undo this by executing `xhost -` on your host machine.
 
 
+**Input**: edit `etc/client//shows/default.json` to set the default scene when starting obs-headless. It contains two RTMP sources as inputs, for which you must set the URL of public or local RTMP streams (see STREAMING.md).
+
+**Output**: edit `etc/server/config.txt` to set `server` and `key` with your output stream URL and key. You can stream to any platform supporting RTMP (Twitch, Youtube, ...). You can also use any local RTMP server (see STREAMING.md).
+
+
 # Development
 
-The build system uses three images:
+The build system uses four images:
 
-- **obs-headless-base**
+- **base**
 	- Dependencies only.
 	- Can be used to experiment with different OBS versions, by mounting OBS and
 		OBS-headless sources as a volume.
-- **obs-headless-builder**:
+- **builder**:
 	- Dependencies + OBS built from sources.
 	- Can be used for development of OBS-headless, using a fixed version of OBS,
 		by mounting sources as a volume.
-- **obs-headless-dev**:
-	- Dependencies + OBS + OBS-headless built in a single image.
-	- Use this to run OBS-headless as a server.
-- **obs-headless**:
-	- Same as obs-headless-dev with an extra step to reduce the image size.
-		Takes longer to build.
+- **server**:
+	- Dependencies + OBS + OBS-headless server built in a single image.
+- **client**:
+	- Dependencies + OBS-headless client built in a single image.
 
-Using the dev image: you can start a container with obs-headless sources attached as volumes, so you can edit sources and rebuild in the container.
+Dev images: you can start a container with sources attached as volumes, so you can edit sources and rebuild in the container.
 
 1. Start the test sources: `make testsrc`.
-1. Start the dev container: `make dev`.
-2. Build obs-headless (see Dockerfiles for build instructions)
+1. Start the dev container: `make server-dev`.
+2. Build obs-headless-server (see Dockerfiles for build instructions)
 3. You can now edit the code and rebuild from the container. Rebuild with `rb` and start with `st` (see etc/bashrc for aliases).
+
+The same exists for the client wth `make client-dev`.
 
 Using the base image, you can also build obs-studio from sources.
 
-1. Clone obs-studio on your host (see obs-headless-builder.Dockerfile for the repo URL)
+1. Clone obs-studio on your host (see builder.Dockerfile for the repo URL)
 2. Set `OBS_SRC_PATH_DEV` in your .env file to the path where you just cloned obs-studio
 3. Start the container: `make builder`.
 4. Build obs-studio and obs-headless (see Dockerfiles for build instructions)

@@ -32,3 +32,5 @@
 - [*] switch to Golang
 - [server] segfault in libsrt when stopping (see https://github.com/Haivision/srt/issues/2770)
 - [docker] move ldconfig in builder
+- [config] make the whole config json or yaml, merge config.txt with shows
+- [client] load new shows (not in config) from client

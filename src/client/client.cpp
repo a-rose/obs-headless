@@ -4,8 +4,8 @@
 #include <vector>
 #include <algorithm>
 #include <grpc++/grpc++.h>
-#include "lib/proto/studio.grpc.pb.h"
-#include "lib/Trace.hpp"
+#include "../lib/studio.grpc.pb.h"
+#include "../lib/Trace.hpp"
 
 using grpc::Channel;
 using grpc::ClientContext;

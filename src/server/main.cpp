@@ -2,9 +2,9 @@
 #include <csignal>
 #include <QApplication>
 #include <QPushButton>
-#include "lib/Studio.hpp"
-#include "lib/Trace.hpp"
-#include "lib/Settings.hpp"
+#include "Studio.hpp"
+#include "../lib/Trace.hpp"
+#include "Settings.hpp"
 
 using namespace std;
 

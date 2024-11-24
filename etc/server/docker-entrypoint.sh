@@ -6,7 +6,7 @@ PREFIX=""
 DEFAULT_MODE="normal"
 
 OBS_INSTALL_PATH=${OBS_INSTALL_PATH:-"/opt/obs-studio-portable"}
-OBS_HEADLESS_INSTALL_PATH=${OBS_HEADLESS_INSTALL_PATH:-"/opt/obs-headless/"}
+OBS_HEADLESS_INSTALL_PATH=${OBS_HEADLESS_INSTALL_PATH:-"/opt/obs-headless"}
 
 ################################################################################
 
@@ -37,4 +37,4 @@ cd ${OBS_INSTALL_PATH}/bin/64bit/
 
 echo "PREFIX: $PREFIX"
 
-exec $PREFIX ${OBS_HEADLESS_INSTALL_PATH}/obs_headless_server
+exec $PREFIX ${OBS_HEADLESS_INSTALL_PATH}/server

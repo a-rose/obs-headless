@@ -10,7 +10,7 @@ alias rbobs="cd ${obs_src}/build && make -j$(nproc) && make install"
 alias stobs="${rpath}/obs"
 
 # obs-headless
-obs_headless_src=/usr/local/src/obs-headless
+obs_headless_src=/usr/local/src/obs-headless/server
 alias cdsrc="cd ${obs_headless_src}"
 alias rb="cdsrc && cd build && make -j$(nproc) && make install"
 alias st="/opt/obs-headless/etc/docker-entrypoint.sh"
@@ -26,9 +26,9 @@ function rebuild() {
 
 	cdsrc
 	echo -e "\033[32mGenerating proto files...\033[0m"
-	cd proto_gen/
+	cd ../lib
 	sh proto_gen.sh
-	cd ..
+	cd ../server
 	echo -e "\033[32mPreparing build...\033[0m"
 	mkdir -p build
 	cd build
