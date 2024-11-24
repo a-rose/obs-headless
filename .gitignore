@@ -8,6 +8,7 @@ compile_commands.json
 CTestTestfile.cmake
 src/server/build/
 src/client/build/
+src/lib/
 video_test_sources/
 .vscode/
 .env
