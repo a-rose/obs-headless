@@ -20,7 +20,7 @@ SourceType StringToSourceType(std::string type);
 
 class Source {
 public:
-	Source(std::string id, std::string name, SourceType type, std::string url, int width, int height, Settings* settings);
+	Source(std::string id, std::string name, SourceType type, std::string url, int width, int height, int pos_x, int pos_y, Settings* settings);
 	~Source();
 
 	// Getters
@@ -48,6 +48,8 @@ private:
 	std::string url;
 	int width;
 	int height;
+	int pos_x;
+	int pos_y;
 	bool started;
 	obs_source_t* obs_source;
 	obs_scene_t** obs_scene_ptr;

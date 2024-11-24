@@ -19,13 +19,15 @@ SourceType StringToSourceType(std::string type) {
 	return InvalidType;
 }
 
-Source::Source(std::string id, std::string name, SourceType type, std::string url, int width, int height, Settings* settings)
+Source::Source(std::string id, std::string name, SourceType type, std::string url, int width, int height, int pos_x, int pos_y, Settings* settings)
 	: id(id)
 	, name(name)
 	, type(type)
 	, url(url)
 	, width(width)
 	, height(height)
+	, pos_x(pos_x)
+	, pos_y(pos_y)
 	, started(false)
 	, obs_source(nullptr)
 	, obs_scene_ptr(nullptr)
@@ -235,10 +237,17 @@ grpc::Status Source::addSourceToScene(obs_source_t* source) {
 		bounds.x = settings->video_width;
 		bounds.y = settings->video_height;
 	}
-	uint32_t align = OBS_ALIGN_TOP + OBS_ALIGN_LEFT;
 	obs_sceneitem_set_bounds_type(obs_scene_item, OBS_BOUNDS_SCALE_INNER);
 	obs_sceneitem_set_bounds(obs_scene_item, &bounds);
-	obs_sceneitem_set_bounds_alignment(obs_scene_item, align);
+
+	struct vec2 pos = {0, 0};
+	if(pos_x > 0) {
+		pos.x = pos_x;
+	}
+	if(pos_y > 0) {
+		pos.y  = pos_y;
+	}
+	obs_sceneitem_set_pos(obs_scene_item, &pos);
 
 	return grpc::Status::OK;
 }

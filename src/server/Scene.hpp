@@ -16,7 +16,7 @@ public:
 
 	// Methods
 	Source* GetSource(std::string source_id);
-	Source* AddSource(std::string source_name, SourceType type, std::string source_url, int width, int height);
+	Source* AddSource(std::string source_name, SourceType type, std::string source_url, int width, int height, int pos_x, int pos_y);
 	Source* DuplicateSourceFromScene(Scene* scene, std::string source_id);
 	Source* DuplicateSource(std::string source_id);
 	grpc::Status RemoveSource(std::string source_id);

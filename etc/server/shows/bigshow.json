@@ -32,11 +32,13 @@
                     "url": "rtmp://localhost/sourceB"
                 },
                 {
-                    "name": "video A",
+                    "name": "video A_2",
                     "type": "RTMP",
                     "url": "rtmp://localhost/sourceA",
                     "width": 230,
-                    "height": 135
+                    "height": 135,
+                    "pos_x": 230,
+                    "pos_y": 135
                 }
             ]
         }

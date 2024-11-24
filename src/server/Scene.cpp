@@ -27,11 +27,11 @@ Source* Scene::GetSource(std::string source_id) {
 }
 
 
-Source* Scene::AddSource(std::string source_name, SourceType type, std::string source_url, int width, int height) {
+Source* Scene::AddSource(std::string source_name, SourceType type, std::string source_url, int width, int height, int pos_x, int pos_y) {
 	std::string source_id = "source_"+ std::to_string(source_id_counter);
 	source_id_counter++;
 
-	Source* source = new Source(source_id, source_name, type, source_url, width, height, settings);
+	Source* source = new Source(source_id, source_name, type, source_url, width, height, pos_x, pos_y, settings);
 	if(!source) {
 		trace_error("Failed to create a source", field_s(source_id));
 		return NULL;
@@ -53,8 +53,8 @@ Source* Scene::DuplicateSourceFromScene(Scene* scene, std::string source_id) {
 		return NULL;
 	}
 
-	// TODO width & height
-	Source* new_source = AddSource(source->Name(), source->Type(), source->Url(), -1, -1);
+	// TODO width & height, pos_x & pos_y
+	Source* new_source = AddSource(source->Name(), source->Type(), source->Url(), -1, -1, 0, 0);
 	if(!new_source) {
 		trace_error("Failed to duplicate source");
 		return NULL;

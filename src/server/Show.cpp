@@ -126,7 +126,21 @@ grpc::Status Show::Load(json_t* jsonShow) {
 				sourceHeight = json_integer_value(jsonSourceHeight);
 			}
 
-			Source* source = scene->AddSource(std::string(strSourceName), type, std::string(strSourceUrl), sourceWidth, sourceHeight);
+			int sourcePosX = 0;
+			json_t* jsonSourcePosX = json_object_get(jsonSource, "pos_x");
+			if (jsonSourcePosX && json_is_integer(jsonSourcePosX)) {
+				sourcePosX = json_integer_value(jsonSourcePosX);
+				trace_debug("", field_n("sourcePosX", sourcePosX));
+			}
+
+			int sourcePosY = 0;
+			json_t* jsonSourcePosY = json_object_get(jsonSource, "pos_y");
+			if (jsonSourcePosY && json_is_integer(jsonSourcePosY)) {
+				sourcePosY = json_integer_value(jsonSourcePosY);
+				trace_debug("", field_n("sourcePosY", sourcePosY));
+			}
+
+			Source* source = scene->AddSource(std::string(strSourceName), type, std::string(strSourceUrl), sourceWidth, sourceHeight, sourcePosX, sourcePosY);
 			if(!source) {
 				trace_error("Failed to add source", field(sceneIdx), field(sourceIdx));
 				return grpc::Status(grpc::INVALID_ARGUMENT, "Failed to add source sceneIdx="+ std::to_string(sceneIdx) +", sourceIdx="+ std::to_string(sourceIdx));
