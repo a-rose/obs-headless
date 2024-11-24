@@ -131,11 +131,11 @@ The build system uses four images:
 Dev images: you can start a container with sources attached as volumes, so you can edit sources and rebuild in the container.
 
 1. Start the test sources: `make testsrc`.
-1. Start the dev container: `make server-dev`.
-2. Build obs-headless-server (see Dockerfiles for build instructions)
+1. Start the dev container: `make dev-server`.
+2. Build obs-headless-server (see `server.Dockerfile` for build instructions)
 3. You can now edit the code and rebuild from the container. Rebuild with `rb` and start with `st` (see etc/bashrc for aliases).
 
-The same exists for the client wth `make client-dev`.
+The same exists for the client wth `make dev-client`.
 
 Using the base image, you can also build obs-studio from sources.
 

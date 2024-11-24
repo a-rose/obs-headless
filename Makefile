@@ -77,12 +77,11 @@ builder:
 # Start obs-headless-server dev container
 dev-server:
 	@xhost + 
-	@docker compose run server
+	@docker compose run --entrypoint bash server
 
 # Start obs-headless-client dev container
 dev-client:
-	@xhost + 
-	@docker compose run client
+	@docker compose run --entrypoint bash client
 
 # Start obs-headless client container
 client:
